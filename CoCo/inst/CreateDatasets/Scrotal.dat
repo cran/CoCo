@@ -1,0 +1,49 @@
+#
+#     Scrotal Swelling Data.
+#
+#     The Data is presented in:
+#
+#         David Madigan and Adrian E. Raftery (1994):
+#         Model Selection and Accounting for Model Uncertainty
+#         in Graphical Models Using Occam's Window.
+#         J. Am. Statist. Assoc. 428, 1535-1546.
+#
+#     Variables:
+#
+#         H: Hernia,
+#         A: Possible to get above the swelling,
+#         B: Swelling transilluminates,
+#         C: Swelling separated from testes,
+#         D: Positive Valsalva,
+#         E: Tenderness,
+#         F: Pain,
+#         G: Urinal tract infection.
+#
+#
+#
+Names
+   H A B C D E F G/
+   2 2 2 2 2 2 2 2//
+Accumulated-list
+ 1 1 1 1 1 1 2 2 1
+16 1 2 1 1 1 1 1 1
+ 3 1 2 1 1 1 1 2 1
+51 1 2 1 1 1 2 2 1
+17 1 2 1 1 1 2 2 2
+30 1 2 1 2 1 1 1 1
+ 1 1 2 1 2 1 1 1 2
+ 3 1 2 1 2 1 1 2 1
+ 1 1 2 1 2 1 2 1 1
+20 1 2 1 2 1 2 2 1
+ 4 1 2 1 2 1 2 2 2
+36 1 2 1 2 2 1 1 1
+ 3 1 2 1 2 2 1 2 1
+38 1 2 2 1 1 1 1 1
+ 1 1 2 2 1 1 1 1 2
+ 3 1 2 2 1 1 1 2 1
+ 3 1 2 2 1 1 2 2 1
+21 1 2 2 2 1 1 1 1
+ 2 1 2 2 2 1 2 2 1
+39 2 1 1 2 2 1 1 1
+ 5 2 1 1 2 2 1 2 1
+ 1 2 2 1 2 2 1 1 1

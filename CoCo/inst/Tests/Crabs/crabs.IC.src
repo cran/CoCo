@@ -1,0 +1,16 @@
+set output file diary  crabs.IC.dia;
+set output file report crabs.IC.rep;
+set output file dump   crabs.IC.dmp;
+
+import data crabsIC.xpt;
+
+current;
+
+print models all models;
+
+print continuous matrix mk *;
+
+print continuous matrix ms *;
+
+end;
+

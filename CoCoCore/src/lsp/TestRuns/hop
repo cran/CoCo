@@ -1,0 +1,11 @@
+    56  14:20   ../xlisp+coco < files.lsp > Out.1/files.out &
+    57  14:20   ../xlisp+coco < simple.lsp > Out.1/simple.out &
+    58  14:21   ../xlisp+coco < dvi.lsp > Out.1/dvi.out &
+    59  14:21   ../xlisp+coco < values.lsp > Out.1/values.out &
+    60  14:21   ../xlisp+coco < models.lsp > Out.1/models.out &
+    61  14:21   ../xlisp+coco < stepwise.lsp > Out.1/stepwise.out &
+    62  14:23   ../xlisp+coco < eh.lsp > Out.1/eh.out &
+    63  14:23   ../xlisp+coco < selection.lsp > Out.1/selection.out &
+    64  14:24   ../xlisp+coco < specification.lsp > Out.1/specification.out &
+    65  14:24   ../xlisp+coco < data.lsp > Out.1/data.out &
+    66  14:24   ../xlisp+coco < incomplete.lsp > Out.1/incomplete.out &

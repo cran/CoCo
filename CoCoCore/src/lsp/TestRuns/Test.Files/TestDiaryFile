@@ -1,0 +1,47 @@
+# Version(1.30.a.200)  Thu Jun 22 12:53:28 MET 1995
+# Compiled with gcc, a C compiler for Sun4         
+# Compile-time: Jun 22 1995, 13:02:30.             
+# Copyright (c) 1991, by Jens Henrik Badsberg      
+# Licensed to ...                                  
+
+ Diary set ON
+ Log set ON Log Data set ON
+ Dump set ON
+
+ Files
+       CoCo HomeDirectory: /user/jhb/CoCo/source/
+
+       Observations input: TestDataFile
+      Specification input: TestDataFile
+
+       Command input: INPUT
+      Results output: OUTPUT
+     Response output: OUTPUT
+
+     Diary:  ON     KEEP     TestDiaryFile
+       Log:  ON     KEEP     TestLogFile
+   LogData:  ON    
+      Dump:  ON     KEEP     TestDumpFile
+    Report:  OFF    KEEP     TestReportFile
+
+
+ Files
+       CoCo HomeDirectory: /user/jhb/CoCo/source/
+
+       Observations input: TestDataFile
+      Specification input: TestDataFile
+
+       Command input: INPUT
+      Results output: OUTPUT
+     Response output: OUTPUT
+
+     Diary:  ON     KEEP     TestDiaryFile
+       Log:  ON     KEEP     TestLogFile
+   LogData:  ON    
+      Dump:  ON     KEEP     TestDumpFile
+    Report:  OFF    KEEP     TestReportFile
+
+
+
+
+

@@ -1,0 +1,140 @@
+*** Makefile	2003-10-21 11:11:33.000000000 +0200
+--- Makefile.win	2003-10-21 11:11:46.000000000 +0200
+***************
+*** 1,3 ****
+--- 1,15 ----
++  
++ #  This makefile, 'Makefile.win' is overwritten by, e.g., 'make Makefile.win'.
++ #  'R CMD ....' is in the habit of doing so, meaning that if you make changes
++ #  in this file, your modifications may suddenly be lost.
++ # 
++ #  Do 
++ # 
++ # 	$ mkdir Makefiles.distribution;
++ # 	$ mv Makefile* Makefiles.distribution;
++ # 	$ cp Makefiles.distribution/Makefile.win ./Makefile
++ # 
++ #  to be safe.
+  
+  ###############################################################################
+  ###############################################################################
+***************
+*** 130,139 ****
+  
+  # Unix / Linux:
+  
+!   LOADPREF    = 
+!   COCOHOME    = ${UNIX_R_ROOT}/library/CoCo
+!   COCOTMP     = ${COCOHOME}/tmp
+!   BINDIR      = ${COCOHOME}/bin
+  
+  
+  # Cygwin (Windows):
+--- 142,151 ----
+  
+  # Unix / Linux:
+  
+! # LOADPREF    = 
+! # COCOHOME    = ${UNIX_R_ROOT}/library/CoCo
+! # COCOTMP     = ${COCOHOME}/tmp
+! # BINDIR      = ${COCOHOME}/bin
+  
+  
+  # Cygwin (Windows):
+***************
+*** 141,150 ****
+  ##LOADPREF    = C:/COMPILERS/Cygwin
+  ##COCOHOME    = ${CYG_R_ROOT}/library/CoCo
+  
+! # LOADPREF    = 
+! # COCOHOME    = ${WIN_R_ROOT}/library/CoCo
+! # COCOTMP     = ${COCOHOME}/tmp
+! # BINDIR      = ${COCOHOME}/bin
+  
+  
+  ###############################################################################
+--- 153,162 ----
+  ##LOADPREF    = C:/COMPILERS/Cygwin
+  ##COCOHOME    = ${CYG_R_ROOT}/library/CoCo
+  
+!   LOADPREF    = 
+!   COCOHOME    = ${WIN_R_ROOT}/library/CoCo
+!   COCOTMP     = ${COCOHOME}/tmp
+!   BINDIR      = ${COCOHOME}/bin
+  
+  
+  ###############################################################################
+***************
+*** 180,201 ****
+  
+  #### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ####
+  
+! all: ./lib/coco/librcoco.so
+  
+! unix.full: ./lib/coco/coco install.coco rsxdir \
+! 	./lib/coco/scoco.o \
+! 	./lib/coco/librcoco.so \
+! 	install.Lisp  \
+! 	install.R.and.S \
+! 	./lib/coco/Xscoco.o ./lib/coco/Xlibrcoco.so \
+! 	make.S.files make.R.files make.Lisp.files
+  
+  
+  #### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ####
+  
+  # Cygwin (Windows):
+  
+! # all: wRcoco.dll
+  
+  windows.full: coco.cygwin install.coco rsxdir \
+  	wRcoco.dll wScoco.dll wXcoco.dll \
+--- 192,213 ----
+  
+  #### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ####
+  
+! # all: ./lib/coco/librcoco.so
+  
+! # unix.full: ./lib/coco/coco install.coco rsxdir \
+! # 	./lib/coco/scoco.o \
+! # 	./lib/coco/librcoco.so \
+! # 	install.Lisp  \
+! # 	install.R.and.S \
+! # 	./lib/coco/Xscoco.o ./lib/coco/Xlibrcoco.so \
+! # 	make.S.files make.R.files make.Lisp.files
+  
+  
+  #### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ####
+  
+  # Cygwin (Windows):
+  
+! all: wRcoco.dll
+  
+  windows.full: coco.cygwin install.coco rsxdir \
+  	wRcoco.dll wScoco.dll wXcoco.dll \
+***************
+*** 248,259 ****
+  
+  # Unix / Linux:
+  
+!   COCOEXE   = coco
+  
+  
+  # Cygwin:
+  
+! # COCOEXE   = coco.exe
+  
+  
+  
+--- 260,271 ----
+  
+  # Unix / Linux:
+  
+! # COCOEXE   = coco
+  
+  
+  # Cygwin:
+  
+!   COCOEXE   = coco.exe
+  
+  
+  

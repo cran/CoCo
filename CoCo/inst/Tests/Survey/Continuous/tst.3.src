@@ -1,0 +1,21 @@
+set output diary  tst.3.dia;
+set output dump   tst.3.dmp;
+set output report tst.3.rpt;
+
+import data survey-continuous.xpt;
+
+dispose models all models;
+exclude missing in *;
+
+source options.src;
+
+read model hc.; current; base;
+add edge gm; current; base; 
+
+read model g,m,hc.; find -2log(Q);
+read model gm.; current; base;
+read model g,m.; find -2log(Q);
+
+show tests;
+
+end;

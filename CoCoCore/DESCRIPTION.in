@@ -1,0 +1,7 @@
+Package: CoCoCore
+Namespace: CoCoCore
+Title: API to CoCo - Graphical modelling on contingency tables
+Description: The shared library of CoCo, with the single interface function
+	"call.coco" for calling CoCo from R and Splus, some extensions and
+	specializations to this function and some auxiliary functions of
+	the interface to CoCo.

@@ -1,0 +1,20 @@
+set output diary  anorexia.4.dia;
+set output dump   anorexia.4.dmp;
+set output report anorexia.4.rep;
+
+source options.src;
+
+import data anorexia.xpt;
+make base 1;
+read model [[:T]] / [[:T:E][:F]] / [[:F:E][:E:T]];
+test;
+find -2log(Q);
+print models all models;
+make current 1;
+backward;
+current;
+test;
+find -2log(Q);
+show tests;
+print models all models;
+end;

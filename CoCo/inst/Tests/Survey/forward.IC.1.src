@@ -1,0 +1,30 @@
+set output diary  forward.IC.1.dia;
+set output dump   forward.IC.1.dmp;
+set output report forward.IC.1.rpt;
+
+set page formats 128 256;
+
+import data surveyIC.xpt;
+
+status specification;
+print models all models;
+
+dispose models all models;
+exclude missing in *;
+
+set bic;
+
+# source options.src;
+
+read model .;
+current;
+base;
+recursive headlong coherent forward;
+
+current;
+
+describe current;
+
+show tests;
+
+end;

@@ -1,0 +1,126 @@
+
+R = Rcmd batch
+
+all:
+	make init.Rout
+	make tests
+
+init.Rout:
+	${R} init.R   init.Rout
+
+FewerWarnings.Rout:
+	make init.Rout
+	${R} FewerWarnings.R   FewerWarnings.Rout
+
+TestFiles.Rout:
+	( echo "TestFiles.S             " ; \
+	${R} TestFiles.r            TestFiles.Rout )
+
+TestSwitch.Rout:
+	( echo "TestSwitch.S            " ; \
+	${R} TestSwitch.r           TestSwitch.Rout )
+
+TestSet.Rout:
+	( echo "TestSet.S               " ; \
+	${R} TestSet.R              TestSet.Rout )
+
+TestDataFiles.Rout:
+	( echo "TestDataFiles.S         " ; \
+	${R} TestDataFiles.r        TestDataFiles.Rout )
+
+TestSubset.Rout:
+	( echo "TestSubset.S            " ; \
+	${R} TestSubset.r           TestSubset.Rout )
+	cp TestSubset.r TestSubset.S
+
+TestDefault.Rout:
+	( echo "TestDefault.S           " ; \
+	${R} TestDefault.r          TestDefault.Rout )
+
+TestReturn.Rout:
+	( echo "TestReturn.S            " ; \
+	${R} TestReturn.r           TestReturn.Rout )
+
+TestSelection.Rout:
+	( echo "TestSelection.S         " ; \
+	${R} TestSelection.r        TestSelection.Rout )
+
+TestRedefine.Rout:
+	( echo "TestRedefine.S          " ; \
+	${R} TestRedefine.r         TestRedefine.Rout )
+
+TestQtable.Rout:
+	( echo "TestQtable.S            " ; \
+	${R} TestQtable.R           TestQtable.Rout )
+
+TestTableValues.Rout:
+	( echo "TestTableValues.S       " ; \
+	${R} TestTableValues.r      TestTableValues.Rout )
+
+TestModel.Rout:
+	( echo "TestModel.S             " ; \
+	${R} TestModel.r            TestModel.Rout )
+
+TestModelList.Rout:
+	( echo "TestModelList.S         " ; \
+	${R} TestModelList.r        TestModelList.Rout )
+
+TestPrintModel.Rout:
+	( echo "TestPrintModel.S        " ; \
+	${R} TestPrintModel.r       TestPrintModel.Rout )
+
+TestIs.Rout:
+	( echo "TestIs.S                " ; \
+	${R} TestIs.r               TestIs.Rout )
+
+TestTest.Rout:
+	( echo "TestTest.S              " ; \
+	${R} TestTest.r             TestTest.Rout )
+
+TestEdit.Rout:
+	( echo "TestEdit.S              " ; \
+	${R} TestEdit.r             TestEdit.Rout )
+
+TestStepwise.Rout:
+	( echo "TestStepwise.S          " ; \
+	${R} TestStepwise.r         TestStepwise.Rout )
+
+TestEHInit.Rout:
+	( echo "TestEHInit.S            " ; \
+	${R} TestEHInit.r           TestEHInit.Rout )
+
+TestEH.Rout:
+	( echo "TestEH.S                " ; \
+	${R} TestEH.r               TestEH.Rout )
+
+TestToEH.Rout:
+	( echo "TestToEH.S              " ; \
+	${R} TestToEH.r             TestToEH.Rout )
+
+TestExtractEH.Rout:
+	( echo "TestExtractEH.S         " ; \
+	${R} TestExtractEH.r        TestExtractEH.Rout )
+
+TestForceEH.Rout:
+	( echo "TestForceEH.S           " ; \
+	${R} TestForceEH.r          TestForceEH.Rout )
+
+TestAddDual.Rout:
+	( echo "TestAddDual.S           " ; \
+	${R} TestAddDual.r          TestAddDual.Rout )
+
+TestCoCoModelObject.Rout:
+	( echo "TestCoCoModelObject.S   " ; \
+	${R} TestCoCoModelObject.r   TestCoCoModelObject.Rout ) 
+
+
+tests: TestFiles.Rout TestSwitch.Rout TestSet.Rout TestDataFiles.Rout TestSubset.Rout TestDefault.Rout TestReturn.Rout TestSelection.Rout TestRedefine.Rout TestQtable.Rout TestTableValues.Rout TestModel.Rout TestModelList.Rout TestPrintModel.Rout TestIs.Rout TestTest.Rout TestEdit.Rout TestStepwise.Rout TestEHInit.Rout TestEH.Rout TestToEH.Rout TestExtractEH.Rout TestForceEH.Rout TestAddDual.Rout TestCoCoModelObject.Rout
+
+subdir = R+S/tests/Test.R+CoCo
+
+clean:
+	@echo "cleaning in $(subdir)"
+	@-rm -f *~
+
+distclean: clean
+	@-rm -rf Affald ? Work

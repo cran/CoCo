@@ -1,0 +1,140 @@
+MIM->Input C:\Programmer\MIM31Student\crabs.mim
+Reading completed.
+Input echo is now: off.
+Fitting summary is now: on.
+Fitting summary is now: off.
+Convergence Criterion:   0.00000100
+Max no of cycles:     5000
+Version of estimation algorithm: default.
+Version of estimation algorithm: general.
+Version of estimation algorithm: stephalving.
+Deviance:       0.0000 DF: 0
+Deviance:      32.6812 DF: 12
+Deviance:      63.0394 DF: 22
+Deviance:      63.9316 DF: 24
+Deviance:      72.9689 DF: 26
+Deviance:      96.4202 DF: 34
+Deviance:     102.6479 DF: 36
+Deviance:     107.9241 DF: 38
+Fitted counts, means and covariances.
+ a b
+ 1 1     x    6.707
+         y    6.137   5.828
+         z   15.017  13.899  34.171
+         u   17.334  16.061  39.301  45.365
+         v    6.691   6.198  15.183  17.510   6.896
+      Means  13.256  12.138  28.142  32.624  11.763   50.000
+                  x       y       z       u       v    Count
+ 1 2     x   10.068
+         y    6.463   4.370
+         z   22.939  14.829  52.827
+         u   26.130  16.915  60.034  68.385
+         v   10.120   6.549  23.265  26.485  10.396
+      Means  14.856  11.718  31.974  36.810  13.403   50.000
+                  x       y       z       u       v    Count
+ 2 1     x    7.960
+         y    6.350   5.405
+         z   15.935  12.941  32.835
+         u   18.065  14.745  36.999  41.945
+         v    7.362   5.975  15.182  17.094   7.134
+      Means  17.508  14.836  34.684  39.036  15.707   50.000
+                  x       y       z       u       v    Count
+ 2 2     x   12.967
+         y    7.696   4.724
+         z   27.000  16.222  57.196
+         u   29.692  17.870  62.691  68.941
+         v   12.522   7.522  26.536  29.074  12.426
+      Means  16.712  12.262  33.622  37.188  15.249   50.000
+                  x       y       z       u       v    Count
+Fitted discrete, linear and precision parameters.
+ a b
+ 1 1     x   11.989
+         y   -0.000   7.149
+         z   -0.000   0.890   8.315
+         u   -4.581  -3.302  -7.195   9.987
+         v   -0.000  -0.000  -0.838  -2.104   7.333
+     Linear   9.478   4.092   0.207  -2.224  -5.975  -22.763
+                  x       y       z       u       v Discrete
+ 1 2     x   11.989
+         y   -0.000   5.476
+         z   -0.000   0.890   8.315
+         u   -4.581  -2.135  -7.195   9.424
+         v   -0.000  -0.000  -0.838  -2.104   7.333
+     Linear   9.478  14.007   0.207  -4.416  -5.975  -38.430
+                  x       y       z       u       v Discrete
+ 2 1     x    5.561
+         y   -0.000   5.000
+         z   -0.000   1.638   7.922
+         u   -2.395  -3.202  -5.702   7.028
+         v    0.000   0.000  -4.567   0.450   8.781
+     Linear   3.870   5.980   4.735  -5.825  -2.920  -28.024
+                  x       y       z       u       v Discrete
+ 2 2     x    5.561
+         y   -0.000  11.284
+         z   -0.000   1.638   7.922
+         u   -2.395  -4.414  -5.702   7.186
+         v    0.000   0.000  -4.567   0.450   8.781
+     Linear   3.870  29.278   4.735 -11.791  -2.920  -54.052
+                  x       y       z       u       v Discrete
+Fitted counts, means and correlations.
+ a b
+ 1 1     x    1.000
+         y    0.982   1.000
+         z    0.992   0.985   1.000
+         u    0.994   0.988   0.998   1.000
+         v    0.984   0.978   0.989   0.990   1.000
+      Means  13.256  12.138  28.142  32.624  11.763   50.000
+                  x       y       z       u       v    Count
+ 1 2     x    1.000
+         y    0.974   1.000
+         z    0.995   0.976   1.000
+         u    0.996   0.979   0.999   1.000
+         v    0.989   0.972   0.993   0.993   1.000
+      Means  14.856  11.718  31.974  36.810  13.403   50.000
+                  x       y       z       u       v    Count
+ 2 1     x    1.000
+         y    0.968   1.000
+         z    0.986   0.971   1.000
+         u    0.989   0.979   0.997   1.000
+         v    0.977   0.962   0.992   0.988   1.000
+      Means  17.508  14.836  34.684  39.036  15.707   50.000
+                  x       y       z       u       v    Count
+ 2 2     x    1.000
+         y    0.983   1.000
+         z    0.991   0.987   1.000
+         u    0.993   0.990   0.998   1.000
+         v    0.986   0.982   0.995   0.993   1.000
+      Means  16.712  12.262  33.622  37.188  15.249   50.000
+                  x       y       z       u       v    Count
+Fitted discrete, linear and partial correlation parameters.
+ a b
+ 1 1     x    1.000
+         y    0.000   1.000
+         z    0.000  -0.115   1.000
+         u    0.419   0.391   0.790   1.000
+         v    0.000   0.000   0.107   0.246   1.000
+     Linear   9.478   4.092   0.207  -2.224  -5.975  -22.763
+                  x       y       z       u       v Discrete
+ 1 2     x    1.000
+         y    0.000   1.000
+         z    0.000  -0.132   1.000
+         u    0.431   0.297   0.813   1.000
+         v    0.000   0.000   0.107   0.253   1.000
+     Linear   9.478  14.007   0.207  -4.416  -5.975  -38.430
+                  x       y       z       u       v Discrete
+ 2 1     x    1.000
+         y    0.000   1.000
+         z    0.000  -0.260   1.000
+         u    0.383   0.540   0.764   1.000
+         v   -0.000  -0.000   0.548  -0.057   1.000
+     Linear   3.870   5.980   4.735  -5.825  -2.920  -28.024
+                  x       y       z       u       v Discrete
+ 2 2     x    1.000
+         y    0.000   1.000
+         z    0.000  -0.173   1.000
+         u    0.379   0.490   0.756   1.000
+         v   -0.000  -0.000   0.548  -0.057   1.000
+     Linear   3.870  29.278   4.735 -11.791  -2.920  -54.052
+                  x       y       z       u       v Discrete
+MIM->SaveOutput C:\Programmer\MIM31Student\crabs.out
+Existing file C:\PROGRAMMER\MIM31STUDENT\CRABS.OUT overwritten.

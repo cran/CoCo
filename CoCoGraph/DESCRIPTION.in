@@ -1,0 +1,4 @@
+Package: CoCoGraph
+Namespace: CoCoGraph
+Title: Graphical modelling on contingency tables: Graph
+Description: Interface between dynamicGraph and CoCo

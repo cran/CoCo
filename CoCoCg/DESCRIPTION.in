@@ -1,0 +1,4 @@
+Package: CoCoCg
+Namespace: CoCoCg
+Title: API to CoCoCg
+Description: Interface to CoCoCg from R and Splus.

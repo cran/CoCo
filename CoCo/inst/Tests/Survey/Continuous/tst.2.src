@@ -1,0 +1,16 @@
+set output diary  tst.2.dia;
+set output dump   tst.2.dmp;
+set output report tst.2.rpt;
+
+import data survey-continuous.xpt;
+
+dispose models all models;
+exclude missing in *;
+
+source options.src;
+
+read model gc.; current; base;
+read model g,c.; find -2log(Q);
+
+end;
+

@@ -1,0 +1,16 @@
+call.coco               Call CoCo
+call.coco.chars         Call Coco with only code, subcode, and one
+                        argument
+call.coco.simple        Call Coco with only code and subcode
+coco.enter.all          Call CoCo with all arguemnts
+coco.init               Init a CoCo object.
+coco.load               Load CoCo
+coco.simple.model       Call CoCo with setting of models
+coco.start              Enter a CoCo object
+is.gc                   Generating classes
+is.number               Test for a number
+make.coco               Make a CoCo object
+make.model              Make a CoCo model object
+my.assign               Assign a value to a name
+my.not.a.number         The invalid number for CoCo objects
+ok.coco                 Test if the call to CoCo succeeded

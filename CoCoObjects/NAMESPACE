@@ -1,0 +1,12 @@
+export(# CoCoObjects:
+       ".First.lib.CoCoObjects",
+       "currentCoCo",  "makeCurrentCoCo", 
+           ".new.coco", ".new.coco.model", ".SetSlotValue", 
+           ".set.coco.value", ".clear.coco.objects",
+           ".object.of.thing",  ".object.of.model", 
+           ".recover", ".recover.model", ".recover.reference",
+           ".return.reference",  ".return.type",
+           ".return.object.model.number", ".end.temporary.object",
+       "makeModel",
+       "recover.coco.model")
+exportClasses("CoCoIdClass", "CoCoClass", "CoCoModelClass")

@@ -1,0 +1,46 @@
+".First.lib" <-
+function (lib, pkg) 
+{
+    require(methods)
+    require(CoCoCore)
+    require(CoCoObjects)
+    require(CoCoRaw)
+    require(CoCo)
+    library.dynam("CoCoCg", pkg, lib)
+
+}
+".onAttach" <-
+function (lib, pkg) 
+{
+    # require(tcltk)
+    # require(dynamicGraph)
+    require(CoCo)
+}
+".onLoad" <-
+function (lib, pkg) 
+{
+    library.dynam("CoCoCg", pkg, lib)
+    require(CoCo)
+
+ #  cat("For documentation see, Badsberg, J.H.: A guide to CoCo,                \n")
+ #  cat("JSS, 2001 ( http://www.jstatsoft.org/v06/i04/ )                        \n")
+ #  cat("and Badsberg, J.H.: Xlisp+CoCo, Aalborg, 1996.                         \n")
+ #  cat("The manual pages of CoCo in R will currently only give you             \n")
+ #  cat("the form of arguments of the functions. The teen calls                 \n")
+ #  cat("''                                                                     \n")
+ #  cat("      data(Rats);                                                      \n")
+ #  cat("      CoCoObject <- makeCoCoCg();                                      \n")
+ #  cat("      enterDataFrame(Rats, object = CoCoObject);                       \n")
+ #  cat("      fullModel <- makeModel(enterModel(\"*\", object = CoCoObject));    \n")
+ #  cat("      library(CoCoGraph);                                              \n")
+ #  cat("      fullGraph <- dynamic.Graph(fullModel, title = \"Full\");           \n")
+ #  cat("      backward(recursive = TRUE, object = CoCoObject);                 \n")
+ #  cat("      eh(object = CoCoObject);                                         \n")
+ #  cat("      lastModel <- makeModel(\"last\", object = CoCoObject);             \n")
+ #  cat("      backwardGraph <- dynamic.Graph(lastModel, title = \"Last\");       \n")
+ #  cat("''                                                                     \n")
+ #  cat("will give you a small example.                                         \n")
+ #  cat("Please quit by 'quitCoCo()' to remove temporary files.                 \n")
+ #  cat("\n")
+
+}

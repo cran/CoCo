@@ -1,0 +1,7 @@
+# import(CoCoObjects)
+export(       "newCoCoTestObject",
+              "label", "width",
+              "testEdge", "subModifyModel", "modifyModel", "dynamic.Graph")
+exportClasses("CoCoTestClass")
+exportMethods("label", "width",
+              "testEdge", "subModifyModel", "modifyModel", "dynamic.Graph")

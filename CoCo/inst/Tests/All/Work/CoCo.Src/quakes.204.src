@@ -1,0 +1,14 @@
+import data Xpt/quakes.xpt;
+make current 40;
+set output dump quakes.dmp;
+set page formats 128 256;
+set option on 204;
+#set option on 12781;
+#set option on 12801;
+#set option on 22021;
+set option on 21961;
+print continuous matrix canonical *;
+print continuous matrix moments *;
+print continuous matrix mk *;
+print continuous matrix ms *;
+end;

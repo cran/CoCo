@@ -1,0 +1,25 @@
+
+cat Dialogs/dialogmanager.lsp  > cocodialogs.lsp
+cat Dialogs/dialoggraph.lsp  >> cocodialogs.lsp
+cat Dialogs/dialogbind.lsp  >> cocodialogs.lsp
+cat Dialogs/dialoghelp.lsp  >> cocodialogs.lsp
+cat Dialogs/dialogoptions.lsp  >> cocodialogs.lsp
+cat Dialogs/dialogdescription.lsp  >> cocodialogs.lsp
+cat Dialogs/dialogmodels.lsp  >> cocodialogs.lsp
+cat Dialogs/dialogsplit.lsp  >> cocodialogs.lsp
+cat Dialogs/dialogblocks.lsp  >> cocodialogs.lsp
+cat Dialogs/dialogone.lsp  >> cocodialogs.lsp
+cat Dialogs/dialogvalues.lsp  >> cocodialogs.lsp
+cat Dialogs/dialogtest.lsp  >> cocodialogs.lsp
+cat Dialogs/dialogsearch.lsp  >> cocodialogs.lsp
+cat Dialogs/dialogresample.lsp  >> cocodialogs.lsp
+cat Dialogs/dialogeh.lsp  >> cocodialogs.lsp
+
+cat Options/optionformats.lsp  > cocooptions.lsp
+cat Options/optiontests.lsp  >> cocooptions.lsp
+cat Options/optionexact.lsp  >> cocooptions.lsp
+cat Options/optionips.lsp  >> cocooptions.lsp
+cat Options/optionem.lsp  >> cocooptions.lsp
+cat Options/optionlimits.lsp  >> cocooptions.lsp
+cat Options/optionfiles.lsp  >> cocooptions.lsp
+cat Options/optionothers.lsp  >> cocooptions.lsp

@@ -1,0 +1,45 @@
+# 
+#    Risk of rheumatic fever recurrence after streptococcal infections.
+# 
+#    Spagnuolo,M., Pasternack, B. and Taranta, A  (1971)
+#    Risk of rheumatic fever recurrence after streptococcal infections,
+#    prospective study of clinical and social factors.
+#    New Eng. J. Med. 285, 641-647.
+#    
+#    From Example 3.8-1: Recurrence of rheumatic fever:
+#    Adjusted degrees of freedom for empty cells.
+#    Bishop, Fienberg and Holland (1975), page 117
+#    
+#    1) Laboratory results
+#       1 = ASO rise of 0 or 1 in presence of antibody rise
+#       2 = ASO rise of 2 or 3 in presence of antibody rise
+#       3 = ASO rise of 4,5  or 6 in presence of antibody rise
+#       4 = ASO rise of 0 or 1 in absence of antibody rise
+#    2) Interval from last rheumatic fever attack
+#       1 = less than 24 mounths
+#       2 = 24 mounths or more
+#    3) Heart disease
+#       1 = Yes
+#       2 = No
+#    4) Number of previous attacks
+#       1 = only the initial attack
+#       2 = more than the initial attack
+#    5) Recurrence of rheumatic fever
+#       1 = Yes
+#       2 = No
+# 
+# 
+#  3  6 3  4 0  9 1  4 4 15 2  5  4  41 3 12
+#  3 19 8 17 7 29 3 12 6 38 9 37 11 123 4 28
+#  4 13 5 10 8 25 5 13 8 32 4 13 14 109 4 17
+#  0  1 0  1 0 12 0  2 0 10 0  5  0  42 0  7
+# 
+# 
+
+FACTORS R2/N2/H2/I2/L4//
+
+TABLE
+ 3  3 3  1 0  9 1  3 4 11 2  3  4  37 3  9
+ 3 16 8  9 7 22 3  9 6 32 9 28 11 112 4 24
+ 4  9 5  5 8 17 5  8 8 24 4  9 14  95 4 13
+ 0  1 0  1 0 12 0  2 0 10 0  5  0  42 0  7/

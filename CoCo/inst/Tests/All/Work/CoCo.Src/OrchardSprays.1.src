@@ -1,0 +1,58 @@
+set output diary OrchardSprays.dia;
+
+set page formats 128 256;
+
+import data OrchardSprays.xpt;
+
+set option on 12031;
+set option on 12041;
+set option on 12051;
+set option on 12061;
+set option on 12071;
+set option on 12081;
+set option on 12091;
+set option on 12101;
+set option on 12111;
+set option on 12121;
+
+#set option on 12032;
+set option on 12038;
+set option on 12048;
+set option on 12058;
+set option on 12068;
+set option on 12078;
+#set option on 12082;
+set option on 12088;
+set option on 12098;
+set option on 12108;
+set option on 12118;
+set option on 12128;
+
+set option on 12444;
+set option on 12451;
+set option on 12461;
+set option on 12471;
+set option on 12481;
+set option on 12491;
+set option on 12501;
+set option on 12511;
+set option on 12521;
+set option on 12531;
+set option on 12541;
+set option on 12551;
+set option on 12561;
+set option on 12571;
+set option on 12581;
+set option on 12591;
+set option on 12601;
+set option on 12611;
+set option on 12621;
+set option on 12631;
+set option on 12640;
+set option on 12641;
+set option on 12648;
+
+
+eh;
+end;
+end;

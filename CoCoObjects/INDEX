@@ -1,0 +1,6 @@
+CoCoClass-class         Class "CoCoClass"
+CoCoIdClass-class       Class "CoCoIdClass"
+CoCoModelClass-class    Class "CoCoModelClass"
+currentCoCo             Make CoCo object to default CoCo object
+makeModel               Make a CoCo model object
+recover.coco.model      Recover a CoCo model object

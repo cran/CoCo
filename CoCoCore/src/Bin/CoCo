@@ -1,0 +1,19 @@
+#!/bin/sh
+
+COCOHOME=/usr/lib/R/library/CoCo/
+COCOLIB=${COCOHOME}lib/coco/
+COCOTMP=/usr/lib/R/library/CoCo/tmp/
+COCOBIN=${COCOBIN-coco}
+
+# Check if the "CoCo.log" exists
+if [ -f ${COCOHOME}Logs/CoCo.log ]
+then
+   # Make sure the "CoCo.log" is writable.
+   if [ -w ${COCOHOME}Logs/CoCo.log ]
+   then
+       echo `date` `whoami` `pwd` $HOST >> ${COCOHOME}Logs/CoCo.log
+   fi
+fi
+
+export COCOHOME COCOLIB COCOTMP
+exec ${COCOLIB}${COCOBIN} $*

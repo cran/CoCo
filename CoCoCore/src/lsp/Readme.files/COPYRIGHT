@@ -1,0 +1,50 @@
+Copyright (c) 1992 Jens Henrik Badsberg
+
+  ``CoCo'' is a statistics package for analysis of associations between
+  discrete variables.  ``CoCo'' is a highly advanced interactive program
+  for estimation, test and model search among hierarchical interaction
+  models for large complete contingency tables.
+
+  ``association-dialog-proto'' is a graphical tool for handling causal
+  mixed association models by ``CoCo'' in XLISP-STAT.
+
+
+Support for the CoCo package is being provided by Jens Henrik Badsberg
+(the author, Jens Henrik Badsberg, is solely responsible for the content).
+
+
+
+    This library (the lisp files for ``association-dialog-proto'')
+    is free software; you can redistribute it and/or modify it under
+    the terms of the GNU Library General Public  License as published
+    by the Free Software Foundation;  version 2 of the License.  
+    The CoCo and the source code for CoCo is not placed under the
+    GNU Library General Public License.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+
+    You should have received a copy of the GNU Library General Public
+    License along with this library (in the file COPYING); if not,
+    write to the Free Software Foundation, Inc., 675 Mass Ave,
+    Cambridge, MA 02139, USA. 
+
+
+
+Despite the disclaimer of warrentee, I am interested in compiling and
+fixing bugs and any problems with the software.  This will be done on
+a time available basis.  The author, Jens Henrik Badsberg, can be reached
+via the internet at jhb@iesd.auc.dk, or via mail
+Jens Henrik Badsberg,  Department of Mathematics and Computer Science,
+Institute for Electronic Systems,  The University of Aalborg,
+Fredrik Bajers Vej 7,  DK-9220 Aalborg,  DENMARK
+Fax: +45 98 15 81 29,  Phone: +45 98 15 85 22 ext. 5074
+
+In variance with the GNU default format, the file COPYING contains the
+GNU library licence and COPYING.PROG contains the ordinary GNU general
+public licence.
+
+
+

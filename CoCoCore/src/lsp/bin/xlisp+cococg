@@ -1,0 +1,49 @@
+#!/bin/sh
+
+COCOHOME=/usr/lib/R/library/CoCo/
+COCOLIB=${COCOHOME}lib/mips/
+XCOCOLIB=/usr/lib/R/library/CoCo/lsp/
+XLISPSTAT=xlispstat
+COCOTMP=/usr/lib/R/library/CoCo/tmp/
+
+# Check if the "Xlisp+CoCo.log" exists
+if [ -f ${COCOHOME}Logs/Xlisp+CoCo.log ]
+then
+   # Make sure the "Xlisp+CoCo.log" is writable.
+   if [ -w ${COCOHOME}Logs/Xlisp+CoCo.log ]
+   then
+       echo `date` `whoami` `pwd` $HOST >> ${COCOHOME}Logs/Xlisp+CoCo.log
+   fi
+fi
+
+export COCOHOME COCOLIB COCOTMP XCOCOLIB
+
+if [ -f ${XCOCOLIB}src/cococg.wks ]
+then
+   COCOLOAD=-w${XCOCOLIB}src/cococg.wks
+else
+   COCOLOAD=${XCOCOLIB}loadcococg.lsp
+fi
+
+if [ -f cococginit.lsp ]
+then
+   COCOCGINIT=cococginit.lsp
+elif [ -f mystatinit.lsp ]
+then
+   COCOCGINIT=mystatinit.lsp
+elif [ -f .cococginit.lsp ]
+then
+   COCOCGINIT=.cococginit.lsp
+elif [ -f ${HOME}/cococginit.lsp ]
+then
+   COCOCGINIT=${HOME}/cococginit.lsp
+elif [ -f ${HOME}/.cococginit.lsp ]
+then
+   COCOCGINIT=${HOME}/.cococginit.lsp
+else
+   COCOCGINIT=${XCOCOLIB}cococginit.lsp
+fi
+
+echo ${COCOLOAD} $* ${COCOCGINIT}
+${XLISPSTAT} ${COCOLOAD} $* ${COCOCGINIT}
+

@@ -1,0 +1,11 @@
+R --no-save <Run.base.R 1>& Run.base.Rout
+R --no-save <Run.boot.R 1>& Run.boot.Rout
+R --no-save <Run.MASS.R 1>& Run.MASS.Rout
+R --no-save <Run.nlme.R 1>& Run.nlme.Rout
+R --no-save <Run.stats.R 1>& Run.stats.Rout
+R --no-save <Run.lattice.R 1>& Run.lattice.Rout
+R --no-save <Run.survival.R 1>& Run.survival.Rout
+R --no-save <Run.CoCo.R 1>& Run.CoCo.Rout
+R --no-save <Run.CoCoCg.R 1>& Run.CoCoCg.Rout
+R --no-save <Run.cluster.R 1>& Run.cluster.Rout
+R --no-save <Run.rpart.R 1>& Run.rpart.Rout

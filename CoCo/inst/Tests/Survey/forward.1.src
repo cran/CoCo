@@ -1,0 +1,28 @@
+set output diary  forward.1.dia;
+set output dump   forward.1.dmp;
+set output report forward.1.rpt;
+
+set page formats 128 256;
+
+import data survey.xpt;
+
+status specification;
+print models all models;
+
+dispose models all models;
+exclude missing in *;
+
+# source options.src;
+
+read model .;
+current;
+base;
+recursive headlong coherent forward;
+
+current;
+
+describe current;
+
+show tests;
+
+end;

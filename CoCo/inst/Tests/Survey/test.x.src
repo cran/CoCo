@@ -1,0 +1,50 @@
+set output diary  test.x.dia;
+set output dump   test.x.dmp;
+set output report test.x.rpt;
+
+set page formats 128 256;
+
+import data surveyICx.xpt;
+
+exclude missing in *;
+
+set bic;
+
+print models all models;
+
+make base 7;
+make current 1;
+test;
+
+partitioning test;
+set short on;
+partitioning test;
+
+print models all models;
+
+current;
+generate decomposable model;
+print models all models;
+current;
+base;
+make current 1;
+test;
+
+set short on;
+partitioning test;
+set short off;
+partitioning test;
+
+set short on;
+factorizes one edge;
+set short off;
+factorizes one edge;
+
+set short on;
+factorizes one interaction;
+set short off;
+factorizes one interaction;
+
+show tests;
+
+end;

@@ -1,0 +1,168 @@
+
+R : Copyright 2004, The R Foundation for Statistical Computing
+Version 1.9.0  (2004-04-12), ISBN 3-900051-00-3
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for a HTML browser interface to help.
+Type 'q()' to quit R.
+
+> source("CoCo.R")
+> source("Reinis.r")
+> source("Byssinosis38.r")
+Loading required package: CoCo 
+Loading required package: CoCoRaw 
+Loading required package: CoCoCore 
+Loading required package: CoCoObjects 
+For documentation see, Badsberg, J.H.: A guide to CoCo,                
+JSS, 2001 ( http://www.jstatsoft.org/v06/i04/ )                        
+and Badsberg, J.H.: Xlisp+CoCo, Aalborg, 1996.                         
+The manual pages of CoCo in R will currently only give you             
+the form of arguments of the functions. The teen calls                 
+''                                                                     
+      data(Reinis);                                                    
+      CoCoObject <- makeCoCo();                                        
+      enterTable(Reinis, object = CoCoObject);                         
+      fullModel <- makeModel(enterModel("*", object = CoCoObject));    
+      library(CoCoGraph);                                              
+      fullGraph <- dynamic.Graph(fullModel, title = "Full");           
+      backward(recursive = TRUE, object = CoCoObject);                 
+      eh(object = CoCoObject);                                         
+      lastModel <- makeModel("last", object = CoCoObject);             
+      backwardGraph <- dynamic.Graph(lastModel, title = "Last");       
+''                                                                     
+will give you a small example.                                         
+Please quit by 'quitCoCo()' to remove temporary files.                 
+
+
+Attaching package 'CoCo':
+
+
+	The following object(s) are masked _by_ .GlobalEnv :
+
+	 makeCoCo 
+
+Loading required package: CoCoOldData 
+
+ CoCo     -     A program for estimation, test and model search
+ in very large `Co'mplete and `InCo'mplete `Co'ntingency tables.
+ 1.5.R2.139  Fredag 14 Marts 2003, 11:30:48 MET   
+ Compiled with cc, a C compiler for ...           
+ Copyright (c) 1991, by Jens Henrik Badsberg      
+ Licensed to ...                                  
+
+
+
+ 144 cells with  5419 cases read.
+ Finding all marginals.
+Warning, ended CoCo-objects: Byssinosis38Object .current.coco 
+> source("Dawid79.r")
+
+ CoCo     -     A program for estimation, test and model search
+ in very large `Co'mplete and `InCo'mplete `Co'ntingency tables.
+ 1.5.R2.139  Fredag 14 Marts 2003, 11:30:48 MET   
+ Compiled with cc, a C compiler for ...           
+ Copyright (c) 1991, by Jens Henrik Badsberg      
+ Licensed to ...                                  
+
+
+
+   45 cases read.
+
+Warning, ended CoCo-objects: .current.coco Dawid79Object 
+> source("Fever.r")
+
+ CoCo     -     A program for estimation, test and model search
+ in very large `Co'mplete and `InCo'mplete `Co'ntingency tables.
+ 1.5.R2.139  Fredag 14 Marts 2003, 11:30:48 MET   
+ Compiled with cc, a C compiler for ...           
+ Copyright (c) 1991, by Jens Henrik Badsberg      
+ Licensed to ...                                  
+
+
+
+  64 cells with   711 cases read.
+ Finding all marginals.
+Warning, ended CoCo-objects: .current.coco FeverObject 
+> source("Fuchs82.r")
+
+ CoCo     -     A program for estimation, test and model search
+ in very large `Co'mplete and `InCo'mplete `Co'ntingency tables.
+ 1.5.R2.139  Fredag 14 Marts 2003, 11:30:48 MET   
+ Compiled with cc, a C compiler for ...           
+ Copyright (c) 1991, by Jens Henrik Badsberg      
+ Licensed to ...                                  
+
+
+
+ 144 cells with   164 cases read.
+ Finding all marginals.
+Warning, ended CoCo-objects: .current.coco Fuchs82Object 
+> source("Hochberg77.r")
+
+ CoCo     -     A program for estimation, test and model search
+ in very large `Co'mplete and `InCo'mplete `Co'ntingency tables.
+ 1.5.R2.139  Fredag 14 Marts 2003, 11:30:48 MET   
+ Compiled with cc, a C compiler for ...           
+ Copyright (c) 1991, by Jens Henrik Badsberg      
+ Licensed to ...                                  
+
+
+
+ 144 cells with 81880 cases read.
+ Finding all marginals.
+Warning, ended CoCo-objects: .current.coco Hochberg77Object 
+> source("Scrotal.r")
+
+ CoCo     -     A program for estimation, test and model search
+ in very large `Co'mplete and `InCo'mplete `Co'ntingency tables.
+ 1.5.R2.139  Fredag 14 Marts 2003, 11:30:48 MET   
+ Compiled with cc, a C compiler for ...           
+ Copyright (c) 1991, by Jens Henrik Badsberg      
+ Licensed to ...                                  
+
+
+
+  299 cases read.
+
+ Time(NECESSARY):        0.000secs.
+ Time(FILE):             0.000secs.
+Warning, ended CoCo-objects: .current.coco Scrotal94Object 
+> source("UterineCervix411.r")
+
+ CoCo     -     A program for estimation, test and model search
+ in very large `Co'mplete and `InCo'mplete `Co'ntingency tables.
+ 1.5.R2.139  Fredag 14 Marts 2003, 11:30:48 MET   
+ Compiled with cc, a C compiler for ...           
+ Copyright (c) 1991, by Jens Henrik Badsberg      
+ Licensed to ...                                  
+
+
+
+  119 cases read.
+
+Warning, ended CoCo-objects: .current.coco UterineCervix411Object 
+> package.skeleton("CoCo", list = ls(all.names = TRUE))
+Creating directories ...
+Creating DESCRIPTION ...
+Creating READMEs ...
+Saving functions and data ...
+Making help files ...
+Done.
+Further steps are described in ./CoCo/README 
+> # Byssinosis38@.title
+> # David79@.title
+> # Fever@.title
+> # Fuchs82@.title
+> # Hochberg@.title
+> # Reinis@.title
+> # Scrotal@.title
+> # UterineCervix411@.title
+> quitCoCo()

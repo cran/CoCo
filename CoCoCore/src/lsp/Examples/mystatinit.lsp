@@ -1,0 +1,6 @@
+; (load "Examples/Testgraph")
+; (load "Scrotal")
+; (load "Byssinosis38")
+; (load "hustage")
+; (load "trombose")
+(load "TestMipsBlock")

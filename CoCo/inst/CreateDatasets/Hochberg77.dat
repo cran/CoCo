@@ -1,0 +1,49 @@
+#
+#     Highway safety.
+#
+#     The data is presented in
+#
+#        Hochberg, Y (1977):
+#        On the use of double sampling schemes in analyzing
+#        categorical data with misclassification errors.
+#        J. Am. Statist. Assoc. 72, 914-921.
+#
+#     and
+#
+#        Zhi Geng and Chooichiro Asano (1988):
+#        Recursive procedures for hierarchical loglinear
+#        models on high-dimensional contingency tables.
+#        J. Japanese Soc. Comp. Statist, 17-26.
+#
+#     Variables
+#
+#        a: belt use recorded by non-police devices,
+#        b: driver injury recorded by non-police devices,
+#        c: driver's sex
+#        d: car damage
+#        e: belt use recorded by police,
+#        f: driver injury recorded by police.
+#
+#
+#
+FACTORS a2* / b2* / c2 / d2 / e2/ f2 //
+TABLE
+407  62  0   45   7  0  0  0  22536
+206  18  0   37   5  0  0  0  11199
+299  20  0   59   9  0  0  0  17476
+102   7  0   53   4  0  0  0   6964
+
+  6  47  0    1   6  0  0  0   3006
+  1  17  0    0   1  0  0  0   1262
+  4  30  0    1   6  0  0  0   2155
+  2   6  0    1   3  0  0  0    728
+
+  5   1  0   32   4  0  0  0   1687
+  4   0  0   29   0  0  0  0   1422
+ 11   2  0  118   5  0  0  0   6746
+  5   1  0   79   1  0  0  0   3707
+
+  0   1  0    1   2  0  0  0    199
+  3   0  0    1   0  0  0  0    117
+  1   2  0    0   9  0  0  0    583
+  0   0  0    1   6  0  0  0    297

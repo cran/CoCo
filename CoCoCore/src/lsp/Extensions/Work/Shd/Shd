@@ -1,0 +1,270 @@
+From jhb Wed Jan 19 13:06:20 2000
+To: Soren.Hojsgaard@agrsci.dk
+Subject: :return-coco-object
+Content-Length: 338
+Status:  O
+X-Status: $$$$
+X-UID: 0000000141
+
+(defmeth coco-graph-window-proto :return-coco-object ()
+ (do ((coco-objects
+       (send coco-graph-window-proto :slot-value 'instances-coco)
+       (cdr coco-objects)))
+  ((or (eq (send (car coco-objects) :slot-value 'identification)
+        (slot-value 'identification)) (not coco-objects))
+   (if coco-objects (car coco-objects))))
+ )
+
+From jhb Thu Jan 20 09:48:00 2000
+To: Soren.Hojsgaard@agrsci.dk
+Subject: A new version of my code to make your code simpler
+Content-Length: 5656
+Status:  O
+X-Status: $$$$
+X-UID: 0000000142
+
+
+;;; Dear Søren,
+
+;;; Use this as a ``patch'' to my code.  return-coco-graph-window and
+;;; :return-child-coco-graph-window has been added the argument `proto-type'.
+;;; If this argument is used (it should be a prototype made by extending the
+;;; coco-graph-window-proto, then a graph-window of the `proto-type' is made.
+;;; The slots inherited from coco-graph-window-proto are handled by my code,
+;;; and all messages known to coco-graph-window-proto will of cause also be
+;;; known to the extended prototype.
+
+;;; / jhb, 20. january 2000
+
+
+(defun return-coco-graph-window
+  (identification model-number vertices edges blocks use-variables
+		  &key (location nil) (size nil) (title nil)
+                  (proto-type coco-graph-window-proto))
+  (let ((x (send proto-type :new identification :location location :title title)))
+    (if size
+	(send x :size (car size) (cadr size)))
+    (send x :slot-value 'identification)
+    (send x :slot-value 'model-number model-number)
+    (send x :slot-value 'vertices vertices)
+    (send x :slot-value 'use-variables use-variables)
+    (send x :slot-value 'edges edges)
+    (send x :slot-value 'undo-positions nil)
+    (send x :slot-value 'redo-positions nil)
+    (send x :slot-value 'rejected-edges nil)
+    (send x :slot-value 'accepted-edges nil)
+    (send x :slot-value 'drag-graph T)
+    (send x :slot-value 'edit-graph nil)
+    (send x :slot-value 'static T)
+    (send x :slot-value 'colors *default-colors*) ;copy?
+    (send x :slot-value 'transformation nil)
+    (send x :slot-value 'angle 0.01)
+    (send x :slot-value 'overlays nil)
+    (send x :slot-value 'blocks blocks)
+    (send x :slot-value 'grid nil)
+    (send x :use-color (screen-has-color))
+    (add-coco-graph-menu x)
+    (if blocks
+	(mapcar #'(lambda (item)
+		    (if (or (equalp (send item :title) "Tests ...")
+			    (equalp (send item :title)
+				    "Description of fitted values ...")
+			    (equalp (send item :title) "The EH procedure ..."))
+			(send item :enabled nil)))
+		(send (send x :slot-value 'menu) :slot-value 'items)))
+    (send x :update-arrows)
+    (send x :redraw-graph)
+    x)
+  )
+
+(defmeth coco-graph-window-proto :return-child-coco-graph-window
+  (&key (model nil) (copy-slots nil) (copy-vertices T)
+	(parant nil) (child nil) (sibling nil)
+	(location nil) (offset (list 50 -60)) (size nil) (title nil)
+        (proto-type nil))
+  (let* ((nr (if model
+		 (if (stringp model)
+		     (progn (send self :read-model model)
+			    (send self :return-model-number 'last))
+		   (if (numberp model) model
+		     (send self :return-model-number model)))
+	       (send self :return-model-number 'current)))
+	 (vertices (if copy-vertices
+		       (slot-value 'vertices)
+		     (return-default-vertices (send self :return-names))))
+	 (graph
+	  (return-coco-graph-window
+	   (slot-value 'identification) nr vertices
+	   (return-edge-list (send self :return-edge-list nr) (car vertices))
+	   (slot-value 'blocks) (send self :return-model-set nr)
+	   :size size :location (if location location
+				  (+ offset (send self :location)))
+	   :title (concatenate 'string (send self :title) title)
+           :proto-type (if proto-type proto-type
+                         (eval (send self :slot-value 'proto-name))))))
+   ;;                    ^- The prototype of self!!!
+    (if parant
+	(send self :add-manager-edge self graph)
+      (if child
+	  (send self :add-manager-edge graph self)
+	(if sibling
+	    (send self :add-manager-edge self graph :type 'sibling))))
+    (if copy-slots
+	(progn
+	  (send graph :slot-value 'colors (slot-value 'colors))
+	  (send graph :rejected-edges (send self :rejected-edges))
+	  (send graph :accepted-edges (send self :accepted-edges))))
+    graph)
+  )
+
+#|
+
+;;; A later version for Xlisp+Mips:
+
+(defmeth coco-graph-window-proto :return-child-coco-graph-window
+  (&key (model nil) (copy-slots nil) (copy-vertices T)
+	(parant nil) (child nil) (sibling nil)
+	(location nil) (offset (list 50 -60)) (size nil) (title nil)
+        (proto-type coco-graph-window-proto))
+  (let* ((model-number (if model
+		 (if (stringp model)
+		     (progn (send self :read-model model)
+			    (send self :return-model-number 'last))
+		   (if (numberp model) model
+		     (send self :return-model-number model)))
+	       (send self :return-model-number 'current)))
+         (cs (send self :return-model model-number 'cs))
+         (a (split-string cs))
+         (blocks (select a (which a)))
+	 (vertices (if (and copy-vertices (not blocks) (not (slot-value 'blocks)))
+		       (slot-value 'vertices)
+		     (return-default-vertices (send self :return-names))))
+	 (graph
+	  (return-coco-graph-window
+	   (slot-value 'identification) model-number vertices
+	   (return-edge-list (send self :return-edge-list model-number)
+                             (car vertices))
+	   nil ;;; (slot-value 'blocks)
+           (send self :return-model-set model-number)
+	   :size size :location (if location location
+				  (+ offset (send self :location)))
+	   :title (concatenate 'string (send self :title) title)
+           :proto-type (if proto-type proto-type
+                         (eval (send self :slot-value 'proto-name)))))
+         (graph (if blocks (progn (send graph :set-blocks blocks) graph)
+                  graph)))
+    (if parant
+	(send self :add-manager-edge self graph)
+      (if child
+	  (send self :add-manager-edge graph self)
+	(if sibling
+	    (send self :add-manager-edge self graph :type 'sibling))))
+    (if copy-slots
+	(progn
+	  (send graph :slot-value 'colors (slot-value 'colors))
+	  (send graph :rejected-edges (send self :rejected-edges))
+	  (send graph :accepted-edges (send self :accepted-edges))))
+    graph)
+  )
+|#
+
+From jhb Thu Jan 20 09:48:22 2000
+To: Soren.Hojsgaard@agrsci.dk
+Subject: A sketch to your code
+Content-Length: 2464
+Status:  O
+X-Status: $$$$
+X-UID: 0000000143
+
+
+;;; Dear Søren,
+
+;;; You can then create your own new proto-types, specializations of
+;;; coco-graph-window-proto be the following few lines (can be reduced
+;;; to approx. 7 lines including the :return-... method).
+;;; The new prototypes will:
+;;;
+;;;  1) Have all slots of coco-graph-window-proto,
+;;;  2) These slots will be initiated correctly, also in (most)
+;;;     future versions of my code,
+;;;  3) The new prototype will know and handle correctly all methods of
+;;;      coco-graph-window-proto.
+;;;
+;;; 
+
+;;; / jhb, 20. January 2000
+
+
+;;; The split-root-proto:
+
+(defproto split-root-proto
+  '(complete-set) '(
+;;                    instances-split-root
+                    ) (list coco-graph-window-proto))
+
+(send split-root-proto :documentation
+      'proto "A prototype for a CoCo Graph Window specialized to the root of a split.")
+
+(defmeth split-root-proto :isnew (identification &key location title)
+ (let ((new-object (call-method coco-graph-window-proto :isnew identification
+           :location location :title title)))
+;;  (send split-root-proto :slot-value 'instances-split-root
+;;   (cons new-object (slot-value 'instances-split-root)))
+  (send new-object :slot-value 'identification identification)
+  new-object)
+ )
+
+(defmeth coco-graph-window-proto :return-split-root (&rest keyword-pairs)
+ (apply #'send self :return-child-coco-graph-window
+        :proto-type split-root-proto :child T :allow-other-keys t keyword-pairs))
+
+
+;;; The split-leaf-proto:
+
+(defproto split-leaf-proto
+  '(some-other-slots) '(
+;;                        instances-split-leaf
+                        ) (list split-root-proto))
+
+(send split-leaf-proto :documentation
+      'proto "A prototype for a CoCo Graph Window specialized to the leaf of a split.")
+
+(defmeth split-leaf-proto :isnew (identification &key location title)
+ (let ((new-object (call-method split-root-proto :isnew identification
+           :location location :title title)))
+;;  (send split-leaf-proto :slot-value 'instances-split-leaf
+;;   (cons new-object (slot-value 'instances-split-leaf)))
+  (send new-object :slot-value 'identification identification)
+  new-object)
+ )
+
+(defmeth split-root-proto :return-split-leaf (&rest keyword-pairs)
+ ;; When doing a split, you will of cource not do this
+ (apply #'send self :return-child-coco-graph-window
+        :proto-type split-leaf-proto :child T :allow-other-keys t keyword-pairs)
+ ;; but create new coco-objects, and return graphs for these.
+ )
+
+From jhb Thu Jan 20 09:48:56 2000
+To: Soren.Hojsgaard@agrsci.dk
+Subject: My test example
+Content-Length: 452
+Status:  O
+X-Status: $$$$
+X-UID: 0000000144
+
+(load "Shd/shdA")
+(load "Shd/shdB")
+(load "Examples/TestGraph")
+(trace :new)
+;(trace :isnew)
+(trace :return-child-coco-graph-window)
+(trace return-coco-graph-window)
+(trace :return-split-root)
+
+(def split-root (send graph-1 :return-split-root :model 1 :location (list 200 200)
+                 :title " - A Split Root"))
+
+(def split-leaf (send split-root :return-split-leaf :model 3 :location (list 400 400)
+                 :title " - A Split Leaf"))
+

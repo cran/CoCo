@@ -1,0 +1,9 @@
+set output diary OrchardSprays.dia;
+
+set page formats 128 256;
+
+import data OrchardSprays.xpt;
+
+eh;
+end;
+end;

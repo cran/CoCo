@@ -1,0 +1,25 @@
+\documentclass[12pt]{article}
+\usepackage{isolatin1, epsf}
+
+% \documentstyle[ ... ,pspic, ... ]{ ... }
+
+% \vectorhead{9}{5}
+
+\newcommand{\shade}[1]{}
+
+\newcommand{\Ordinal}[1]{{\shade{50}\circle*{#1}\shade{100}\circle{#1}}}
+\newcommand{\Circle}[1]{{\shade{0}\circle*{#1}\shade{100}\circle{#1}}}
+\newcommand{\Dot}[1]{{\shade{100}\circle*{#1}}}
+\newcommand{\solidlines}[0]{{}}
+\newcommand{\dashedlines}[0]{{}}
+\def\thinline(#1,#2)#3{\line(#1,#2){#3}}
+
+\begin{document}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\input{Image.tex}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\end{document}

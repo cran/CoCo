@@ -1,0 +1,14 @@
+(load "Shd/shdA")
+(load "Shd/shdB")
+(load "Examples/TestGraph")
+(trace :new)
+;(trace :isnew)
+;(trace :return-child-coco-graph-window)
+;(trace return-coco-graph-window)
+;(trace :return-split-root)
+
+(def split-root (send graph-1 :return-split-root :model 1 :location (list 200 200)
+                 :title " - A Split Root"))
+
+(def split-leaf (send split-root :return-split-leaf :model 3 :location (list 400 400)
+                 :title " - A Split Leaf"))

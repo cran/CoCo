@@ -1,0 +1,4 @@
+Package: CoCoOldData
+Namespace: CoCoOldData
+Title: Graphical modelling on contingency tables: Old data files
+Description: Interface functions for old data files.

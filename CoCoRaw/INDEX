@@ -1,0 +1,89 @@
+backward                Stepwise model selection by backward
+                        elimination and forward selection of edges or
+                        interaction terms
+cleanData               Remove cases from cells set to zero by
+                        structurally
+disposeOfEh             Dispose of the model classes of the EH
+                        procedure
+disposeOfModel          Dispose of models
+disposeOfQtable         Dispose of Q-tables and Q-lists (structurally
+                        zero cells)
+editModel               Edit model
+eh                      The Edwards and Havranek model search
+                        procedure
+ehExtract               Extract models from the EH-procedure
+ehFindDual              Find duals in the EH procedure
+ehFit                   Fit and classify models in the EH procedure
+ehForceAccept           Force models into the classes of the EH
+                        procedure
+ehForceAddDualToClass   Force a dual into a class of models of the EH
+                        procedure
+ehForceFix              Fix edges or terms of the models in the EH
+                        procedure
+ehSetBase               The base model of the EH procedure
+ehSetMainEffects        Set the main effects of the models in the EH
+                        procedure
+emOn                    Handling of latent variables and missing
+                        values by the EM algorithm
+endCoCo                 End a CoCo object
+enterDataFrame          Enter a data.frame into a CoCo object
+enterList               Enter a list of cases into a CoCo object
+enterModel              Enter a model
+enterNames              Enter a specification of variables into the
+                        CoCo object
+enterQtable             Enter initial values for the IPS algorithm and
+                        declare cells to be zero by structure
+enterTable              Enter a table of counts of the tables formed
+                        by cross classifying discrete variables
+excludeMissing          Handling of missing values by excluding cases
+exportCoCo              Write and read the CoCo data and the models to
+                        a binary file
+extractData             Extract the data from a CoCo Object
+isSubmodel              Is the CURRENT model a sub model of the BASE
+                        model ?
+makeCurrent             Move the pointer named CURRENT (BASE) in the
+                        CoCo object
+numberVariates          The number of variables in the CoCo object
+optionsCoCo             Options settings for CoCo objects
+partialAssociations     Show partial associations
+propertyModel           Ask a query for a model
+propertySet             Ask a query for a set of variables
+randomTableReplacement
+                        Replace the table of counts with a random
+                        table with margins unchanged
+returnDeviance          Return likelihoods, deviance, dimensions, etc.
+returnEdges             Return the indices of vertices of edges
+returnExpression        Return the expression of the estimates of
+                        parameters
+returnFix               Return the edges fixed in model selection
+returnJunctionTree      Return the junction tree
+returnModel             Return the model
+returnModelNumber       Return the number of the CURRENT, BASE, or the
+                        LAST model
+returnModelVariates     Return the variates of the model
+returnNcells            Return the number of cells in a table
+returnSets              Return a specific subset of the variables
+returnTable             Return the counts and fitted values of a
+                        marginal table
+returnTest              Return the Pearson $\chi^2$, the power
+                        divergence, etc.
+returnVariableDescription
+                        Return the specification of the data in the
+                        CoCo object
+returnVertexOrder       Return vertex order
+setOrdinal              Declare some of the discrete variables to be
+                        ordinal
+setUseVariables         Declare which variables to enter
+showDeviance            Show the difference between likelihoods,
+                        dimension, etc.
+showFormula             Show the model formula
+showModel               Show the model
+showOptions             Show the options of the CoCo object
+showTable               The counts and fitted values of a marginal
+                        table
+showTest                Show the Pearson $\chi^2$, the power
+                        divergence, etc.
+showTests               Show all the stored tests of a CoCo object
+showVertexOrder         Show the vertex ordering
+sinkCoCo                Direct output to a file
+summaryTable            Univariate summary statistics for table values

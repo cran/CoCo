@@ -1,0 +1,32 @@
+#!/bin/sh
+
+COCOHOME=/user/jhb/CoCo/source/
+COCOTMP=/tmp/
+
+# Directory of CoCo-files (COCO.TAB, COCO.HLP, etc.):
+COCOLIB=${COCOHOME}lib/coco/
+
+# Directory of loadcoco.lsp, src/coco.wks, etc.:
+XCOCOLIB=/user/jhb/CoCo/source/lsp/
+
+# The used Xlisp-Stat:
+XLISPSTAT=/user/jhb/lib/xlispstat-3.52.9/bin/xlispstat
+
+# Check if the "Xlisp+CoCo.log" exists
+if [ -f ${COCOHOME}Logs/Xlisp+CoCo.log ]
+then
+   # Make sure the "Xlisp+CoCo.log" is writable.
+   if [ -w ${COCOHOME}Logs/Xlisp+CoCo.log ]
+   then
+       echo `date` `whoami` `pwd` $HOST >> ${COCOHOME}Logs/Xlisp+CoCo.log
+   fi
+fi
+
+export COCOHOME COCOLIB COCOTMP XCOCOLIB
+
+if [ -f ${XCOCOLIB}src/coco.wks ]
+then
+   ${XLISPSTAT} -w${XCOCOLIB}src/coco.wks mystatinit.lsp
+else
+   ${XLISPSTAT} ${XCOCOLIB}loadcoco.lsp
+fi

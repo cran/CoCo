@@ -1,0 +1,12 @@
+set output diary  anorexia.1.dia;
+set output dump   anorexia.1.dmp;
+set output report anorexia.1.rep;
+import data anorexia.xpt;
+read model *;
+base;
+print models all models;
+backward;
+current;
+test;
+find -2log(Q);
+end;
