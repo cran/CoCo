@@ -1,0 +1,12 @@
+library(CoCoCg)
+data(warpbreaks)
+a <- makeCoCoCg()
+enterDataFrame(warpbreaks)
+enterModel(".")
+showTable("canonical")
+showTable("canonical", "*")
+# returnTable("canonical", "*")
+variableDescription <- returnVariableDescription();
+variableNames <- paste(variableDescription$names, collapse="")
+returnTable("canonical", variableNames)
+history()

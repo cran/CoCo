@@ -104,11 +104,11 @@ returnVertexOrder(9, default.order = FALSE, max.card = TRUE, object = CoCoObject
 returnVertexOrder(9, default.order = FALSE, max.card = FALSE, object = CoCoObject);
 
 returnVertexOrder(9, marked = "AB;", object = CoCoObject);
-returnVertexOrder(9, marked = "FG;", object = CoCoObject);
+returnVertexOrder(9, marked = "EF;", object = CoCoObject);
 
-returnVertexOrder(9, u = "B;", v = "G;", 
+returnVertexOrder(9, u = "B;", v = "F;", 
                   path.order = TRUE, sub.path = TRUE, object = CoCoObject);
-returnVertexOrder(9, u = "D;", v = "G;", 
+returnVertexOrder(9, u = "C;", v = "F;", 
                   path.order = TRUE, sub.path = TRUE, object = CoCoObject);
 
 endCoCo(CoCoObject);

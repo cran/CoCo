@@ -1,9 +1,8 @@
 ".First.lib" <-
 function (lib, pkg) 
 {
-    if (!any(search() == "package:CoCoCg"))
-       require(CoCo)
-    # require(CoCoObjects)
+    if (!any(search() == "package:CoCoCg")) 
+        require(CoCo)
     require(tcltk)
     require(dynamicGraph)
     .First.lib.CoCoDynamicGraph(lib, pkg)
@@ -11,7 +10,6 @@ function (lib, pkg)
 ".First.lib.CoCoDynamicGraph" <-
 function (lib, pkg) 
 {
-    # require(CoCoObjects)
     if (!isGeneric("dynamic.Graph")) {
         if (is.function("dynamic.Graph")) 
             fun <- dynamic.Graph
@@ -28,67 +26,154 @@ function (lib, pkg)
             model <- makeModel(object, ...)
             dynamic.Graph(model, ...)
         })
-    setMethod("dynamic.Graph", signature(object = "CoCoModelClass"), 
-        function(object, ...) {
-            CoCoDrawModel <- function(object, slave = FALSE, 
-                oriented = FALSE, edgeColor = "black", 
-                factorVertexColor = "default", factorEdgeColor = "brown", 
-                blockEdgeColor = "default", ...) {
+    setMethod("setGraphComponents", signature(object = "CoCoModelClass"), 
+        function(object, viewType = NULL, visibleVertices = NULL, 
+            visibleblocks = NULL, extraVertices = NULL, vertexEdges = NULL, 
+            blockEdges = NULL, factorVertices = NULL, factorEdges = NULL, 
+            extraEdges = NULL, ...) {
+            return(object)
+        })
+    setMethod("graphComponents", signature(object = "CoCoModelClass"), 
+        function(object, viewType = NULL, ...) {
+            args <- list(...)
+            Args <- args$Arguments
+            oriented <- Args$oriented
+            edgeColor <- Args$edgeColor
+            factorVertexColor <- Args$factorVertexColor
+            factorEdgeColor <- Args$factorEdgeColor
+            blockEdgeColor <- Args$blockEdgeColor
+            Vertices <- Args$vertexList
+            BlockList <- Args$blockList
+            BlockTree <- Args$blockTree
+            extraVertices <- Args$extraList
+            if (is.null(extraVertices)) 
+                extraVertices <- .emptyDgList("dg.VertexList")
+            extraEdges <- Args$extraEdgeList
+            if (is.null(extraEdges)) 
+                extraEdges <- .emptyDgList("dg.ExtraEdgeList")
+            factorClasses <- Args$factorClasses
+            visibleVertices <- Args$visibleVertices
+            visibleBlocks <- Args$visibleBlocks
+            {
                 two.to.pairs <- function(from, to) {
                   edge.list <- vector("list", length(to))
                   for (j in seq(along = to)) edge.list[[j]] <- c(from[j], 
                     to[j])
                   return(edge.list)
                 }
-                args <- list(...)
-                Args <- args$Arguments
-                Vertices <- Args$vertexList
+                VariableNames <- Names(Vertices)
+                type <- .return.type(object)
+                model <- returnModel(model = object, split.generators = TRUE)
                 Edges <- returnEdges(model = object, fix = "all.edges")
                 edge.list <- two.to.pairs(Edges[, 1], Edges[, 
                   2])
-                Object <- makeModel(object)
-                title <- Object@.title
-                factors <- NULL
-                FactorVertices <- NULL
-                FactorEdges <- NULL
-                if (!(is.null(factors))) {
-                  message("Not tested!")
-                  result <- returnFactorVerticesAndEdges(Vertices, 
-                    factors, factorVertexColor = factorVertexColor, 
-                    factorEdgeColor = factorEdgeColor, factorClasses = factorClasses)
-                  FactorVertices <- result$FactorVertices
-                  FactorEdges <- result$FactorEdges
-                  if ((is.null(edge.list))) {
-                    from <- result$PairEdges[, 1]
-                    to <- result$PairEdges[, 2]
-                    edge.list <- two.to.pairs(from, to)
+                if (type == 2) {
+                  vV <- returnModelVariates(model = object, as.string = FALSE)
+                  visibleVertices <- (1:length(vV))[vV == 1]
+                }
+                else {
+                  vV <- unique(unlist(model))
+                  visibleVertices <- match(vV, VariableNames)
+                }
+                FactorVertices <- .emptyDgList("dg.FactorVertexList")
+                FactorEdges <- .emptyDgList("dg.FactorEdgeList")
+                if (viewType == "Factor") {
+                  if (type == 2) {
+                    f <- function(type) {
+                      factors <- returnModel(model = object, 
+                        type = type, split.generators = TRUE)
+                      lapply(factors, function(i) match(i, VariableNames))
+                    }
+                    discrete <- f(type = "discrete")
+                    linear <- f(type = "linear")
+                    quadratic <- f(type = "quadratic")
+                    types <- c(rep("Discrete generator", length(discrete)), 
+                      rep("Linear generator", length(linear)), 
+                      rep("Quadratic generator", length(quadratic)))
+                    factors <- append(append(discrete, linear), 
+                      quadratic)
+                  }
+                  else {
+                    types <- "Generator"
+                    factors <- lapply(model, function(i) match(i, 
+                      VariableNames))
+                  }
+                  if (!(is.null(factors))) {
+                    result <- returnFactorVerticesAndEdges(Vertices, 
+                      factors, types = types, factorVertexColor = factorVertexColor, 
+                      factorEdgeColor = factorEdgeColor, factorClasses = factorClasses)
+                    FactorVertices <- result$FactorVertices
+                    FactorEdges <- result$FactorEdges
+                    if ((is.null(edge.list))) {
+                      from <- result$PairEdges[, 1]
+                      to <- result$PairEdges[, 2]
+                      edge.list <- two.to.pairs(from, to)
+                    }
                   }
                 }
                 edgeList <- returnEdgeList(edge.list, Vertices, 
                   color = edgeColor, oriented = oriented)
-                BlockList <- Args$blockList
-                BlockTree <- Args$blockTree
-                BlockEdges <- NULL
-                if ((!is.null(BlockList) || !is.null(BlockTree))) {
-                  message("Not tested!")
-                  if (!(is.null(factors))) 
+                BlockEdges <- .emptyDgList("dg.BlockEdgeList")
+                visibleBlocks <- NULL
+                if (((!is.null(BlockList) && (length(BlockList) > 
+                  0)) || (!is.null(BlockTree) && (length(BlockTree) > 
+                  0) && !is.null(BlockTree[[1]])))) {
+                  message("Blocks not tested!")
+                  if (!.IsEmpty(FactorVertices)) 
                     message("Edges between blocks and factors not implemented!")
                   if (is.null(BlockList) && !is.null(BlockTree)) 
                     BlockList <- blockTreeToList(BlockTree)
+                  visibleBlocks <- 1:length(BlockList)
                   BlockEdges <- returnBlockEdgeList(edge.list, 
                     Vertices, BlockList, color = blockEdgeColor, 
                     oriented = oriented)
                 }
-                if (slave) 
-                  Args$redrawGraphWindow(graphWindow = NULL, 
-                    edgeList = edgeList, object = Object, factorVertexList = FactorVertices, 
+            }
+            if (viewType == "Factor") 
+                list(vertexEdges = edgeList, blockEdges = BlockEdges, 
+                  factorVertices = FactorVertices, factorEdges = FactorEdges, 
+                  visibleVertices = visibleVertices, visibleBlocks = visibleBlocks, 
+                  extraVertices = extraVertices)
+            else list(vertexEdges = edgeList, blockEdges = BlockEdges, 
+                FactorVertices = .emptyDgList("dg.FactorVertexList"), 
+                FactorEdges = .emptyDgList("dg.FactorEdgeList"), 
+                visibleVertices = visibleVertices, visibleBlocks = visibleBlocks, 
+                extraVertices = extraVertices, extraEdges = extraEdges)
+        })
+    setMethod("vertexEdges", signature(object = "CoCoModelClass"), 
+        function(object) NULL)
+    setMethod("dynamic.Graph", signature(object = "CoCoModelClass"), 
+        function(object, ...) {
+            CoCoDrawModel <- function(object, slave = FALSE, 
+                viewType = "Simple", ...) {
+                args <- list(...)
+                Args <- args$Arguments
+                if (class(object) == "CoCoModelClass") 
+                  Object <- object
+                else Object <- makeModel(object)
+                title <- Object@.title
+                Edges <- graphComponents(Object, viewType, Arguments = Args)
+                edgeList <- Edges$vertexEdges
+                FactorVertices <- Edges$factorVertices
+                FactorEdges <- Edges$factorEdges
+                BlockEdges <- Edges$blockEdges
+                visualVertices <- Edges$visualVertices
+                if (slave) {
+                  DynamicGraph(addModel = TRUE, frameModels = Args$frameModels, 
+                    frameViews = NULL, graphWindow = NULL, edgeList = edgeList, 
+                    object = Object, factorVertexList = FactorVertices, 
                     factorEdgeList = FactorEdges, blockEdgeList = BlockEdges, 
-                    title = title, ...)
-                else Args$redrawGraphWindow(graphWindow = Args$graphWindow, 
-                  edgeList = edgeList, object = Object, factorVertexList = FactorVertices, 
-                  factorEdgeList = FactorEdges, blockEdgeList = BlockEdges, 
-                  title = "Not used!", width = NULL, height = NULL, 
-                  Arguments = Args)
+                    title = title, Arguments = Args)
+                }
+                else {
+                  DynamicGraph(overwrite = TRUE, addModel = TRUE, 
+                    frameModels = Args$frameModels, frameViews = Args$frameViews, 
+                    graphWindow = Args$graphWindow, edgeList = edgeList, 
+                    object = Object, factorVertexList = FactorVertices, 
+                    factorEdgeList = FactorEdges, blockEdgeList = BlockEdges, 
+                    title = "Not used!", width = NULL, height = NULL, 
+                    Arguments = Args)
+                }
             }
             CoCoLabelAllEdges <- function(object, slave = FALSE, 
                 ...) {
@@ -123,19 +208,57 @@ function (lib, pkg)
                   return(edges)
                 }
                 edgeList <- visitEdges(Args$edgeList)
-                factorEdgeList <- visitEdges(Args$factorEdgeList)
-                blockEdgeList <- visitEdges(Args$blockEdgeList)
+                factorEdgeList <- Args$factorEdgeList
+                blockEdgeList <- Args$blockEdgeList
                 if (slave) 
-                  Args$redrawGraphWindow(graphWindow = NULL, 
-                    edgeList = edgeList, factorEdgeList = factorEdgeList, 
-                    blockEdgeList = blockEdgeList, title = "A slave window", 
-                    ...)
-                else Args$redrawGraphWindow(graphWindow = Args$graphWindow, 
+                  Args$redrawView(graphWindow = NULL, edgeList = edgeList, 
+                    factorEdgeList = factorEdgeList, blockEdgeList = blockEdgeList, 
+                    title = "A slave window", ...)
+                else Args$redrawView(graphWindow = Args$graphWindow, 
                   edgeList = edgeList, factorEdgeList = factorEdgeList, 
                   blockEdgeList = blockEdgeList, title = "Not used!", 
                   width = NULL, height = NULL, Arguments = Args)
             }
-            CoCoMenu <- list(MainUser = list(label = "Position of \"vertices\"", 
+            cmdPositions <- function(object, N = NULL, doIso = FALSE, 
+                ...) {
+                Args <- list(...)$Arguments
+                Vertices <- Args$vertexList
+                Edges <- Args$edgeList
+                positions <- Positions(Vertices)
+                if (is.null(N)) 
+                  N <- dim(positions)[2]
+                e <- NodeIndices(Edges)
+                n <- Names(Vertices)
+                X <- matrix(rep(-1, length(n)^2), ncol = length(n))
+                for (i in 1:length(e)) {
+                  suppressWarnings(w <- as.numeric(names(e)[i]))
+                  if (is.na(w)) 
+                    w <- 0.5
+                  X[e[[i]][1], e[[i]][2]] <- w
+                  X[e[[i]][2], e[[i]][1]] <- w
+                }
+                dimnames(X) <- list(n, n)
+                d <- 1.25
+                X[X == -1] <- d
+                X <- X - d * diag(length(n))
+                if (doIso) {
+                  require(MASS)
+                  X[X <= 0] <- 0.001
+                  mdsX <- isoMDS(X, k = N)
+                }
+                else mdsX <- cmdscale(X, k = N, add = TRUE, eig = TRUE, 
+                  x.ret = TRUE)
+                M <- max(abs(mdsX$points))
+                positions[, 1:N] <- mdsX$points/M * 45
+                Positions(Vertices) <- positions
+                Args$redrawView(graphWindow = Args$graphWindow, 
+                  vertexList = Vertices, Arguments = Args)
+            }
+            CoCoMenu <- list(MainUser = list(label = "Position of \"vertices\" by 'cmdscale', and redraw", 
+                command = function(object, ...) cmdPositions(object, 
+                  ...)), MainUser = list(label = "Position of \"vertices\" by 'isoMDS', k = 2, and redraw", 
+                command = function(object, ...) cmdPositions(object, 
+                  N = 2, doIso = TRUE, ...)), MainUser = list(label = "Position of \"vertices\"", 
                 command = function(object, ...) print(Positions(list(...)$Arguments$vertexList))), 
                 MainUser = list(label = "Label all edges, in this window", 
                   command = function(object, ...) CoCoLabelAllEdges(object, 
@@ -145,8 +268,7 @@ function (lib, pkg)
                   command = function(object, ...) {
                     Args <- list(...)$Arguments
                     ReturnVal <- modalDialog("Model entry modalDialog", 
-                      "Enter number or tag", "last", graphWindow = Args$graphWindow)
-                    print(ReturnVal)
+                      "Enter number or tag", "last", top = Args$top)
                     if (ReturnVal == "ID_CANCEL") return()
                     model <- suppressWarnings(as.numeric(ReturnVal))
                     if (is.na(model)) model <- ReturnVal
@@ -156,8 +278,7 @@ function (lib, pkg)
                   command = function(object, ...) {
                     Args <- list(...)$Arguments
                     ReturnVal <- modalDialog("Model entry modalDialog", 
-                      "Enter number or tag", "last", graphWindow = Args$graphWindow)
-                    print(ReturnVal)
+                      "Enter number or tag", "last", top = Args$top)
                     if (ReturnVal == "ID_CANCEL") return()
                     model <- suppressWarnings(as.numeric(ReturnVal))
                     if (is.na(model)) model <- ReturnVal
@@ -176,42 +297,52 @@ function (lib, pkg)
                   command = function(object, name, ...) {
                     print(name)
                     print(c(list(...)$index))
-                  }), )
-
+                  }))
             Edges <- returnEdges(model = object, fix = "all.edges")
-
-            args <- list(...)
-	    doAdd <- FALSE
-	    if (any(names(args) == "dynamicGraph")) {
-	       doAdd <- TRUE
-	       linkDynamicGraph <- args$dynamicGraph
+            VariableDescription <- returnVariableDescription(object = object, 
+                levels = FALSE)
+            if (.return.type(object) == 2) {
+                vV <- returnModelVariates(model = object, as.string = FALSE)
+                visibleVertices <- (1:length(vV))[vV == 1]
             }
-
+            else {
+                VariableNames <- VariableDescription$names
+                model <- returnModel(model = object, split.generators = TRUE)
+                vV <- unique(unlist(model))
+                visibleVertices <- match(vV, VariableNames)
+            }
+            args <- list(...)
+            doAdd <- FALSE
+            if (any(names(args) == "dynamicGraph")) {
+                doAdd <- TRUE
+                linkDynamicGraph <- args$dynamicGraph
+            }
             if (doAdd) {
                 if (is.null(list(...)$UserMenus)) 
-                  addGraph(linkDynamicGraph, 
-                           from = Edges[, 1], to = Edges[, 2],  
-                           Object = object, UserMenus = CoCoMenu, 
-                           ...)
-                else addGraph(linkDynamicGraph, 
-                              from = Edges[, 1], to = Edges[, 2],  
-                              Object = object, ...)
-            } else {
-                VariableDescription <- returnVariableDescription(object = object, 
-                    levels = FALSE)
-                types <- validVertexClasses()[, 1][3 - 2 * VariableDescription$types]
-                if (isClass("NodeProto")) {
-                    if (is.null(list(...)$UserMenus)) 
-                      DynamicGraph(names = VariableDescription$names, 
-                        types = types, from = Edges[, 1], to = Edges[, 
-                          2], object = object, UserMenus = CoCoMenu, 
-                        ...)
-                    else DynamicGraph(names = VariableDescription$names, 
-                      types = types, from = Edges[, 1], to = Edges[, 
-                        2], object = object, ...)
+                  UM <- CoCoMenu
+                else UM <- list(...)$UserMenus
+                DynamicGraph(addModel = TRUE, frameModels = linkDynamicGraph, 
+                  visibleVertices = visibleVertices, from = Edges[, 
+                    1], to = Edges[, 2], object = object, UserMenus = UM, 
+                  ...)
+            }
+            else {
+                ii <- VariableDescription$types
+                types <- validVertexClasses()[, 1][ifelse(ii == 
+                  0, 3, ii)]
+                if (isClass("dg.Node")) {
+                  if (is.null(list(...)$UserMenus)) 
+                    DynamicGraph(names = VariableDescription$names, 
+                      visibleVertices = visibleVertices, types = types, 
+                      from = Edges[, 1], to = Edges[, 2], object = object, 
+                      UserMenus = CoCoMenu, ...)
+                  else DynamicGraph(names = VariableDescription$names, 
+                    visibleVertices = visibleVertices, types = types, 
+                    from = Edges[, 1], to = Edges[, 2], object = object, 
+                    ...)
                 }
                 else {
-                    warning("Remove objects of class 'GraphLatticeProto' and restart R.")
+                  warning("Remove objects of class 'DynamicGraph' and restart R.")
                 }
             }
         })
@@ -242,6 +373,8 @@ function (lib, pkg)
     }
     setMethod("testEdge", signature(object = "CoCoModelClass"), 
         function(object, action, name.1, name.2, ...) {
+            args <- list(...)
+            Args <- args$Arguments
             from.type <- args$from.type
             to.type <- args$to.type
             f <- function(type) if (is.null(type)) 
@@ -303,9 +436,10 @@ function (lib, pkg)
     setMethod("modifyModel", signature(object = "CoCoModelClass"), 
         function(object, action, name, name.1, name.2, ...) {
             args <- list(...)
-            FactorVertices <- NULL
-            FactorEdges <- NULL
-            if (!is.null(args$Arguments$ArgBlocks)) 
+            Arguments <- args$Arguments
+            FactorVertices <- .emptyDgList("dg.FactorVertexList")
+            FactorEdges <- .emptyDgList("dg.FactorEdgeList")
+            if (!is.null(Arguments$ArgBlocks)) 
                 warning("Interface for Block-recursive models not implemented!!!")
             f <- function(type) if (is.null(type)) 
                 ""
@@ -321,16 +455,15 @@ function (lib, pkg)
                   ...)
             }
             else if (action == "dropVertex") {
-                if (!is.null(args$Arguments) && (args$index > 
-                  0) && !is.null(args$Arguments$ArgFactorVertices) && 
-                  !is.null(args$Arguments$ArgVertices)) {
-                  x <- (args$Arguments$ArgFactorVertices)
+                if (!is.null(Arguments) && (args$index > 0) && 
+                  !is.null(Arguments$ArgFactorVertices) && !is.null(Arguments$ArgVertices)) {
+                  x <- (Arguments$ArgFactorVertices)
                   factors <- lapply(x, function(i) i@vertex.indices)
                   types <- lapply(x, function(i) class(i))
                   factors <- lapply(factors, function(x) x[x != 
                     args$index])
                   if (!(is.null(factors))) {
-                    result <- returnFactorVerticesAndEdges(args$Arguments$ArgVertices, 
+                    result <- returnFactorVerticesAndEdges(Arguments$ArgVertices, 
                       factors, types)
                     FactorVertices <- result$FactorVertices
                     FactorEdges <- result$FactorEdges
@@ -343,29 +476,40 @@ function (lib, pkg)
                 new.object <- subModifyModel(object, action = "add.interactions", 
                   modification = name, ...)
             }
+            if ((Arguments$viewType == "Factor") && .IsEmpty(FactorVertices)) {
+                graphComponents <- graphComponents(new.object, 
+                  viewType = Arguments$viewType, Arguments = Arguments)
+                FactorVertices <- graphComponents$factorVertices
+                FactorEdges <- graphComponents$factorEdges
+            }
             result <- list(object = new.object, FactorVertices = FactorVertices, 
                 FactorEdges = FactorEdges)
             return(result)
         })
 }
+".IsEmpty" <-
+function (x) 
+{
+    if (is.null(x) || (length(x) == 0) || (length(x) == 1) && 
+        is.null(x[[1]])) 
+        return(TRUE)
+    else return(FALSE)
+}
 ".onAttach" <-
 function (lib, pkg) 
 {
-    if (!any(search() == "package:CoCoCg"))
-      require(CoCo)
-    # require(CoCoObjects)
-    # require(tcltk)
+    if (!any(search() == "package:CoCoCg")) 
+        require(CoCo)
     require(dynamicGraph)
 }
 ".onLoad" <-
 function (lib, pkg) 
 {
-    if (!any(search() == "package:CoCoCg"))
-      require(CoCo)
-    # require(CoCoObjects)
+    if (!any(search() == "package:CoCoCg")) 
+        require(CoCo)
     require(tcltk)
     require(dynamicGraph)
     .First.lib.CoCoDynamicGraph(lib, pkg)
 }
-# ".packageName" <-
-# "CoCoGraph"
+".packageName" <-
+"CoCoGraph"

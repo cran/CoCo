@@ -29,6 +29,14 @@
 \alias{subModifyModel} % CoCoModelClass-method
 \alias{testEdge} % CoCoModelClass-method
 
+\alias{vertexEdges,CoCoModelClass-method}
+\alias{graphComponents,CoCoModelClass-method}
+\alias{setGraphComponents,CoCoModelClass-method}
+
+\alias{vertexEdges} % {CoCoModelClass}
+\alias{graphComponents} % {CoCoModelClass}
+\alias{setGraphComponents} % {CoCoModelClass}
+
 \description{Internal CoCoGraph objects.}
 \details{These are not to be called by the user.}
 \keyword{internal}

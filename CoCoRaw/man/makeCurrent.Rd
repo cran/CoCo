@@ -132,7 +132,8 @@ showModel("all", object = CoCoObject);
 
 # Generate some more models, here by "editModel":
 	
-enterModel("ADEF,ABDG.;", object = CoCoObject);
+# enterModel("ADEF,ABDG.;", object = CoCoObject);
+enterModel("ACDE,ABCF.;", object = CoCoObject);
 makeBase(object = CoCoObject);
 
 editModel(action = "drop.interactions", modification = "ABDG.;",
@@ -145,7 +146,8 @@ editModel(action = "drop.edges", modification = "AD,BG.;",
 makeCurrent("last", object = CoCoObject);
 showTest(object = CoCoObject);
 
-enterModel("ADF,AEF,BD,G.;", object = CoCoObject);
+# enterModel("ADF,AEF,BD,G.;", object = CoCoObject);
+enterModel("ACE,ADE,BC,F.;", object = CoCoObject);
 makeCurrent("last", object = CoCoObject);
 showTest(object = CoCoObject);
 

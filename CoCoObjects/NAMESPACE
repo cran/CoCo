@@ -2,7 +2,7 @@ export(# CoCoObjects:
        ".First.lib.CoCoObjects",
        "currentCoCo",  "makeCurrentCoCo", 
            ".new.coco", ".new.coco.model", ".SetSlotValue", 
-           ".set.coco.value", ".clear.coco.objects",
+           ".set.coco.value", ".clear.coco.objects", "clearCoCoObjects",
            ".object.of.thing",  ".object.of.model", 
            ".recover", ".recover.model", ".recover.reference",
            ".return.reference",  ".return.type",

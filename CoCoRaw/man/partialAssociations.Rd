@@ -110,7 +110,7 @@ partialAssociations("AB", object = CoCoObject);
 # Get Fisher's EXACT test when the total count of the sub table
 # is less than 1000:
 
-partialAssociations("A", "B", "G", object = CoCoObject);
+partialAssociations("A", "B", "F", object = CoCoObject);
 
 endCoCo(object = CoCoObject);
 

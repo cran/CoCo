@@ -71,10 +71,12 @@ showModel("last", object = CoCoObject);
 enterModel("*", object = CoCoObject);
 showModel("last", object = CoCoObject);
 
-enterModel("[[BD][BF][G][AD][AEF]]", object = CoCoObject);
+#enterModel("[[BD][BF][G][AD][AEF]]", object = CoCoObject);
+ enterModel("[[BC][CE][F][AC][ADE]]", object = CoCoObject);
 showModel("last", object = CoCoObject);
 
-enterModel("BD,BF,G,AD,AEF.;", object = CoCoObject);
+#enterModel("BD,BF,G,AD,AEF.;", object = CoCoObject);
+ enterModel("BC,CE,F,AC,ADE.;", object = CoCoObject);
 showModel("last", object = CoCoObject);
 
 endCoCo(object = CoCoObject);

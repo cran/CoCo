@@ -5,6 +5,7 @@ function (code, string, long, double, sub.code = FALSE, object = .current.coco)
         sub.code = FALSE, object = .current.coco) {
         if (is.vector(string)) 
             string <- string[1]
+        if (is.na(string)) string <- ""
         if ((sub.code && (string != "what"))) {
             result <- call.coco(code, sub.code, arg.char = string, 
                 arg.long = long, arg.double = double, object = object)

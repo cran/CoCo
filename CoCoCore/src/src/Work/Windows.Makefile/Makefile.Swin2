@@ -1,0 +1,31 @@
+###############################################################################
+
+
+## SCFLAGS1 = -O2 ${SCFLAGS1}
+
+## Splus
+
+SCFLAGS1 = -DDCOCO -DCoCo_Cygwin -DS_APIX -I${S_ROOT}/include/
+SCFLAGS = ${SCFLAGS1} -I/usr/include/mingw/ 
+
+wScoco.o: ./lib/coco/wScoco.o
+./lib/coco/wScoco.o: ../src/coco_d_.c ../src/assign.c ../src/apix.c ../src/apix-S.h
+	date
+	if [ -f ../src/coco_d_.c ]; then \
+	  ${CC} ${CFLAGS} ${SCFLAGS} -pedantic \
+	    -c -o ./lib/coco/wScoco.o ../src/apix.c ${LIBS} ; \
+	fi
+	date
+
+SDLLEXTRALIBS = ${S_ROOT}/cmd/sqpe.dll
+SDLLFLAGS = --mno-cygwin --export-all-symbols --output-def dllwrap.def
+
+wScoco.dll: ./lib/coco/wScoco.dll
+./lib/coco/wScoco.dll: ./lib/coco/wScoco.o
+	if [ -f ../src/coco_d_.c ]; then \
+	  dllwrap ${SDLLFLAGS} --def libcoco.def \
+	    -o ./lib/coco/wScoco.dll ./lib/coco/wScoco.o ${SDLLEXTRALIBS} ; \
+	fi
+	date
+
+#### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ####

@@ -1,0 +1,54 @@
+
+source("run.R")
+
+g <- function(data) {
+  if (is.data.frame(data)) {
+    x <- rep(FALSE, ncol(data))
+    for (i in 1:ncol(data)) 
+      x[i] <- is.factor(data[,i])
+    return(x)
+  } else
+    return(FALSE)
+}
+
+h <- function(data) {
+  x <- g(data)
+  return(c(length(x[x]), length(x[!x])))
+}
+
+f <- function(name, lib, x, ...) { 
+  if (is.array(x) && !is.matrix(x)) {
+    S <- sum(x)
+    if (is.na(S)) {
+      dims <- c(rep(length(dim(x)), 2), 0, -1) 
+      dims <- dims[c(1, 3, 2, 4)]
+    } else {
+      dims <- c(rep(length(dim(x)), 2), 0, S) 
+      if ( ((abs(S - round(S)) / S) > 0.001) )
+        dims <- dims[c(1, 3, 2, 4)]
+    }
+  }
+  else if (is.data.frame(x)) {
+    dims <- c(dim(x)[2], h(x), dim(x)[1]) 
+    used.time <- system.time(runCg.forward(x, name, ...))
+    print(paste(paste(name, used.time, collapse = " ")))
+  } else {
+    dims <- c(0, 0, 1, length(x))
+  }
+  print(paste(paste(dims, collapse = " "), name))
+}
+
+source("base.R")
+source("boot.R")
+source("cluster.R")
+source("CoCoCg.R")
+source("CoCo.R")
+source("lattice.R")
+source("MASS.R")
+source("nlme.R")
+source("rpart.R")
+source("stats.R")
+source("survival.R")
+
+q()
+

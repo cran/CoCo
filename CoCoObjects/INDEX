@@ -1,3 +1,4 @@
+clearCoCoObjects        Clear CoCo object
 CoCoClass-class         Class "CoCoClass"
 CoCoIdClass-class       Class "CoCoIdClass"
 CoCoModelClass-class    Class "CoCoModelClass"

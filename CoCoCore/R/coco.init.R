@@ -42,6 +42,7 @@ function (n = 131072, p = 65536, q = 1024, r = 65536, s = 65536,
             t), arg.double = c(my.not.a.number()), type = type, 
         object = 0)
     cat("\n")
+    # my.assign(".char.ok", TRUE, frame = 0)
     my.assign(".current.coco", c(resultat$id, type), frame = 0)
     my.assign(".coco.identifications", rbind(.coco.identifications, 
         .current.coco), frame = 0)

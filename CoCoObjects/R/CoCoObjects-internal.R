@@ -1,39 +1,12 @@
 ".clear.coco.objects" <-
 function (coco.object = NULL, silent = FALSE, pos = .GlobalEnv) 
 {
-    result <- NULL
-    graphLattice <- NULL
-    if (!is.null(coco.object)) 
-        key <- .return.key(coco.object)
-    ok <- TRUE
-    Objects <- ls(all.names = TRUE, pos = pos)
-    if (length(Objects) > 0) 
-        for (i in 1:length(Objects)) {
-            .object <- get(Objects[i], pos = pos)
-            if ((class(.object) == "GraphLatticeProto")) {
-                graphLattice <- c(graphLattice, Objects[i])
-            }
-            if ((class(.object) == "CoCoModelClass") || (class(.object) == 
-                "CoCoClass")) {
-                if (!is.null(coco.object)) 
-                  ok <- ifelse(.return.key(.object) == key, TRUE, 
-                    FALSE)
-                if (ok) {
-                  result <- c(result, Objects[i])
-                  assign(Objects[i], .SetSlotValue(.object, ".reference", 
-                    .ended.coco), pos = pos)
-                }
-            }
-        }
-    if ((length(result) > 0) && !silent)
-        cat("Warning, ended CoCo-objects:", result, "\n")
-    if ((length(graphLattice) > 0) && (as.numeric(version$minor) < 
-        9)) {
-        cat("Warning, ended GraphLattice-objects:", graphLattice, 
-            "\n")
-        cat("Please remove GraphLattice-objects, quit R by save, and restart R.\n")
-        cat("If you do not do so dynmaicGraph is not loaded appropiate with 'NodeProto'.\n")
-    }
+  clearCoCoObjects(coco.object = coco.object, silent = silent, pos = pos,
+                   printWarnings = TRUE)
+  if (is.null(coco.object) && !silent) {
+    cat("Please call 'clearCoCoObjects' to make CoCo able \n")
+    cat("to restore the CoCo objects of the workspace. \n")
+  }
 }
 ".end.temporary.object" <-
 function (model, data = NULL, object = .current.coco, names = NULL, 
@@ -41,7 +14,7 @@ function (model, data = NULL, object = .current.coco, names = NULL,
 {
     if (is.character(data) || !is.null(names) || !is.null(discrete) || 
         !is.null(continuous)) {
-        if (!is.character(data) || (data != "Do.not.end"))
+        if (!is.character(data) || (data != "Do.not.end")) 
             endCoCo(object, silent = TRUE)
     }
 }
@@ -49,6 +22,16 @@ function (model, data = NULL, object = .current.coco, names = NULL,
 function (lib, pkg) 
 {
     .First.lib.CoCoObjects(lib, pkg)
+}
+".Last.lib" <-
+function (lib, pkg) 
+{
+    .clear.coco.objects(silent = TRUE, pos = .GlobalEnv)
+}
+".onUnload" <-
+function (lib, pkg) 
+{
+    .clear.coco.objects(silent = TRUE, pos = .GlobalEnv)
 }
 ".First.lib.CoCoObjects" <-
 function (lib, pkg) 
@@ -121,8 +104,8 @@ function (model, data = NULL, object = .current.coco, names = NULL,
                 levels[continuous] <- 0
             else if (is.character(continuous)) {
                 if (length(continuous) == 1) {
-                    if (all(is.na(match(continuous, names))))
-                        continuous <- .split.name.set(continuous)
+                  if (all(is.na(match(continuous, names)))) 
+                    continuous <- .split.name.set(continuous)
                 }
                 levels[match(continuous, names)] <- 0
             }
@@ -180,7 +163,8 @@ function (data = NULL, object = .current.coco, to.factor = NULL)
         enterTable(data, object = result)
         enterModel("*")
     }
-    else if ((class(data) == "data.frame") || (class(data) == "matrix")) {
+    else if ((class(data) == "data.frame") || (class(data) == 
+        "matrix")) {
         result <- make.cococg()
         enterDataFrame(data, to.factor = to.factor, object = result)
         enterModel("*")

@@ -1,0 +1,6 @@
+
+ 2004-10-25: CoCoGraph: cmdPositions: "<<-" removed
+ 2004-10-25: CoCoGraph: Ordinal variables (index 0 should be 2)
+ 2004-10-25: CoCoCore: is.na(tst) in call.coco.longs, etc.
+ 2004-10-25: CoCo - Reinis: NAMES changed (back) to A, B, ..., F
+ 2004-10-25: CoCo & CoCoCg: (abs(s) > 0) to (s > 0) in sub_select_p_value

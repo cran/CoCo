@@ -16,6 +16,7 @@ function (..., object = .current.coco)
     }
     my.assign("coco.started", FALSE, frame = 0)
     my.assign(".coco.loaded", FALSE, frame = 0)
+    .clear.coco.objects(silent = TRUE, pos = .GlobalEnv)
     invisible()
     q(...)
 }

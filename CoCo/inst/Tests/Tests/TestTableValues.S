@@ -48,13 +48,13 @@ optionsCoCo(digits.table = 10, decimals.table.probabilities = 6,
 optionsCoCo(digits.table = 6, decimals.table.probabilities = 2, 
             decimals.table.expected = 1, decimals.table.residual = 1)
 
-showTable(0, "ABCD", random = F, log.transformed = F, complete = F, permuted = T)
-showTable(0, "ABCD", random = F, log.transformed = F, complete = T, permuted = T)
-showTable(0, "ABCD", random = F, log.transformed = F, complete = F, permuted = T)
-showTable(0, "DCBA", random = F, log.transformed = F, complete = F, permuted = F)
-showTable(1, "BCDE", random = F, log.transformed = F, complete = F, permuted = T)
-showTable(1, "CDEF", random = F, log.transformed = T, complete = F, permuted = T)
-showTable(0, "*",    random = T, log.transformed = F, complete = F, permuted = T)
+showTable(0, "ABCD", random = F, log.transformed = F, complete = F, discrete.ordered = T)
+showTable(0, "ABCD", random = F, log.transformed = F, complete = T, discrete.ordered = T)
+showTable(0, "ABCD", random = F, log.transformed = F, complete = F, discrete.ordered = T)
+showTable(0, "DCBA", random = F, log.transformed = F, complete = F, discrete.ordered = F)
+showTable(1, "BCDE", random = F, log.transformed = F, complete = F, discrete.ordered = T)
+showTable(1, "CDEF", random = F, log.transformed = T, complete = F, discrete.ordered = T)
+showTable(0, "*",    random = T, log.transformed = F, complete = F, discrete.ordered = T)
 
 models <- list("base"   , "current", "last"   , 4        , "previous" , 5        , "next"     ) ;
 for (i in models) {

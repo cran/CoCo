@@ -4,4 +4,5 @@ export(       "newCoCoTestObject",
               "testEdge", "subModifyModel", "modifyModel", "dynamic.Graph")
 exportClasses("CoCoTestClass")
 exportMethods("label", "width",
-              "testEdge", "subModifyModel", "modifyModel", "dynamic.Graph")
+              "testEdge", "subModifyModel", "modifyModel", "dynamic.Graph",
+              "setGraphComponents", "graphComponents", "vertexEdges")
