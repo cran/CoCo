@@ -68,5 +68,11 @@
 \alias{quitCoCo} % From CoCoRaw
 
 \description{Internal CoCoOldData and imported objects.}
-\details{These are not to be called by the user.}
+
+\details{These are not to be called by the user.
+
+         Please use the functions of the package "CoCoRaw" 
+	 (and "CoCoObjects" and "CoCoGraph"). 
+         Datasets are found in the package "CoCo" and "CoCoCg".}
+
 \keyword{internal}

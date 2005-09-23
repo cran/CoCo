@@ -4,7 +4,8 @@
 
 \title{ Make CoCo object to default CoCo object }
 
-\description{ Shift between CoCo objects for default CoCo object. }
+\description{ Mark a CoCo object as \code{.current.coco},
+	      default CoCo object for the CoCo functions. }
 
 \usage{
 currentCoCo(object = .current.coco)

@@ -179,7 +179,7 @@ function (type = "observed", set = "*", model = FALSE, random = FALSE,
     }
     if (set == "") set <- ";"
     if (set == "*") {
-      variableDescription <- returnVariableDescription();
+      variableDescription <- returnVariableDescription(object = object);
       set <- paste(variableDescription$names, collapse = "")
     }
     if (type == "sparse.table") {

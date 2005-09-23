@@ -48,7 +48,7 @@ export(
        ".plotCoCo", ".set.datastructure", ".set.ic", ".set.switch", 
        ".show.log.lik", "backward", "cleanData", "disposeOfEh", 
        "disposeOfModel", "disposeOfQtable", "editModel", "eh", 
-       "endCoCo", "quitCoCo", 
+       "endCoCo", "quitCoCo", ".returnStepwise", ".visitEdges",
        "ehExtract", "ehFindDual", "ehFit", "ehForceAccept", 
        "ehForceAddDualToClass", "ehForceFix", "ehForceReject", 
        "ehSetBase", "ehSetMainEffects", "emOn", "enterDataFrame", 

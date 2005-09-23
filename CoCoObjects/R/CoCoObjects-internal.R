@@ -1,12 +1,50 @@
+".but.last" <-
+function (x, n = nchar(x), sep = ".") 
+{
+    p <- (1:n)[substring(x, 1:n, 1:n) == sep]
+    b <- p[length(p)] - 1
+    return(paste(substring(x, 1:b, 1:b), collapse = ""))
+}
 ".clear.coco.objects" <-
 function (coco.object = NULL, silent = FALSE, pos = .GlobalEnv) 
 {
-  clearCoCoObjects(coco.object = coco.object, silent = silent, pos = pos,
-                   printWarnings = TRUE)
-  if (is.null(coco.object) && !silent) {
-    cat("Please call 'clearCoCoObjects' to make CoCo able \n")
-    cat("to restore the CoCo objects of the workspace. \n")
-  }
+    clearCoCoObjects(coco.object = coco.object, silent = silent, 
+        pos = pos, printWarnings = TRUE)
+}
+".CoCo.newenv" <-
+function (ID) 
+{
+    Xlist <- list(ID = ID, env = evalq(new.env(), .GlobalEnv))
+    evalq(num.subenv <- 0, Xlist$env)
+    class(Xlist) <- "CoCo.env"
+    Xlist
+}
+
+# ".CoCo.Root" <-
+#     structure(list(ID = "", env = <environment>), 
+#               .Names = c("ID", "env"), class = "CoCo.env")
+
+.CoCo.Root <- .CoCo.newenv("")
+
+".CoCo.toplevel" <-
+function (parent = .CoCo.Root, key = "", reference = 0, number = 0, 
+    ...) 
+{
+    ".CoCo.subenv" <- function(parent) {
+        ID <- paste(parent$ID, evalq(num.subenv <- num.subenv + 
+            1, parent$env), sep = ".")
+        Xlist <- .CoCo.newenv(ID)
+        assign(ID, Xlist, envir = parent$env)
+        assign("parent", parent, envir = Xlist$env)
+        assign("key", key, envir = Xlist$env)
+        assign("reference", reference, envir = Xlist$env)
+        assign("number", number, envir = Xlist$env)
+        Xlist
+    }
+    .CoCo.ID <- function(Xlist) Xlist$ID
+    w <- .CoCo.subenv(parent)
+    ID <- .CoCo.ID(w)
+    w
 }
 ".end.temporary.object" <-
 function (model, data = NULL, object = .current.coco, names = NULL, 
@@ -18,36 +56,108 @@ function (model, data = NULL, object = .current.coco, names = NULL,
             endCoCo(object, silent = TRUE)
     }
 }
+".find.env" <-
+function (key, number = NULL, X = ls(.CoCo.Root$env, all.names = all.names), 
+    all.names = TRUE) 
+{
+    result <- NULL
+    for (x in X[X != "num.subenv"]) {
+        env.x <- get(x, .CoCo.Root$env)
+        if (class(env.x) == "CoCo.env") {
+            Y <- ls(env.x$env, all.names = all.names)
+            if (is.null(number)) {
+                if (key == get("key", env.x$env)) 
+                  result <- x
+            }
+            else for (y in Y[(Y != "num.subenv") & (Y != "parent")]) {
+                env.y <- get(y, env.x$env)
+                if (class(env.y) == "CoCo.env") {
+                  Z <- ls(env.y$env, all.names = all.names)
+                  if ((key == get("key", env.x$env)) && (number == 
+                    get("number", env.y$env))) 
+                    result <- y
+                }
+            }
+        }
+    }
+    return(result)
+}
 ".First.lib" <-
 function (lib, pkg) 
 {
-    .First.lib.CoCoObjects(lib, pkg)
-}
-".Last.lib" <-
-function (lib, pkg) 
-{
-    .clear.coco.objects(silent = TRUE, pos = .GlobalEnv)
-}
-".onUnload" <-
-function (lib, pkg) 
-{
-    .clear.coco.objects(silent = TRUE, pos = .GlobalEnv)
 }
 ".First.lib.CoCoObjects" <-
 function (lib, pkg) 
 {
-    require(methods)
-    setClass("CoCoIdClass", representation(.reference = "numeric", 
-        .key = "character", .type = "numeric", .title = "character"))
-    setClass("CoCoClass", representation("CoCoIdClass", .parameters = "list", 
-        .invalid = "list", .specification = "list", .medio = "list", 
-        .observations = "list", .structure = "list"))
-    setClass("CoCoModelClass", representation("CoCoIdClass", 
-        .model = "character", .model.number = "numeric"))
+    # require(methods)
+}
+".get.env.CoCoModelOBJECT" <-
+function (id = CoCoModelOBJECT@.id.env, CoCoModelOBJECT = NULL, 
+    env = .get.env.CoCoOBJECT(id = id.fm, env = .CoCo.Root$env)$env, 
+    id.fm = if (is.null(CoCoOBJECT)) .but.last(id) else CoCoOBJECT@.id.env, 
+    CoCoOBJECT = NULL, message = FALSE) 
+{
+    if (is.null(env)) {
+        message("Not found CoCoModelOBJECT")
+        NULL
+    }
+    else if (is.element(id, ls(env, all.names = TRUE))) {
+        get(id, env)
+    }
+    else {
+        message("Invalid CoCoModelOBJECT")
+        NULL
+    }
+}
+".get.env.CoCoOBJECT" <-
+function (id = CoCoOBJECT@.id.env, CoCoOBJECT = NULL, env = .CoCo.Root$env, 
+    message = FALSE) 
+{
+    if (is.null(env)) {
+        if (message) 
+            message("Not found CoCoOBJECT")
+        NULL
+    }
+    else if (is.element(id, ls(env, all.names = TRUE))) {
+        get(id, env)
+    }
+    else {
+        if (message) 
+            message("Invalid CoCoOBJECT")
+        NULL
+    }
+}
+".get.env.CoCoVIEWS" <-
+function (id = CoCoVIEWS@.id.env, CoCoVIEWS = NULL, env = .get.env.CoCoModelOBJECT(id = id.fv, 
+    env = env.fm)$env, id.fv = if (is.null(CoCoModelOBJECT)) .but.last(id) else CoCoModelOBJECT@.id.env, 
+    CoCoModelOBJECT = NULL, env.fm = .get.env.CoCoOBJECT(id = id.fm, 
+        env = .CoCo.Root$env)$env, id.fm = if (is.null(CoCoOBJECT)) .but.last(.but.last(id)) else CoCoOBJECT@.id.env, 
+    CoCoOBJECT = NULL) 
+{
+    if (is.null(env)) {
+        if (message) 
+            message("Not found CoCoVIEWS")
+        NULL
+    }
+    else if (is.element(id, ls(env, all.names = TRUE))) {
+        get(id, env)
+    }
+    else {
+        if (message) 
+            message("Invalid CoCoVIEWS")
+        NULL
+    }
+}
+".is.CoCo.env" <-
+function (x) 
+inherits(x, "CoCo.env")
+".Last.lib" <-
+function (lib, pkg) 
+{
 }
 ".new.coco" <-
 function (object = .current.coco, type = 1, uniq.title = FALSE, 
-    title = "A CoCo object") 
+    title = "A CoCo object", parent = .CoCo.Root, env = .CoCo.toplevel(parent)) 
 {
     result <- object
     if (.is.nil.model(title)) 
@@ -56,21 +166,28 @@ function (object = .current.coco, type = 1, uniq.title = FALSE,
     if (uniq.title) 
         key <- paste(title, " / ", date())
     else key <- paste(date(), identification + runif(1))
-    result <- new("CoCoClass", .reference = identification, .key = key, 
-        .type = type, .parameters = list(type = NULL), .invalid = list(type = NULL), 
-        .specification = list(type = NULL), .medio = list(type = NULL), 
-        .observations = list(type = NULL), .structure = list(type = NULL), 
-        .title = title)
+    assign("key", key, envir = env$env)
+    assign("reference", identification, envir = env$env)
+    result <- new("CoCoClass", .reference = identification, .id.env = env$ID, 
+        .key = key, .type = type, .parameters = list(type = NULL), 
+        .invalid = list(type = NULL), .specification = list(type = NULL), 
+        .medio = list(type = NULL), .observations = list(type = NULL), 
+        .structure = list(type = NULL), .title = title)
     my.assign(".instances.coco", c(.instances.coco, result@.reference), 
         frame = 0)
     return(result)
 }
 ".new.coco.model" <-
-function (number, model, object = .current.coco, title = "") 
+function (number, model, object = .current.coco, title = "", 
+    key = .return.key(object = object), identification = .return.reference(object = object), 
+    id.env = .return.id.env(object), parent.id.env = if (class(object) == 
+        "CoCoModelClass") .but.last(id.env) else id.env, parent = .get.env.CoCoOBJECT(id = parent.id.env), 
+    env = .CoCo.toplevel(parent, key = key, reference = identification, 
+        number = number)) 
 {
     result <- number
     result <- new("CoCoModelClass", .reference = .return.reference(object = object), 
-        .key = .return.key(object = object), .type = .return.type(object = object), 
+        .id.env = env$ID, .key = key, .type = .return.type(object = object), 
         .title = title, .model = model, .model.number = number)
     if (ifelse(is.character(title), title != "", title)) 
         result@.title <- title
@@ -131,7 +248,7 @@ function (model, data = NULL, object = .current.coco, names = NULL,
     }
     else result <- .object.of.thing(data = data, to.factor = to.factor, 
         object = object)
-    .my.trace(".object.of.model,        stop:", level = 20000, 
+    .my.trace(".object.of.model,         stop:", level = 20000, 
         name = "OOO", key = -1, id = .return.reference(result), 
         number = .return.model.number(result), object = result)
     return(result)
@@ -169,9 +286,7 @@ function (data = NULL, object = .current.coco, to.factor = NULL)
         enterDataFrame(data, to.factor = to.factor, object = result)
         enterModel("*")
     }
-    else if (is.character()) {
-    }
-    .my.trace(".object.of.thing,        stop:", level = 20000, 
+    .my.trace(".object.of.thing,         stop:", level = 20000, 
         name = "OOO", key = -1, id = .return.reference(result), 
         number = .return.model.number(result), object = result)
     return(result)
@@ -183,24 +298,36 @@ function (lib, pkg)
 ".onLoad" <-
 function (lib, pkg) 
 {
-    .First.lib.CoCoObjects(lib, pkg)
+}
+".onUnload" <-
+function (lib, pkg) 
+{
 }
 ".packageName" <-
 "CoCoObjects"
 ".recover" <-
 function (object = .current.coco, recover = FALSE) 
 {
-    id <- .return.reference(object = object)
-    if ((!is.numeric(id)) & (id == FALSE)) 
+    key <- .return.key(object = object)
+    if ((class(key) == "logical") && (!key)) 
+        message("Ended CoCo object in .recover")
+    identification <- .return.reference(object = object, test.environment = TRUE, 
+        key = key)
+    if ((!is.numeric(identification)) && (identification == FALSE)) 
         stop("Invalid memory reference (identification) of CoCo object")
-    if ((id == .ended.coco) && recover) {
+    if ((identification == .ended.coco) && recover) {
         result <- .recover.coco(object = object)
-        id <- .return.reference(result)
+        if (is.null(result)) 
+            message("NULL object in .recover")
+        identification <- .return.reference(result)
     }
-    else result <- object
-    if (id == .ended.coco) 
-        stop("Ended CoCo object")
-    if (id == 0 || any(.coco.identifications[, 1] == id)) 
+    else {
+        result <- object
+    }
+    if (is.null(result) || (identification == .ended.coco)) 
+        stop("Recovering ended CoCo object!!!")
+    if (identification == 0 || any(.coco.identifications[, 1] == 
+        identification)) 
         return(result)
     else stop("Not a valid CoCoObject")
 }
@@ -209,8 +336,10 @@ function (object, key = .return.key(object), level = 10000, pos = .GlobalEnv)
 {
     .my.trace(".recover.coco,           start:", level = level, 
         name = "aaa", key = key, id = .return.reference(object))
-    new.object <- .recover.search(object, key = key, level = level, 
+    new.object <- recover.coco.object(object, key = key, level = level, 
         pos = pos)
+    if (is.null(new.object)) 
+        message("NULL object in .recover.coco")
     if (class(object) == "CoCoModelClass") 
         if (.return.reference(object) == .ended.coco) 
             new.object <- recover.coco.model(object, level = level + 
@@ -242,34 +371,21 @@ function (coco.object)
     id <- .return.reference(coco.object)
     if ((id == .ended.coco)) {
         result <- .recover.coco(coco.object)
+        if (is.null(result)) 
+            message("NULL object in .recover.reference")
         id <- .return.reference(result)
     }
     return(id)
 }
-".recover.search" <-
-function (coco.object, key = .return.key(coco.object), level = 10000, 
-    pos = .GlobalEnv) 
+".return.id.env" <-
+function (object = .current.coco) 
 {
-    .my.trace(".recover.search,         start:", level = level, 
-        name = "bbb", key = key, id = .return.reference(coco.object))
-    Objects <- ls(all.names = TRUE, pos = pos)
-    for (i in 1:length(Objects)) {
-        .object <- get(Objects[i], pos = pos)
-        if ((class(.object) == "CoCoClass")) 
-            if ((.return.key(.object) == key)) {
-                if (.return.reference(.object) == .ended.coco) {
-                  cat("Recovering CoCo-object: '", Objects[i], 
-                    "'.\n")
-                  assign(Objects[i], .sub.recover.coco(object = .object, 
-                    name = Objects[i], level = level + 1), pos = pos)
-                }
-                result <- get(Objects[i], pos = pos)
-            }
-    }
-    .my.trace(".recover.search,          stop:", level = level, 
-        name = "BBB", key = key, id = .return.reference(result), 
-        number = .return.model.number(result), result)
-    return(result)
+    if (class(object) == "CoCoClass" || class(object) == "CoCoModelClass") 
+        is.object <- any(slotNames(object) == ".id.env")
+    else is.object <- FALSE
+    if (is.object) 
+        return(object@.id.env)
+    else return(FALSE)
 }
 ".return.key" <-
 function (object = .current.coco) 
@@ -328,22 +444,37 @@ function (number, recover = TRUE, object = .current.coco)
     }
     else if (is(object, "CoCoModelClass") & (.is.nil.model(number))) {
         if (recover) 
-            object <- .recover.model(object = object)
+            object <- .recover.model(object)
         return(object@.model.number)
     }
     else return(FALSE)
 }
 ".return.reference" <-
-function (object = .current.coco) 
+function (object = .current.coco, test.environment = FALSE, key = .return.key(object = object)) 
 {
-    if (class(object) == "CoCoClass" || class(object) == "CoCoModelClass") 
-        is.object <- any(slotNames(object) == ".reference")
-    else is.object <- FALSE
-    if (is.object) 
-        return(object@.reference)
-    else if (all(is.number(object))) 
-        return(object[1])
-    else return(FALSE)
+    identification <- .sub.return.reference(object = object)
+    if ((class(object) == "numeric") && (object[1] == .ended.coco)) { 
+        message("Ended CoCo object in .return.reference")
+        message("Problem: missing argument 'object = ...' in calling function!")
+     }
+    if (!is.numeric(object) && !(identification == .ended.coco) && 
+        test.environment) {
+        id.env <- .return.id.env(object = object)
+        # message(paste(".return.reference: Identification = ", 
+        #     identification, "Environment = ", id.env))
+        env <- NULL
+        if ((class(id.env) == "logical") && !id.env) 
+            message("Old CoCo object")
+        else if (class(object) == "CoCoModelClass") 
+            env <- .get.env.CoCoModelOBJECT(id = id.env)
+        else env <- .get.env.CoCoOBJECT(id = id.env)
+        # message(paste("Number:", env$env$number, "Key:", env$env$key))
+        if (is.null(env) || !(key == env$env$key)) {
+            message("Hmmm ... seems the object has to be 'recovered' ... ")
+            identification <- .ended.coco
+        }
+    }
+    return(identification)
 }
 ".return.type" <-
 function (object = .current.coco) 
@@ -385,120 +516,55 @@ function (object, slotid, value)
     slot(object, slotid) <- value
     return(object)
 }
-".sub.recover.coco" <-
-function (object, name = "", level = 1, n = 65536, p = 65536, 
-    q = 1024, r = 65536, s = 65536, ss = 65536, t = 65536, location = c(700, 
-        550), manager = TRUE, silent = FALSE, sh.lib.name = NULL) 
+".sub.return.reference" <-
+function (object = .current.coco) 
 {
-    .my.trace(".sub.recover.coco,       start:", level = level, 
-        name = name, key = -1, id = .return.reference(object))
-    P <- object@.parameters
-    coco.init(P$size["n"], P$size["p"], P$size["q"], P$size["r"], 
-        P$size["s"], P$size["ss"], P$size["t"], TRUE, title = object@.title, 
-        type = object@.type, location = P$location, manager = P$manager, 
-        sh.lib.name = P$sh.lib.name)
-    new.object <- .SetSlotValue(get(name, pos = .GlobalEnv), 
-        ".reference", .return.reference(.current.coco))
-    my.assign(".current.coco", new.object, frame = 0)
-    .invalid <- new.object@.invalid
-    if (length(.invalid$type) > 0) {
-        Warning("Not able to recover CoCo object!!!")
-    }
-    .specification <- new.object@.specification
-    if (length(.specification$type) > 0) {
-        if (.specification$type == "names") 
-            enterNames(names = .specification$names, levels = .specification$levels, 
-                missing = .specification$missing, setslot = FALSE, 
-                object = new.object)
-        if (.specification$type == "import") 
-            importCoCo(.specification$file.name, setslot = FALSE, 
-                object = new.object)
-    }
-    .medio <- new.object@.medio
-    if (length(.medio$type) > 0) {
-        if (.medio$type == "set.read") 
-            setUseVariables(hit = .medio$action, set = .medio$set, 
-                setslot = FALSE, object = new.object)
-        if (.medio$type == "set.datastructure") 
-            .set.datastructure(.medio$code, setslot = FALSE, 
-                object = new.object)
-    }
-    .observations <- new.object@.observations
-    if (length(.observations$type) > 0) {
-        if (.observations$type == "table") {
-            counts <- .observations$counts
-            counts[counts == 2147483644] <- -1
-            enterTable(counts = counts, silent = .observations$silent, 
-                setslot = FALSE, object = new.object)
-        }
-        if (.observations$type == "list") {
-            enterList(discrete = .observations$list, accumulated = .observations$accumulated, 
-                ncol = .observations$ncol, select.case.fun = .observations$select.case.fun, 
-                columns = .observations$columns, silent = .observations$silent, 
-                setslot = FALSE, object = new.object)
-        }
-        if (.observations$type == "double.list") {
-            .enter.double.list(list = .observations$list, accumulated = .observations$accumulated, 
-                ncol = .observations$ncol, select.case.fun = .observations$select.case.fun, 
-                columns = .observations$columns, silent = .observations$silent, 
-                setslot = FALSE, object = new.object)
-        }
-        if (.observations$type == "two.list") {
-            enterTwoLists(discrete = .observations$discrete, 
-                continuous = .observations$continuous, accumulated = .observations$accumulated, 
-                ncol = .observations$ncol, select.case.fun = .observations$select.case.fun, 
-                columns = .observations$columns, silent = .observations$silent, 
-                setslot = FALSE, object = new.object)
-        }
-    }
-    .structure <- new.object@.structure
-    if (!is.list(.structure[[1]])) 
-        .structure <- list(.structure)
-    if (length(.structure[[1]]) > 0) {
-        lapply(.structure, function(x) if (length(x[[1]]) > 0) {
-            if (x$type == "em.on") 
-                emOn(hit = x$action, setslot = FALSE, object = new.object)
-            if (x$type == "exclude.missing") 
-                excludeMissing(hit = x$action, set = x$set, setslot = FALSE, 
-                  object = new.object)
-            if (x$type == "ordinal") 
-                setOrdinal(set = x$set, setslot = FALSE, object = new.object)
-            if (x$type == "q.table") 
-                enterQtable(set = x$set, table = x$table, setslot = FALSE, 
-                  object = new.object)
-            if (x$type == "q.list") 
-                enterQlist(set = x$set, list = x$list, setslot = FALSE, 
-                  object = new.object)
-        })
-    }
-    .my.trace(".sub.recover.coco,        stop:", level = level, 
-        name = name, key = -1, id = .return.reference(.current.coco), 
-        object = .current.coco)
-    return(.current.coco)
+    if (is.null(object)) 
+        message("NULL object in .return.reference")
+    if (class(object) == "CoCoClass" || class(object) == "CoCoModelClass") 
+        is.object <- any(slotNames(object) == ".reference")
+    else is.object <- FALSE
+    if (is.object) 
+        return(object@.reference)
+    else if (all(is.number(object))) 
+        return(object[1])
+    else return(FALSE)
 }
-".sub.recover.coco.model" <-
-function (coco.model.object, name = "", key = .return.key(coco.model.object), 
-    model = .return.model.of.object(coco.model.object), level = 1, 
-    pos = .GlobalEnv, new.id = NULL, new.no = NULL) 
+".visit.envs" <-
+function (X = ls(.CoCo.Root$env, all.names = all.names), all.names = TRUE) 
 {
-    .my.trace(".sub.recover.coco.model, start:", level = level, 
-        name = name, key = key, model = model, id = .return.reference(coco.model.object))
-    if (length(new.id) == 0) {
-        object <- .recover.search(coco.model.object, key = key, 
-            level = level + 1000, pos = pos)
-        new.id <- .return.reference(object)
+    print(X)
+    for (x in X[X != "num.subenv"]) {
+        env.x <- get(x, .CoCo.Root$env)
+        if (class(env.x) == "CoCo.env") {
+            print(x)
+            print(ls(env.x$env, all.names = all.names))
+            Y <- ls(env.x$env, all.names = all.names)
+            print(paste("Key: ", get("key", env.x$env)))
+            print(paste("Reference: ", get("reference", env.x$env)))
+            print(paste("Number: ", get("number", env.x$env)))
+            print(paste("Num.subenv: ", get("num.subenv", env.x$env)))
+            for (y in Y[(Y != "num.subenv") & (Y != "parent")]) {
+                env.y <- get(y, env.x$env)
+                if (class(env.y) == "CoCo.env") {
+                  print(y)
+                  print(ls(env.y$env, all.names = all.names))
+                  Z <- ls(env.y$env, all.names = all.names)
+                  print(paste("  Key: ", get("key", env.y$env)))
+                  print(paste("  Reference: ", get("reference", 
+                    env.y$env)))
+                  print(paste("  Number: ", get("number", env.y$env)))
+                  print(paste("  Num.subenv: ", get("num.subenv", 
+                    env.y$env)))
+                  for (z in Z[(Z != "num.subenv") & (Z != "parent")]) {
+                    env.z <- get(z, env.y$env)
+                    if (class(env.z) == "CoCo.env") {
+                      print(z)
+                      print(ls(env.z$env, all.names = all.names))
+                    }
+                  }
+                }
+            }
+        }
     }
-    result <- .SetSlotValue(coco.model.object, ".reference", 
-        new.id)
-    if (length(new.no) == 0) {
-        enterModel(model, object = result)
-        new.no <- returnModelNumber("last", object = result)
-    }
-    result <- .SetSlotValue(result, ".model.number", new.no)
-    my.assign(".current.coco.model", result, frame = 0)
-    .my.trace(".sub.recover.coco.model,  stop:", level = level, 
-        name = name, key = key, model = .return.model.of.object(result), 
-        id = .return.reference(result), number = .return.model.number(result), 
-        object = result)
-    return(result)
 }

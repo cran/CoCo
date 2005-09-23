@@ -20,15 +20,16 @@ function (lib, pkg)
 function (lib, pkg) 
 {
     require(CoCoRaw)
-    "dynamic.Graph" <- function(object, ...) {
-        require(CoCoGraph)
-        dynamic.Graph(object, ...)
-    }
+    # "dG" <- function(object, ...) {
+    #     require(CoCoGraph)
+    #     dg(object, ...)
+    # }
     .First.lib.CoCoCore(lib, pkg)
     # .First.lib.CoCoObjects(lib, pkg)
     # .First.lib.CoCoDynamicGraph(lib, pkg)
 }
-"dynamic.Graph" <- function(object, ...) {
+"dG" <- function(object, ...) {
     require(CoCoGraph)
-    CoCoGraph::dynamic.Graph(object, ...)
+    # CoCoGraph::dg(object, ...)
+    dg(object, ...)
 }

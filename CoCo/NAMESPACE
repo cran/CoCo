@@ -66,7 +66,7 @@ export(
 #        "showVertexOrder", "sinkCoCo", "summaryTable",
 
        # CoCo:
-       "dynamic.Graph", "makeCoCo")
+       "dG", "makeCoCo")
 
 # exportClasses("CoCoIdClass", "CoCoClass", "CoCoModelClass")
 

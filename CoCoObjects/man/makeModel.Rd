@@ -3,7 +3,7 @@
 
 \title{ Make a CoCo model object }
 
-\description{ Make a CoCo model object }
+\description{ Make a CoCo model object. }
 
 \usage{
 makeModel(model = FALSE, title = "", push.pop = FALSE, data = NULL, 

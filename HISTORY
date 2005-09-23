@@ -1,6 +1,19 @@
 
+ 2005-08-10: CoCo and CoCoCg: Fix of lost digit in exponent at minGw.
+
+ 2005-08-10: CoCoCg: Returning test from backward and forward implemented.
+
+ 2005-07-29: CoCoObjects: Test of if to recover CoCoObject by variables
+			  in "CoCoObjects" environment implemented.
+
+ 2005-07-29: CoCoGraph: .Updated to new version of dynamicGraph.
+
  2004-10-25: CoCoGraph: cmdPositions: "<<-" removed
+
  2004-10-25: CoCoGraph: Ordinal variables (index 0 should be 2)
+
  2004-10-25: CoCoCore: is.na(tst) in call.coco.longs, etc.
+
  2004-10-25: CoCo - Reinis: NAMES changed (back) to A, B, ..., F
- 2004-10-25: CoCo & CoCoCg: (abs(s) > 0) to (s > 0) in sub_select_p_value
+
+ 2004-10-25: CoCo & CoCoCg: (abs(s) > 0) to (s > 0) in sub_select_p_value.

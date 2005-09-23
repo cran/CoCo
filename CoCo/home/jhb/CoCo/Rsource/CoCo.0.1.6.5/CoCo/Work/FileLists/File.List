@@ -1,0 +1,6 @@
+total 20
+drwxrwxr-x    2 jhb      jhb          4096 Dec 18 17:38 .
+drwxrwxr-x    8 jhb      jhb          4096 Dec 18 17:38 ..
+-rw-rw-r--    1 jhb      jhb           209 Dec 18 17:38 CoCo-internal.Rd
+-rw-rw-r--    1 jhb      jhb          1173 Dec 18 17:38 makeCoCo.Rd
+-rw-rw-r--    1 jhb      jhb            86 Dec 18 17:38 README

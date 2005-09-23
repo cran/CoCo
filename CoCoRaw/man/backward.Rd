@@ -21,7 +21,8 @@ backward(sorted = FALSE, reversed = FALSE, only = FALSE, short = FALSE,
          least.significant = TRUE, 
 	 components = NULL, p.components = FALSE, 
 	 separators = FALSE, p.separators = FALSE, 
-         edges = TRUE, model = FALSE, fix.edges = NULL, data = NULL, 
+         edges = TRUE, model = FALSE, fix.edges = NULL, 
+         return.tests = FALSE, data = NULL, 
 	 object = .object.of.model(model, data = data, ...), ...)
 
 forward(sorted = FALSE, reversed = FALSE, only = FALSE, short = FALSE, 
@@ -30,7 +31,8 @@ forward(sorted = FALSE, reversed = FALSE, only = FALSE, short = FALSE,
 	all.significant = TRUE, 
 	components = NULL, p.components = FALSE, 
 	separators = FALSE, p.separators = FALSE, 
-	edges = TRUE, model = FALSE, fix.edges = NULL, data = NULL, 
+	edges = TRUE, model = FALSE, fix.edges = NULL, 
+        return.tests = FALSE, data = NULL, 
 	object = .object.of.model(model, data = data, ...), ...)
 }
 
@@ -159,6 +161,9 @@ forward(sorted = FALSE, reversed = FALSE, only = FALSE, short = FALSE,
 		    previous backward or forward is retained. 
 		    Use \code{fix.edges = ""} to clear fixing of edges.
 		    }
+  \item{return.tests}{ Logical, if \code{return.tests} is TRUE
+		       then the test values are returned in a matrix.
+                       (\code{recursive} should be FALSE.) }
   \item{data}{ See \code{\link{exportCoCo}}. }
   \item{object}{ See \code{\link{exportCoCo}}. }
   \item{\dots}{ Additional arguments to generate the CoCo \code{object}

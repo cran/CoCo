@@ -248,6 +248,9 @@ system("echo $COCOLIB", intern = TRUE)
 function (sub.dir = "library/CoCo/lib/coco") 
 {
     coco.lib <- paste(Sys.getenv("R_HOME"), sub.dir, sep = "/")
+    # print(coco.lib)
+    coco.lib <- paste(system.file(package = "CoCo"), "lib/coco", sep = "/")
+    # print(coco.lib)
     coco.tmp <- Sys.getenv("TEMP")
     if (coco.tmp == "") 
         coco.tmp <- Sys.getenv("PWD")
@@ -353,6 +356,7 @@ function (Xfile)
 function (label, vector = NULL, level = 1, name = "", key = -1, 
     model = "", id = -1, number = -1, object = NULL) 
 {
+   # print(paste(label, level, name, key))
 }
 ".object.of.models" <-
 function (model.1, model.2, data = NULL, object = .current.coco,

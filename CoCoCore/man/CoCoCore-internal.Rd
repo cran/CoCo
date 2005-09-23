@@ -94,6 +94,15 @@
 % coco.resume.R		  :
 % coco.start.R		  :
 
-\description{Internal CoCoCore objects.}
-\details{These are not to be called by the user.}
+\description{Internal CoCoCore objects.
+        This package contains the shared library of CoCo, with the 
+        interface function "call.coco" for calling CoCo from R and Splus,
+        some extensions and specializations to this function
+        and some auxiliary functions of the interface to CoCo.
+}
+\details{The functions of this package are not to be called
+         directly by the user. Please use the functions of the
+	 package "CoCoRaw" (and "CoCoObjects" and "CoCoGraph"). 
+         Datasets are found in the package "CoCo" and "CoCoCg". }
+
 \keyword{internal}

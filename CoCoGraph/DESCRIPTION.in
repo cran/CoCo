@@ -1,4 +1,6 @@
 Package: CoCoGraph
 Namespace: CoCoGraph
-Title: Graphical modelling on contingency tables: Graph
-Description: Interface between dynamicGraph and CoCo
+Title: Graphs for CoCo objects
+Description: Interface between dynamicGraph and CoCo (objects)
+Depends: R (>= 2.0.0), CoCoObjects, dynamicGraph (>= 0.2.0)
+LazyLoad: False

@@ -43,6 +43,12 @@
 \alias{.SetSlotValue}
 \alias{.sub.recover.coco}
 \alias{.sub.recover.coco.model}
+
+
 \description{Internal CoCoObjects objects.}
-\details{These are not to be called by the user.}
+
+\details{These are not to be called by the user.
+  The functions for the CoCo objects are found in the package "CoCoRaw". 
+  Datasets are found in the package "CoCo" and "CoCoCg".
+}
 \keyword{internal}

@@ -2,7 +2,7 @@
 \title{The CoCo package}
 \alias{CoCo}
 
-\alias{dynamic.Graph} % From CoCoGraph
+\alias{dG} % From CoCoGraph
 
 %    \alias{CoCoIdClass-class}
 %    \alias{CoCoClass-class}
@@ -116,7 +116,16 @@
 
 \author{Jens Henrik Badsberg}
 
-\note{Please quit by \code{\link[quitCoCo]{quitCoCo}}
+\note{The function \code{dG} is an "alias" for \code{\link[dynamicGraph]{dg}},
+      but with loading the packages "CoCoGraph" and "dynamicGraph".
+      These packages with \code{\link[dynamicGraph]{dg}} for CoCo-objects
+      are not loaded when loading the package "CoCo" to make the loading
+      of "CoCo" faster.
+
+      For help on \code{\link[dynamicGraph]{dg}}
+      use \code{help(dg, package = "dynamicGraph")}.
+
+      Please quit by \code{\link[quitCoCo]{quitCoCo}}
       to remove temporary files.}
 
 % \section{ToDo}{....}
@@ -137,7 +146,7 @@ enterTable(Reinis, object = CoCoObject);
 fullModel <- makeModel(enterModel("*", object = CoCoObject));
 
 # Display a graph of the model:
-fullGraph <- dynamic.Graph(fullModel, title = "Full", returnLink = TRUE);
+fullGraph <- dG(fullModel, title = "Full", returnLink = TRUE);
 
 # Do a backward elimination of edges:
 backward(recursive = TRUE, headlong = TRUE, coherent = TRUE,
@@ -145,8 +154,8 @@ backward(recursive = TRUE, headlong = TRUE, coherent = TRUE,
 
 # Display the result of the backward elimination:
 lastModel <- makeModel("last", object = CoCoObject);
-backwardGraph <- dynamic.Graph(lastModel, title = "Last", 
-                               dynamicGraph = fullGraph, slave = TRUE);
+backwardGraph <- dG(lastModel, title = "Last", 
+                    dynamicGraph = fullGraph, slave = TRUE);
 
 # Do the EH-procedure:
 eh(object = CoCoObject);

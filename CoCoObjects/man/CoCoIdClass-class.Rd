@@ -4,7 +4,10 @@
 
 \title{Class "CoCoIdClass"}
 
-\description{ }
+\description{
+  The functions for the CoCo objects are found in the package "CoCoRaw". 
+  Datasets are found in the package "CoCo" and "CoCoCg".
+ }
 
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("CoCoIdClass", ...)}.
@@ -14,6 +17,8 @@ Objects can be created by calls of the form \code{new("CoCoIdClass", ...)}.
   \describe{
     \item{\code{.reference}:}{Object of class \code{"numeric"},
 			      see \code{\link{CoCoClass-class}}. }
+    \item{\code{.id.env}:}{Object of class \code{"character"},
+			   see \code{\link{CoCoClass-class}}. }
     \item{\code{.key}:}{Object of class \code{"character"},
 			see \code{\link{CoCoClass-class}}. }
     \item{\code{.type}:}{Object of class \code{"numeric"},

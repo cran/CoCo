@@ -1,8 +1,0 @@
-import data women.xpt;
-read model *;
-print table matrix canonical *;
-print continuous matrix canonical *;
-print continuous matrix moments *;
-print continuous matrix mk *;
-print continuous matrix ms *;
-

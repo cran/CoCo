@@ -1,11 +1,12 @@
 "forward" <-
 function (sorted = FALSE, reversed = FALSE, only = FALSE, short = FALSE, 
     p.accepted = FALSE, p.rejected = FALSE, decomposable.mode = NULL, 
-    coherent = FALSE, headlong = FALSE, recursive = FALSE, all.significant = TRUE, 
+    coherent = FALSE, headlong = FALSE, 
+    recursive = FALSE, all.significant = TRUE, 
     components = NULL, p.components = FALSE, separators = FALSE, 
     p.separators = FALSE, edges = TRUE, model = FALSE, fix.edges = NULL, 
-    data = NULL, object = .object.of.model(model, data = data, 
-        ...), ...) 
+    return.tests = FALSE,
+    data = NULL, object = .object.of.model(model, data = data, ...), ...) 
 {
     old.current <- .before.set.current(model, object = object)
     if (!(is.null(fix.edges))) 
@@ -22,7 +23,7 @@ function (sorted = FALSE, reversed = FALSE, only = FALSE, short = FALSE,
         .set.switch("decomposable.mode", ifelse(decomposable.mode, 
             "on", "off"), object = object)
     if (!is.null(components)) 
-        .set.switch("partitioning", ifelse(decomposable.mode, 
+        .set.switch("partitioning", ifelse(components, 
             "on", "off"), object = object)
     if (only) 
         coco.simple.command(199, 1, object = object)
@@ -42,8 +43,19 @@ function (sorted = FALSE, reversed = FALSE, only = FALSE, short = FALSE,
         coco.simple.command(199, 15, object = object)
     if (all.significant != TRUE) 
         coco.simple.command(199, 20, object = object)
-    coco.simple.command(201, .encode(c("edges", "interactions"), 
-        edges, c(1, 2), ifelse(edges, 1, 2)), object = object)
-    if (old.current) 
-        makeCurrent(old.current, object = object)
+    if (return.tests) {
+       .returnStepwise(forward = TRUE, sorted = sorted, 
+                       separators = separators, edges = edges, 
+                       model = model, fix.edges = fix.edges, 
+                       object = object, ...) 
+    } else {
+       result <- coco.simple.command(201, 
+                                     .encode(c("edges", "interactions"),
+                                             edges, c(1, 2), 
+                                             ifelse(edges, 1, 2)),
+                                     object = object)
+
+       if (old.current) 
+         makeCurrent(old.current, object = object)
+   }
 }

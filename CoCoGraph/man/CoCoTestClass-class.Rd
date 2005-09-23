@@ -3,6 +3,8 @@
 \alias{CoCoTestClass-class}
 \alias{label,CoCoTestClass-method}
 \alias{width,CoCoTestClass-method}
+\alias{setSlots,CoCoTestClass-method}
+\alias{initialize,CoCoTestClass-method}
 
 \title{ Class "CoCoTestClass" }
 
@@ -26,6 +28,8 @@ Objects can be created by calls of the form \code{new("CoCoTestClass", ...)}.
 				 The \code{label} of the test for edges. }
     \item{width}{\code{signature(object = "CoCoTestClass")}:
 				 The \code{width} of the test for edges. }
+    \item{setSlots}{\code{signature(object = "CoCoTestClass")}: ... }
+    \item{initialize}{\code{signature(object = "CoCoTestClass")}: ... }
   }
 }
 

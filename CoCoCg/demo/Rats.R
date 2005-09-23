@@ -12,8 +12,8 @@ enterDataFrame(Rats, object = CoCoObject);
 fullModel <- makeModel(enterModel("*", object = CoCoObject));
 
 # Display a graph of the model:
-fullGraph <- dynamic.Graph(fullModel, title = "Full", vertexColor = "blue",
-                           width = 300, height = 300, returnLink = TRUE);
+fullGraph <- dG(fullModel, title = "Full", vertexColor = "blue",
+                width = 300, height = 300, returnLink = TRUE);
 
 # Do a backward elimination of edges:
 backward(recursive = TRUE, headlong = TRUE, coherent = TRUE,
@@ -21,8 +21,8 @@ backward(recursive = TRUE, headlong = TRUE, coherent = TRUE,
 
 # Display the result of the backward elimination:
 lastModel <- makeModel("last", object = CoCoObject);
-backwardGraph <- dynamic.Graph(lastModel, title = "Last",
-                               dynamicGraph = fullGraph, slave = TRUE);
+backwardGraph <- dG(lastModel, title = "Last",
+                    dynamicGraph = fullGraph, slave = TRUE);
 
 # Do the EH-procedure:
 eh(object = CoCoObject);

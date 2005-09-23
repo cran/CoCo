@@ -1,0 +1,19 @@
+source("CoCo.R")
+source("Reinis.r")
+source("Byssinosis38.r")
+source("Dawid79.r")
+source("Fever.r")
+source("Fuchs82.r")
+source("Hochberg77.r")
+source("Scrotal.r")
+source("UterineCervix411.r")
+package.skeleton("CoCo", list = ls(all.names = TRUE))
+Byssinosis38@.title
+David79@.title
+Fever@.title
+Fuchs82@.title
+Hochberg@.title
+Reinis@.title
+Scrotal@.title
+UterineCervix411@.title
+.quit()

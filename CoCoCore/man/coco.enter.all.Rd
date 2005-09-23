@@ -8,11 +8,11 @@
 	      Call Coco with all arguments. }
 
 \usage{
-coco.enter.all(code, string, long, double, sub.code = FALSE, 
-               object = .current.coco)
+coco.enter.all(code, string, long, double, 
+               sub.code = FALSE, object = .current.coco)
 
-coco.replace.all(code, string = "", long = NULL, double = NULL, sub.code = FALSE, 
-                 object = .current.coco)
+coco.replace.all(code, string = "", long = NULL, double = NULL, 
+                 sub.code = FALSE, object = .current.coco)
 }
 
 \arguments{

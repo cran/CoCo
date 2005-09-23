@@ -66,12 +66,12 @@ CoCoObject <- makeCoCoCg();
 enterDataFrame(anorexia, object = CoCoObject);
 fullModel <- makeModel(enterModel("*", object = CoCoObject));
 
-# fullGraph <- dynamic.Graph(fullModel, title = "Full");
+# fullGraph <- dG(fullModel, title = "Full");
 
 backward(recursive = TRUE, object = CoCoObject);
 
 # lastModel <- makeModel("last", object = CoCoObject);
-# backwardGraph <- dynamic.Graph(lastModel, title = "Last");
+# backwardGraph <- dG(lastModel, title = "Last");
 
 showModel("all", object = CoCoObject);
 makeCurrent(object = CoCoObject);

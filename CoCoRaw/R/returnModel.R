@@ -3,6 +3,15 @@ function (model = "current", type = "both", as.edges = FALSE,
 	  split.string = FALSE, split.generators = FALSE, data = NULL, 
           object = .object.of.model(model, data = data, ...), ...) 
 {
+    insert.bar <- function(a) {
+      if (length(grep("\]\]\\[\\[\]\]", a)) > 0)
+        return(sub("\]\]\\[\\[\]\]", "\]\] ;", a))
+      else if (length(grep("\]\]\\[\\[", a)) > 0)
+        return(sub("\]\]\\[\\[", "\] | \\[\\[", sub("\\[\\[", "\\[", a)))
+      else
+        return(a)
+    }
+
     if (as.edges)
         returnEdges(model = model, object = object, ...)
     else {
@@ -25,8 +34,11 @@ function (model = "current", type = "both", as.edges = FALSE,
             result <- .after.set.current(old.current, result, 
 					 type = "unconditioned", 
 					 model = FALSE, object = object)
+        if ((coco.type == 2) && (type == "both"))
+            result <- insert.bar(result)
         if ((split.string || split.generators)) 
-            result <- .split.model.gc(result, split.generators = split.generators)
+            result <- .split.model.gc(result, 
+                                      split.generators = split.generators)
         return(result)
         }
 }

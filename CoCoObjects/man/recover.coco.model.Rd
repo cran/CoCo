@@ -3,7 +3,7 @@
 
 \title{ Recover a CoCo model object }
 
-\description{ Recover a CoCo model object }
+\description{ Recover a CoCo model object. }
 
 \usage{
 recover.coco.model(coco.model.object, key = .return.key(coco.model.object), 

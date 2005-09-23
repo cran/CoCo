@@ -62,5 +62,7 @@
 %    \alias{quitCoCo} % From CoCoRaw
 
 \description{Internal CoCoRaw and imported objects.}
+
 \details{Some of these are not to be called by the user.}
+
 \keyword{internal}

@@ -1,4 +1,5 @@
 Package: CoCoObjects
 Namespace: CoCoObjects
-Title: Graphical modelling on contingency tables: Objects
+Title: Objects for CoCo
 Description: Objects for the interface from R and Splus to CoCo.
+LazyLoad: False

@@ -1,5 +1,5 @@
 export(# CoCoObjects:
-       ".First.lib.CoCoObjects",
+       # ".First.lib.CoCoObjects",
        "currentCoCo",  "makeCurrentCoCo", 
            ".new.coco", ".new.coco.model", ".SetSlotValue", 
            ".set.coco.value", ".clear.coco.objects", "clearCoCoObjects",
@@ -7,6 +7,22 @@ export(# CoCoObjects:
            ".recover", ".recover.model", ".recover.reference",
            ".return.reference",  ".return.type",
            ".return.object.model.number", ".end.temporary.object",
+
+#        "label", "width",
+#        "testEdge", "subModifyModel", "modifyModel", "dynamic.Graph",
+#        "setGraphComponents", "graphComponents",
+
+
+       ".CoCo.newenv", ".CoCo.toplevel", ".is.CoCo.env", ".visit.envs",
+       ".get.env.CoCoOBJECT", ".get.env.CoCoModelOBJECT",
+       ".get.env.CoCoVIEWS", ".CoCo.Root", 
+
        "makeModel",
        "recover.coco.model")
 exportClasses("CoCoIdClass", "CoCoClass", "CoCoModelClass")
+
+# exportClasses("CoCoIdClass", "CoCoClass", "CoCoModelClass", "CoCoTestClass")
+# exportMethods("label", "width",
+#               "testEdge", "subModifyModel", "modifyModel", "dynamic.Graph",
+#               "setGraphComponents", "graphComponents" # , "vertexEdges"
+#               )

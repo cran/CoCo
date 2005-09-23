@@ -1,5 +1,4 @@
 Package: CoCoRaw
 Namespace: CoCoRaw
-Title: Raw interface to CoCo from R and Splus
-Description: Interface to CoCo from R and Splus, with function names
-	close to the command names of a ``A Guide to CoCo''.
+Title: The user interface to CoCo from R and Splus
+Description: Interface to CoCo from R and Splus.

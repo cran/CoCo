@@ -4,10 +4,15 @@
 
 \title{ Class "CoCoClass" }
 
-\description{ }
+\description{ 
+  The functions for the CoCo objects are found in the package "CoCoRaw". 
+  Datasets are found in the package "CoCo" and "CoCoCg".
+}
 
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("CoCoClass", ...)}.
+Objects from tha class is returned by \code{\link[CoCo]{makeCoCo}}
+and \code{\link[CoCoCg]{makeCoCoCg}}.
 }
 
 \section{Slots}{
@@ -74,6 +79,8 @@ Objects can be created by calls of the form \code{new("CoCoClass", ...)}.
 			      a pointer to the memory. }
     \item{\code{.key}:}{Object of class \code{"character"}  
 			with the key of the object. }
+    \item{\code{.id.env}:}{Object of class \code{"character"},
+			with an other identification of the object. }
     \item{\code{.type}:}{Object of class \code{"numeric"}  
 			 with the type,
 			 1 for CoCo objects,

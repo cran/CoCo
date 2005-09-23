@@ -46,10 +46,13 @@
    #ifndef HAS_NOT_VALUES
    #include <values.h>
    #else
+   #endif
+
    #ifndef MAXDOUBLE
    #define MAXDOUBLE 3.4028234e38
-   #define MAXFLOAT  3.4028234e38
    #endif
+   #ifndef MAXFLOAT
+   #define MAXFLOAT  3.4028234e38
    #endif
 
    #include <stdio.h>
@@ -143,7 +146,7 @@ program coco_mips(input, output);
 #define type_a          0
 #define type_b          0
 
-#define VERSION         " 1.6.4                Mon Nov  1 18:00:00 GMT 2004"
+#define VERSION         " 1.6.5               Mon Sep 19 16:00:00 CEST 2005"
 /* #  ifdef CC-minus     
 #define COMP_TIME       "                                                  "
 #define COMP_MACH       " Compiled with pc, a Sun Pascal compiler for Sun4 "
@@ -193,11 +196,38 @@ program coco_mips(input, output);
 #define TURBO_PC        false
 
 #define MIN_VERTEX      0
-#define MAX_VERTEX      126
-#define MAX_HALF_VERTEX  64
-#define NULL_VERTEX     127
-#define MAX_DIMENSION   128
-#define MAX_2_DIMENSION  256
+#ifdef VAR1024
+#define MAX_HALF_VERTEX   512
+#define MAX_VERTEX       1022
+#define NULL_VERTEX      1023
+#define MAX_DIMENSION    1024
+#define MAX_2_DIMENSION  2048
+#define VARINSHORT       true
+#else
+#ifdef VAR512
+#define MAX_HALF_VERTEX   256
+#define MAX_VERTEX        510
+#define NULL_VERTEX       511
+#define MAX_DIMENSION     512
+#define MAX_2_DIMENSION  1024
+#define VARINSHORT       true
+#else
+#ifdef VAR256
+#define MAX_HALF_VERTEX   128
+#define MAX_VERTEX        254
+#define NULL_VERTEX       255
+#define MAX_DIMENSION     256
+#define MAX_2_DIMENSION   512
+#define VARINSHORT       true
+#else
+#define MAX_HALF_VERTEX    64
+#define MAX_VERTEX        126
+#define NULL_VERTEX       127
+#define MAX_DIMENSION     128
+#define MAX_2_DIMENSION   256
+#endif
+#endif
+#endif
 #define MAX_OFFSET_DIM  10
 
 #define MAX_COUNT_NUMBER  2147483647L
@@ -432,9 +462,15 @@ typedef long t_long_integer;
 t_long_integer = longint;
  $endif On-DOS*/
 
+#ifdef VARINSHORT
+typedef short t_0_max_dimension;
+
+typedef short t_1_max_dimension;
+#else
 typedef uchar t_0_max_dimension;
 
 typedef uchar t_1_max_dimension;
+#endif
 
 typedef Char t_command_name[COMMAND_LENGTH];
 typedef uchar t_command_level;
@@ -457,11 +493,21 @@ typedef enum {
 typedef enum {
   menu, command
 } t_mode;
+
+#ifdef VARINSHORT
+typedef short t_vertex;
+
+typedef short t_discrete_vertex;
+
+typedef short t_continuous_vertex;
+#else
 typedef char t_vertex;
 
 typedef char t_discrete_vertex;
 
 typedef char t_continuous_vertex;
+#endif
+
 
 typedef long t_vertex_set[NULL_VERTEX / 32 + 2];
 
@@ -469,6 +515,17 @@ typedef long t_discrete_vertex_set[NULL_VERTEX / 32 + 2];
 
 typedef long t_continuous_vertex_set[NULL_VERTEX / 32 + 2];
 
+#ifdef VARINSHORT
+typedef struct t_vertex_list {
+  unsigned vertex : 10;
+  struct t_vertex_list *pointer;
+} t_vertex_list;
+
+typedef struct t_edge_list {
+  unsigned v : 10, w : 10;
+  struct t_edge_list *pointer;
+} t_edge_list;
+#else
 typedef struct t_vertex_list {
   unsigned vertex : 7;
   struct t_vertex_list *pointer;
@@ -478,6 +535,7 @@ typedef struct t_edge_list {
   unsigned v : 7, w : 7;
   struct t_edge_list *pointer;
 } t_edge_list;
+#endif
 
 typedef struct t_list_of_vertex_lists {
   t_vertex_list *vertex_list;
@@ -1087,9 +1145,9 @@ typedef struct t_model_tree_node {
 typedef t_model_type t_test_type;
 
 typedef struct t_stepwise_options {
-  boolean reversed, sorted_list, short_report, decomposable, graphical,
-	  hierarchical, recursive, coherent, headlong, follow, blockwise,
-	  separators, partitioning, alternative;
+  boolean reversed, sorted_list, export_list, unordered_list, short_report,
+	  decomposable, graphical, hierarchical, recursive, coherent,
+	  headlong, follow, blockwise, separators, partitioning, alternative;
 } t_stepwise_options;   /* packed */
 
 typedef struct t_test_write_options {
@@ -1396,7 +1454,11 @@ Static t_vertex_set delta, full_delta, gamma_, full_gamma, delta_gamma,
 /* response, full_response: t_vertex_set; */
 Static t_set_list *causal_structure;
 Static t_name_set empty_name_set, names, full_names;
+#ifdef VARINSHORT
+Static short dimension, full_dimension;
+#else
 Static uchar dimension, full_dimension;
+#endif
 /* , full_continuous_name_list */
 Static t_vertex_name_list *continuous_name_list;
 /* , full_discrete_name_list */
@@ -2259,10 +2321,11 @@ t_integer w;
 {
 #ifdef CoCo_Cygwin
   t_long_integer j;
+  long len;
   Char str[255];
 
-  sprintf(str, "%*ld", (int)(w), (long)(*i));
-  for (j = 0; j < w; j++)
+  len = sprintf(str, "%*ld", (int)(w), (long)(*i));
+  for (j = 0; j < len; j++)
     write_char_text(f, str[j]);
 #else /* CoCo_Cygwin */
   fprintf(f, "%*d", (int)w, *i);
@@ -2277,15 +2340,11 @@ t_integer w;
 {
 #ifdef CoCo_Cygwin
   t_long_integer j;
+  long len;
   Char str[255];
 
-  /*
-  printf("write_integer_text 1 \n");
-  printf("\n");
-  */
-
-  sprintf(str, "%*ld", (int)(w), i);
-  for (j = 0; j < w; j++)
+  len = sprintf(str, "%*ld", (int)(w), i);
+  for (j = 0; j < len; j++)
     write_char_text(f, str[j]);
 #else /* CoCo_Cygwin */
   fprintf(f, "%*ld", (int)w, i);
@@ -2300,16 +2359,11 @@ t_integer w;
 {
 #ifdef CoCo_Cygwin
   t_long_integer j;
+  long len;
   Char str[255];
 
-  /*
-  printf("write_offset_text 1 \n");
-  printf("\n");
-  fprintf(f, "%*ld", (int)w, *i);
-  */
-
-  sprintf(str, "%*ld", (int)w, *i);
-  for (j = 0; j < w; j++)
+  len = sprintf(str, "%*ld", (int)w, *i);
+  for (j = 0; j < len; j++)
     write_char_text(f, str[j]);
 #else /* CoCo_Cygwin */
   fprintf(f, "%*ld", (int)w, *i);
@@ -2324,16 +2378,11 @@ t_integer w;
 {
 #ifdef CoCo_Cygwin
   t_long_integer j;
+  long len;
   Char str[255];
 
-  /*
-  printf("write_cell_count_text 1 \n");
-  printf("\n");
-  fprintf(f, "%*ld", (int)w, *i);
-  */
-
-  sprintf(str, "%*ld", (int)w, *i);
-  for (j = 0; j < w; j++)
+  len = sprintf(str, "%*ld", (int)w, *i);
+  for (j = 0; j < len; j++)
     write_char_text(f, str[j]);
 #else /* CoCo_Cygwin */
   fprintf(f, "%*ld", (int)w, *i);
@@ -2348,16 +2397,11 @@ t_integer *w;
 {
 #ifdef CoCo_Cygwin
   t_long_integer j;
+  long len;
   Char str[255];
 
-  /*
-  printf("write_cell_index_text 1 \n");
-  printf("\n");
-  fprintf(f, "%*ld", (int)(*w), *i);
-  */
-
-  sprintf(str, "%*ld", (int)(*w), *i);
-  for (j = 0; j < *w; j++)
+  len = sprintf(str, "%*ld", (int)(*w), *i);
+  for (j = 0; j < len; j++)
     write_char_text(f, str[j]);
 #else /* CoCo_Cygwin */
   fprintf(f, "%*ld", (int)(*w), *i);
@@ -2372,16 +2416,11 @@ t_integer w;
 {
 #ifdef CoCo_Cygwin
   t_long_integer j;
+  long len;
   Char str[255];
 
-  /*
-  printf("write_e_cell_index_text 1 \n");
-  printf("\n");
-  fprintf(f, "%*ld", (int)w, *i);
-  */
-
-  sprintf(str, "%*ld", (int)w, *i);
-  for (j = 0; j < w; j++)
+  len = sprintf(str, "%*ld", (int)w, *i);
+  for (j = 0; j < len; j++)
     write_char_text(f, str[j]);
 #else /* CoCo_Cygwin */
   fprintf(f, "%*ld", (int)w, *i);
@@ -2394,9 +2433,10 @@ FILE *f;
 t_real *x;
 t_integer v, w;
 {
+  long len;
+  Char str[255];
 #ifdef CoCo_Cygwin
   t_long_integer j;
-  Char str[255];
 
   /*
   printf("write_short_text 1 \n");
@@ -2411,34 +2451,23 @@ t_integer v, w;
   write_char_text(f, '/');
 #endif /* E */
 
-  for (j = 0; j < v + 4; j++)
-    str[j] = '#';
-  if (w == 0 /* && flt */ )
-    sprintf(str, "% .*E", P_max((int)v - 7, 1), *x);
-  else
-    sprintf(str, "%*.*f", (int)v, (int)w, *x);
-  if (v < 100) {
-    if (w == 0) {
-      if (*x < 0.0)
-	if (v < w + 1)
-	  v = w + 1;
-    } else {
-      if (*x < 0.0) {
-	if (v < w + 3)
-	  v = w + 3;
-      } else
-	if (v < w + 2)
-	  v = w + 2;
-    }
-    for (j = 0; j < v; j++)
-      write_char_text(f, str[j]);
+  if (w == 0) {
+    len = sprintf(str, "% .*e", P_max((int)v - 7, 1), *x);
+    if (len == v + 1)
+      len = sprintf(str, "% .*e", P_max((int)v - 8, 1), *x);
   } else
-    for (j = 0; j < 4; j++)
-      write_char_text(f, str[j]);
+    len = sprintf(str, "%*.*f", (int)v, (int)w, *x);
+  for (j = 0; j < len; j++)
+    write_char_text(f, str[j]);
+
 #else /* CoCo_Cygwin */
-  if (w == 0)
-    fprintf(f, "% .*E", P_max((int)v - 7, 1), *x);
-  else
+  if (w == 0) {
+    len = sprintf(str, "% .*e", P_max((int)v - 7, 1), *x);
+    if (len == v + 1)
+      fprintf(f, "% .*E", P_max((int)v - 8, 1), *x);
+    else
+      fprintf(f, "% .*E", P_max((int)v - 7, 1), *x);
+  } else
     fprintf(f, "%*.*f", (int)v, (int)w, *x);
 #endif /* CoCo_Cygwin */
 }  /* write_short_real_text */
@@ -2459,9 +2488,10 @@ t_long_real *x;
 t_integer v, w;
 boolean flt;
 {
+  long len;
+  Char str[255];
 #ifdef CoCo_Cygwin
   t_long_integer j;
-  Char str[255];
 
   /*
   printf("write_real_text 1 \n");
@@ -2480,38 +2510,26 @@ boolean flt;
     write_invalid(f, v);
     return;
   }
-  for (j = 0; j < v + 4; j++)
-    str[j] = '#';
-  if ((abs(log(fabs(*x)) / log(10.0) > v - w - 2) | (w == 0)) & flt)
-    sprintf(str, "% .*E", P_max((int)v - 7, 1), *x);
-  else
-    sprintf(str, "%*.*f", (int)v, (int)w, *x);
-  if (v < 100) {
-    if (w == 0) {
-      if (*x < 0.0)
-	if (v < w + 1)
-	  v = w + 1;
-    } else {
-      if (*x < 0.0) {
-	if (v < w + 3)
-	  v = w + 3;
-      } else
-	if (v < w + 2)
-	  v = w + 2;
-    }
-    for (j = 0; j < v; j++)
-      write_char_text(f, str[j]);
+  if (w == 0) {
+    len = sprintf(str, "% .*e", P_max((int)v - 7, 1), *x);
+    if (len == v + 1)
+      len = sprintf(str, "% .*e", P_max((int)v - 8, 1), *x);
   } else
-    for (j = 0; j < 4; j++)
-      write_char_text(f, str[j]);
+    len = sprintf(str, "%*.*f", (int)v, (int)w, *x);
+  for (j = 0; j < len; j++)
+    write_char_text(f, str[j]);
 #else /* CoCo_Cygwin */
   if (is_infinity_real(*x)) {
     write_invalid(f, v);
     return;
   }
-  if ((log(fabs(*x)) / log(10.0) > v - w - 2 || w == 0) && flt)   /* abs */
-    fprintf(f, "% .*E", P_max((int)v - 7, 1), *x);
-  else
+  if ((log(fabs(*x)) / log(10.0) > v - w - 2 || w == 0) && flt) { /* abs */
+    len = sprintf(str, "% .*e", P_max((int)v - 7, 1), *x);
+    if (len == v + 1)
+      fprintf(f, "% .*E", P_max((int)v - 8, 1), *x);
+    else
+      fprintf(f, "% .*E", P_max((int)v - 7, 1), *x);
+  } else
     fprintf(f, "%*.*f", (int)v, (int)w, *x);
 #endif /* CoCo_Cygwin */
 }  /* write_real_text */
@@ -4596,16 +4614,19 @@ t_real x;
 
 
 /* Not used: */
-/*
-function is_invalid_long_real_imported(x: t_long_real): boolean;
-var
-   is_invalid : boolean;
-begin
-   is_invalid := false;
-   if not is_invalid then
-      is_invalid := abs((x - my_var_na_double)/x) < 0.0001;
-   is_invalid_long_real_imported := is_invalid
-end; */
+/**/
+Static boolean is_invalid_long_real_imported(x)
+t_long_real x;
+{
+  boolean is_invalid = false;
+
+  if (true)
+    is_invalid = (fabs((x - my_var_na_double) / x) < 0.0001);
+  return is_invalid;
+}
+
+
+/**/
 /* is_invalid_long_real_imported */
 /* is_invalid := isnan(x); */
 
@@ -5413,6 +5434,12 @@ t_integer *m1, *m2;
 }  /* return_ghk_size */
 
 
+#ifdef CoCo_Cygwin
+#ifdef DEBUG_E
+  /* E */ printf("write_integer 1 \n");
+  /* E */ printf("\n");
+#endif /* E */
+#endif /* CoCo_Cygwin */
 Static Void next_cell(i)
 t_level *i;
 {
@@ -5443,14 +5470,14 @@ boolean total, full;
   boolean ok = true;
   t_vertex v, w;
 
+  if (full)
+    w = full_last_vertex;
 #ifdef CoCo_Cygwin
 #ifdef DEBUG_E
   /* E */ printf("write_real_fix_float 1 \n");
   /* E */ printf("\n");
 #endif /* E */
 #endif /* CoCo_Cygwin */
-  if (full)
-    w = full_last_vertex;
   else
     w = last_vertex;
   for (v = first_vertex; v <= w; v++) {
@@ -5498,13 +5525,13 @@ long *a;
     return product;
   else
     return _INFINITY;
+}  /* marginal_dimension */
 #ifdef CoCo_Cygwin
 #ifdef DEBUG_E
   /* E */ printf("write_real 1 \n");
   /* E */ printf("\n");
 #endif /* E */
 #endif /* CoCo_Cygwin */
-}  /* marginal_dimension */
 
 
 Static t_long_integer last_index(a)
@@ -5575,7 +5602,6 @@ long *b;
 {
   t_vertex v;
   t_continuous_vertex w;
-  long SET[NULL_VERTEX / 32 + 2];
 
   w = first_continuous_vertex;
   P_setcpy(b, empty_set);
@@ -5595,7 +5621,6 @@ long *b;
 {
   t_vertex v;
   t_discrete_vertex w;
-  long SET[NULL_VERTEX / 32 + 2];
 
   w = first_discrete_vertex;
   P_setcpy(b, empty_set);
@@ -14128,7 +14153,6 @@ t_set_list **g_c;
   boolean ok = true;
   t_vertex v;
   t_vertex_set b;
-  long SET[NULL_VERTEX / 32 + 2];
 
   P_setcpy(a, a_);
   P_setint(a, a, gamma_);
@@ -14243,7 +14267,6 @@ boolean print_note_;
   t_vertex v;
   /*$ifdef TRACE*/
   pch20 tzt;
-  long SET[NULL_VERTEX / 32 + 2];
 
   /*$endif TRACE*/
   memcpy(txt, txt_, sizeof(pch20));
@@ -14307,7 +14330,6 @@ boolean to_full, print_note_;
   boolean full_specified;
   /*$ifdef TRACE*/
   pch20 tzt;
-  long SET[NULL_VERTEX / 32 + 2];
 
   /*$endif TRACE*/
   memcpy(txt, txt_, sizeof(pch20));
@@ -14382,7 +14404,6 @@ boolean print_note_;
   t_vertex v;
   /*$ifdef TRACE*/
   pch20 tzt;
-  long SET[NULL_VERTEX / 32 + 2];
 
   /*$endif TRACE*/
   memcpy(txt, txt_, sizeof(pch20));
@@ -14458,7 +14479,6 @@ boolean print_note_;
   t_vertex v;
   /*$ifdef TRACE*/
   pch20 tzt;
-  long SET[NULL_VERTEX / 32 + 2];
 
   /*$endif TRACE*/
   memcpy(txt, txt_, sizeof(pch20));
@@ -14747,7 +14767,6 @@ t_set_list **discrete_g_c, **linear_g_c, **quadratic_g_c;
 {
   t_vertex_set a, b, c, d;
   t_vertex v, u;
-  long SET[NULL_VERTEX / 32 + 2];
 
   /* full_specified : boolean; */
   /* full_specified := subset_of_an_edge(double_vertex_set, gc); */
@@ -15126,7 +15145,6 @@ boolean heterogenous_set, heterogenous;
   /*$ifdef TRACE*/
   pch20 tzt;
   t_model *WITH;
-  long SET[NULL_VERTEX / 32 + 2];
 
   /*$endif TRACE*/
   /*$ifdef TRACE*/
@@ -16059,7 +16077,6 @@ Static Void list_of_vertices_to_set(p, a)
 t_vertex_list *p;
 long *a;
 {
-  long SET[NULL_VERTEX / 32 + 2];
 
   P_setcpy(a, empty_set);
   while (p != NULL) {
@@ -16558,7 +16575,6 @@ long *a;
 Char *c;
 {
   t_vertex_list *p, *q;
-  long SET[NULL_VERTEX / 32 + 2];
 
   read_sep_vertex_list(input_file, command_, keyboard, full, &q, c);
   P_setcpy(a, empty_set);
@@ -17123,7 +17139,6 @@ long *a;
   t_vertex_list *p, *q;
   /*$ifdef TRACE*/
   pch20 tzt;
-  long SET[NULL_VERTEX / 32 + 2];
 
   /*$endif TRACE*/
   /*$ifdef TRACE*/
@@ -17963,7 +17978,6 @@ t_list_of_vertex_lists *link_list_of_lists;
 t_set_list **link_set_list;
 {
   t_vertex_list *p_vertex;
-  long SET[NULL_VERTEX / 32 + 2];
 
   *link_set_list = NULL;
   while (link_list_of_lists != NULL) {
@@ -18428,7 +18442,6 @@ t_vertex *l;
 {
   t_cell_index product = 1;
   t_vertex v, w;
-  long SET[NULL_VERTEX / 32 + 2];
 
   w = first_vertex;
   P_setcpy(c_in_a, empty_set);
@@ -18734,7 +18747,6 @@ t_expression *link_expression;
 t_product_list **link_prod_list;
 {
   t_product_list *WITH;
-  long SET[NULL_VERTEX / 32 + 2];
 
   while (link_expression != NULL) {
     if (P_inset(v, link_expression->vertex_set)) {
@@ -18756,7 +18768,6 @@ t_list_ips_elements *link_ips_list;
 t_product_list **link_prod_list;
 {
   t_product_list *WITH;
-  long SET[NULL_VERTEX / 32 + 2];
 
   while (link_ips_list != NULL) {
     if (P_inset(v, link_ips_list->ips_element.a)) {
@@ -19588,7 +19599,6 @@ long *v_set;
 {
   short sum;
   t_vertex v;
-  long SET[NULL_VERTEX / 32 + 2];
 
   P_setcpy(v_set, empty_set);
   sum = offset_index - 1;
@@ -21848,7 +21858,6 @@ t_model **model;
   t_cell cell;
   t_long_real x;
   t_vertex_list *q;
-  long SET[NULL_VERTEX / 32 + 2];
   long FORLIM1;
 
   if (mixed_data && table_type != 0) {
@@ -27757,7 +27766,6 @@ t_vertex *invers_order;
   t_vertex v, w;
   t_v_arr_of_order size;
   t_vertex_list *p;
-  long SET[NULL_VERTEX / 32 + 2];
 
   for (i = 0; i <= dimension; i++)
     P_setcpy(set_num[i], empty_set);
@@ -27812,7 +27820,6 @@ t_vertex *invers_order;
   t_vertex v, w;
   t_v_arr_of_order size;
   t_vertex_list *p;
-  long SET[NULL_VERTEX / 32 + 2];
 
   for (i = 0; i <= dimension; i++)
     P_setcpy(set_num[i], empty_set);
@@ -28638,7 +28645,6 @@ t_vertex_set *adj_set;
 {
   t_vertex_list *p_vertex;
   t_vertex v;
-  long SET[NULL_VERTEX / 32 + 2];
 
   for (v = first_vertex; v <= last_vertex; v++) {
     P_setcpy(adj_set[v - MIN_VERTEX], empty_set);
@@ -28695,7 +28701,6 @@ t_vertex_set *adj_set;
 {
   t_vertex v;
   t_vertex_set a;
-  long SET[NULL_VERTEX / 32 + 2];
 
   P_setcpy(model_set, empty_set);
   for (v = first_vertex; v <= last_vertex; v++)
@@ -28726,7 +28731,6 @@ t_vertex_list **adj_list;
   t_vertex v, w;
   /*$ifdef TRACE*/
   pch20 tzt;
-  long SET[NULL_VERTEX / 32 + 2];
   long TEMP;
 
   /*$endif TRACE*/
@@ -28803,7 +28807,6 @@ t_vertex_list **adj_list;
   t_vertex_list *queue = NULL;
   t_vertex_list *q, *p;
   t_vertex v, w;
-  long SET[NULL_VERTEX / 32 + 2];
   long TEMP;
 
   P_addset(P_expset(a, 0L), *u);   /* empty_set + */
@@ -28847,7 +28850,6 @@ uchar *complete;
   t_vertex_list *p;
   t_vertex u, v;
   int TEMP;
-  long SET[NULL_VERTEX / 32 + 2];
 
   P_setcpy(c[last_vertex - MIN_VERTEX + 1], empty_set);
   P_putbits_UB(complete, last_vertex - MIN_VERTEX + 1, 1, 0, 3);
@@ -29708,7 +29710,6 @@ t_set_list **list_of_cliques;
 t_vertex *lv, v;
 {
   t_vertex_set b;
-  long SET[NULL_VERTEX / 32 + 2];
 
   if (v != *lv)
     find_complete(a, adj_set, list_of_cliques, lv, v + 1);
@@ -29753,7 +29754,6 @@ t_set_list **list_of_cliques;
   t_vertex_set a, b;
   t_vertex u, v, w, lv;
   t_set_list *p;
-  long SET[NULL_VERTEX / 32 + 2];
 
   memcpy(adj_set, adj_set_, sizeof(t_v_arr_of_v_sets));
   lv = first_vertex;
@@ -29805,7 +29805,6 @@ t_set_list **list_of_cliques;
   t_1_max_dimension i;
   t_vertex_list *p;
   t_vertex u, v;
-  long SET[NULL_VERTEX / 32 + 2];
 
   for (i = 1; i <= dimension; i++) {
     u = invers_order[i-1];
@@ -29923,7 +29922,6 @@ t_set_list **list_of_cliques;
 t_vertex v;
 {
   t_vertex_set b;
-  long SET[NULL_VERTEX / 32 + 2];
 
   if (v != last_vertex)
     find_complete_(a, adj_set, list_of_cliques, v + 1);
@@ -30015,7 +30013,6 @@ t_set_list **gc;
   t_vertex_set a, g;
   t_vertex v;
   t_integer count = 0;
-  long SET[NULL_VERTEX / 32 + 2];
 
   P_setcpy(g, empty_set);
   p = *gc;
@@ -30516,7 +30513,6 @@ t_set_list **discrete_gc, **linear_gc, **quadratic_gc;
   t_vertex_set b, c, d;
   /*$ifdef TRACE*/
   pch20 tzt;
-  long SET[NULL_VERTEX / 32 + 2];
 
   /*$endif TRACE*/
   /*$ifdef TRACE*/
@@ -31327,7 +31323,6 @@ t_offset_list **upper_, **lower_, **from_;
   t_vertex_set a;
   t_offset_list *q;
   t_long_integer i;
-  long SET[NULL_VERTEX / 32 + 2];
 
   Local_Var.count = count_;
   Local_Var.upper = upper_;
@@ -34007,7 +34002,6 @@ t_1_max_dimension *i;
   t_vertex_set b, c, d;
   /*$ifdef TRACE*/
   pch20 tzt;
-  long SET[NULL_VERTEX / 32 + 2];
 
   /*$endif TRACE*/
   /*$ifdef TRACE*/
@@ -34454,7 +34448,6 @@ t_set_list *g_c;
   t_vertex v;
   t_vertex_set a, b, c, d;
   t_set_list *p = g_c;
-  long SET[NULL_VERTEX / 32 + 2];
 
   while (ok && p != NULL) {
     P_setcpy(a, p->vertex_set);
@@ -34913,7 +34906,6 @@ t_adjacency_matrix *d_matrix, *l_matrix, *q_matrix, *s_matrix;
   t_vertex v;
   /*$ifdef TRACE*/
   pch20 tzt;
-  long SET[NULL_VERTEX / 32 + 2];
 
   /*$endif TRACE*/
   /*$ifdef TRACE*/
@@ -35259,7 +35251,6 @@ t_long_integer *dim;
   t_model *current_model;
   /*$ifdef TRACE*/
   pch20 tzt;
-  long SET[NULL_VERTEX / 32 + 2];
 
   /*$endif TRACE*/
   no_dim_limit = !boolean_option[109];
@@ -44297,7 +44288,6 @@ t_vertex_list **adj_list;
   t_vertex v, w;
   t_v_arr_of_v_sets adj_set;
   t_vertex FORLIM, FORLIM1;
-  long SET[NULL_VERTEX / 32 + 2];
 
   FORLIM = *last_L_vertex;
   for (v = *first_S_vertex; v <= FORLIM; v++)
@@ -44471,7 +44461,6 @@ t_set_list **set_list;
 {
   t_vertex v;
   t_vertex_set b, c, d;
-  long SET[NULL_VERTEX / 32 + 2];
 
   P_setint(c, a, gamma_);
   P_setint(d, a, delta);
@@ -44618,7 +44607,6 @@ boolean *ok_d_collapsible, *ok_mean_linear, *full_specified;
   t_linear_and_quadratic_generator *lq;
   t_vertex_set a;
   t_long_integer count, length, tmp_length;
-  long SET[NULL_VERTEX / 32 + 2];
 
   p = mixed_item->quadratic;
   while (p != NULL) {
@@ -46165,7 +46153,6 @@ t_set_list **g_c;
   t_vertex_set a;
   /*$ifdef TRACE*/
   pch20 tzt;
-  long SET[NULL_VERTEX / 32 + 2];
 
   /*$endif TRACE*/
   /*$ifdef TRACE*/
@@ -47612,7 +47599,6 @@ t_integer *i_int, *stop_int, *i_double, *stop_double;
   t_long_integer n_sets = 1, product = 1;
   t_set_list *set_list = NULL;
   t_integer_list *x = NULL, *y = NULL;
-  long SET[NULL_VERTEX / 32 + 2];
 
   if (mixed_data)
     note_mixed(stdout, " FindLogLLarge", 14L);
@@ -53086,7 +53072,6 @@ t_set_list **g_c;
   t_set_list *p;
   t_vertex v;
   t_vertex_set vertex_set;
-  long SET[NULL_VERTEX / 32 + 2];
 
   if (g_c_dual == NULL) {
     write_pch(stdout, " --DualNormalError--", 20L);
@@ -58326,7 +58311,6 @@ struct LOC_compute_mcep_nested_decomposable *LINK;
   t_v_arr_of_v_sets current_adj_set, base_adj_set;
   t_v_arr_of_v_lists base_adj_list;
   t_fact_list *p_link_fact_list;
-  long SET[NULL_VERTEX / 32 + 2];
 
   *link_fact_list = NULL;
   hypergraph_sets_to_graph_sets(*current_g_c, g, current_adj_set);
@@ -60050,6 +60034,188 @@ t_test_labels **test_labels;
 }  /* write_sorted_list */
 
 
+Static Void put_test_values(p_test, edge, test_type, ifail, off_pos_int,
+			    off_pos_double, arg_pos_int, arg_pos_double,
+			    nargs, arg_int, arg_double)
+t_test *p_test;
+long *edge;
+t_integer test_type, *ifail, *off_pos_int, *off_pos_double, arg_pos_int,
+	  arg_pos_double;
+long **nargs, **arg_int;
+double **arg_double;
+{
+  /* , sub_code */
+  t_integer dummy;
+  t_vertex_set a, b, g;
+  t_vertex u, v;
+  t_long_integer card;
+
+  P_setcpy(g, empty_set);
+  add_union_of_id(&p_test->id_1, g);
+  add_union_of_id(&p_test->id_2, g);
+
+  if (test_type == 2) {
+    two_sets_from_id(&p_test->id_1, a, b);
+    P_setdiff(g, a, b);
+    P_setdiff(g, b, a);
+    P_setint(g, b, a);
+  }
+
+  u = first_vertex;
+  while (!P_inset(u, edge) && u < last_vertex)
+    u++;
+
+  v = u;
+  if (v < last_vertex) {
+    v++;
+    while (!P_inset(v, edge) && v < last_vertex)
+      v++;
+  }
+
+  card = cardinality(edge);
+
+  if (p_test->ok && *ifail < 1)
+    *ifail = 0;
+  if (ok_int_arg(ifail, arg_pos_int, *off_pos_int + 5, nargs, arg_int) &
+      ok_double_arg(ifail, arg_pos_double, *off_pos_double + 14, nargs,
+		    arg_double)) {
+    (*arg_int)[*off_pos_int] = p_test->n_count;
+    (*arg_int)[*off_pos_int + 1] = p_test->df;
+    if (p_test->adj < _INFINITY)   /* Check with Xlisp+CoCo !!!! */
+      (*arg_int)[*off_pos_int + 2] = p_test->adj;
+    (*arg_int)[*off_pos_int + 3] = p_test->number_of_tables;
+    if (ok_int_arg(ifail, arg_pos_int, *off_pos_int + 5, nargs, arg_int) &&
+	p_test->f_test_df != _INFINITY)
+      (*arg_int)[*off_pos_int + 4] = p_test->f_test_df;
+    if (card > 0) {
+      if (ok_int_arg(ifail, arg_pos_int, *off_pos_int + 8, nargs, arg_int)) {
+	(*arg_int)[*off_pos_int + 5] = u;
+	(*arg_int)[*off_pos_int + 6] = v;
+	(*arg_int)[*off_pos_int + 7] = card;
+      }
+    }
+
+    if (is_invalid_real(p_test->x_deviance))
+      (*arg_double)[*off_pos_double] = my_var_na_double;
+    else if (test_ok(p_test->test_ifail))
+      (*arg_double)[*off_pos_double] = p_test->x_deviance;
+    else
+      (*arg_double)[*off_pos_double] = my_var_na_double;
+    if (p_test->mcep_deviance < 0)
+      (*arg_double)[*off_pos_double + 1] = my_var_na_double;
+    else
+      (*arg_double)[*off_pos_double + 1] = p_test->mcep_deviance;
+    if (is_invalid_real(p_test->x_pearson))
+      (*arg_double)[*off_pos_double + 2] = my_var_na_double;
+    else
+      (*arg_double)[*off_pos_double + 2] = p_test->x_pearson;
+    if (p_test->mcep_pearson < 0)
+      (*arg_double)[*off_pos_double + 3] = my_var_na_double;
+    else
+      (*arg_double)[*off_pos_double + 3] = p_test->mcep_pearson;
+    if (is_invalid_real(p_test->x_power))
+      (*arg_double)[*off_pos_double + 4] = my_var_na_double;
+    else
+      (*arg_double)[*off_pos_double + 4] = p_test->x_power;
+    if (p_test->mcep_power < 0)
+      (*arg_double)[*off_pos_double + 5] = my_var_na_double;
+    else
+      (*arg_double)[*off_pos_double + 5] = p_test->mcep_power;
+    (*arg_double)[*off_pos_double + 6] = p_test->gamma;
+    (*arg_double)[*off_pos_double + 7] = p_test->s;
+    (*arg_double)[*off_pos_double + 8] = p_test->s1;
+    if (p_test->mcep_gamma_1 < 0)
+      (*arg_double)[*off_pos_double + 9] = my_var_na_double;
+    else
+      (*arg_double)[*off_pos_double + 9] = p_test->mcep_gamma_1;
+    if (p_test->mcep_gamma_2 < 0)
+      (*arg_double)[*off_pos_double + 10] = my_var_na_double;
+    else
+      (*arg_double)[*off_pos_double + 10] = p_test->mcep_gamma_2;
+    if (p_test->df < _INFINITY)
+      (*arg_double)[*off_pos_double + 11] = p_test->df;
+    else if (is_invalid_real(p_test->df_real))
+      (*arg_double)[*off_pos_double + 11] = my_var_na_double;
+    else
+      (*arg_double)[*off_pos_double + 11] = p_test->df_real;
+    if (ok_double_arg(ifail, arg_pos_double, *off_pos_double + 13, nargs,
+		      arg_double)) {
+      if (p_test->x_f_test < 0)
+	(*arg_double)[*off_pos_double + 12] = my_var_na_double;
+      else
+	(*arg_double)[*off_pos_double + 12] = p_test->x_f_test;
+    }
+    if (ok_double_arg(ifail, arg_pos_double, *off_pos_double + 14, nargs,
+		      arg_double)) {
+      if (p_test->mcep_f_test < 0)
+	(*arg_double)[*off_pos_double + 13] = my_var_na_double;
+      else
+	(*arg_double)[*off_pos_double + 13] = p_test->mcep_f_test;
+    }
+    for (dummy = 6; dummy <= 8; dummy++) {
+      if (is_invalid_real((*arg_double)[*off_pos_double + dummy]))
+	(*arg_double)[*off_pos_double + dummy] = my_var_na_double;
+    }
+  }
+  *off_pos_int += 8;
+  *off_pos_double += 14;
+}  /* put_test_values */
+
+
+Static Void put_sorted_list(link_sort_list, parts, separators, write_options,
+			    test_labels, ifail, arg_pos_int, arg_pos_double,
+			    nargs, arg_int, arg_double)
+t_sort_list *link_sort_list;
+boolean parts, separators;
+t_test_write_options **write_options;
+t_test_labels **test_labels;
+t_integer *ifail, arg_pos_int, arg_pos_double;
+long **nargs, **arg_int;
+double **arg_double;
+{
+  /* , sub_code */
+  t_part_list *p;
+  t_integer off_pos_int = 0, off_pos_double = 0;
+  t_vertex_set edge;
+  /*$ifdef TRACE*/
+  pch20 tzt;
+
+  /*$endif TRACE*/
+  /*$ifdef TRACE*/
+  memcpy(tzt, " PutSortedList      ", sizeof(pch20));
+  ntr_boolean(tzt, 20L, 1846L, 1L, -1L, -1L, (*write_options)->write_test);
+  /*$endif TRACE*/
+  while (link_sort_list != NULL) {
+    P_setcpy(edge, link_sort_list->vertex_set);
+    p = link_sort_list->link_part_list;
+    if (parts) {
+      while (p != NULL) {
+	put_test_values(&p->link_test_list->test, empty_set, 1L, ifail,
+			&off_pos_int, &off_pos_double, arg_pos_int,
+			arg_pos_double, nargs, arg_int, arg_double);
+	p = p->pointer;
+      }
+    }
+    put_test_values(&link_sort_list->link_test_list->test, edge, 0L, ifail,
+		    &off_pos_int, &off_pos_double, arg_pos_int,
+		    arg_pos_double, nargs, arg_int, arg_double);
+    p = link_sort_list->link_sepa_list;
+    if (separators) {
+      while (p != NULL) {
+	put_test_values(&p->link_test_list->test, empty_set, 2L, ifail,
+			&off_pos_int, &off_pos_double, arg_pos_int,
+			arg_pos_double, nargs, arg_int, arg_double);
+	p = p->pointer;
+      }
+    }
+    link_sort_list = link_sort_list->pointer;
+  }
+  /*$ifdef TRACE*/
+  ntr_boolean(tzt, 20L, 1984L, 8L, -1L, 2L, (*write_options)->write_test);
+  /*$endif TRACE*/
+}  /* put_sorted_list */
+
+
 /*@+"ctest.p"*/
 
 
@@ -60826,9 +60992,9 @@ t_test_list **p;
 }  /* insert_part */
 
 
-Static Void insert_test_in_sort_list(p, down, link_sort_list)
+Static Void insert_test_in_sort_list(p, unordered, down, link_sort_list)
 t_sort_list **p;
-boolean down;
+boolean unordered, down;
 t_sort_list **link_sort_list;
 {
   t_sort_list *q;
@@ -60846,7 +61012,7 @@ t_sort_list **link_sort_list;
     *link_sort_list = *p;
     return;
   }
-  if ((*p)->x <= (*link_sort_list)->x) {
+  if ((*p)->x <= (*link_sort_list)->x || unordered) {
     (*p)->pointer = *link_sort_list;
     *link_sort_list = *p;
     return;
@@ -62628,7 +62794,6 @@ t_vertex v, w;
   t_set_list *tmp_g_c;
   /*$ifdef TRACE*/
   pch20 tzt;
-  long SET[NULL_VERTEX / 32 + 2];
 
   /*$endif TRACE*/
   /*$ifdef TRACE*/
@@ -62705,7 +62870,6 @@ t_set_list **new_g_c, **old_g_c, **drop_g_c;
   t_vertex v, w;
   t_vertex_set g, a;
   t_v_arr_of_v_sets old_adj_set, new_adj_set;
-  long SET[NULL_VERTEX / 32 + 2];
 
   hypergraph_sets_to_graph_sets(*old_g_c, g, old_adj_set);
   for (v = first_vertex; v <= last_vertex - 1; v++) {
@@ -62864,7 +63028,6 @@ long *new_g;
   t_vertex v, w;
   t_vertex_set old_g, a;
   t_v_arr_of_v_sets old_adj_set, new_adj_set;
-  long SET[NULL_VERTEX / 32 + 2];
 
   hypergraph_sets_to_graph_sets(*old_g_c, old_g, old_adj_set);
   P_setcpy(new_g, old_g);
@@ -63064,11 +63227,11 @@ t_long_integer *sub_code;
       /*$endif TRACE*/
       dispose_set_list(interactions);
       drop_interactions_from_g_c(&(*new__model)->id->UU.U1.g_c_discrete,
-	&(*old_model)->id->UU.U1.g_c_discrete, &tmp_discrete_g_c, a);
+				 &(*old_model)->id->UU.U1.g_c_discrete,
+				 &tmp_discrete_g_c, a);
       P_setcpy((*new__model)->id->vertices, a);
       drop_interactions_from_g_c(&(*new__model)->id->UU.U1.g_c_linear,
-				 &(*old_model)->id->UU.U1.g_c_linear,
-				 &tmp_linear_g_c, a);
+	&(*old_model)->id->UU.U1.g_c_linear, &tmp_linear_g_c, a);
       P_setunion((*new__model)->id->vertices, (*new__model)->id->vertices, a);
       drop_interactions_from_g_c(&(*new__model)->id->UU.U1.g_c_quadratic,
 	&(*old_model)->id->UU.U1.g_c_quadratic, &tmp_quadratic_g_c, a);
@@ -63704,7 +63867,6 @@ long *a;
   t_vertex v;
   t_vertex_set b, c;
   t_set_list *g_c_old, *g_c_new;
-  long SET[NULL_VERTEX / 32 + 2];
 
   if (mixed_data)
     note_mixed(stdout, " DropTotalGenerator", 19L);
@@ -63798,7 +63960,6 @@ long *a;
   boolean b;
   t_vertex_set c;
   t_set_list *g_c_old, *g_c_new;
-  long SET[NULL_VERTEX / 32 + 2];
 
   if (mixed_data)
     note_mixed(stdout, " ReduceGenerator", 16L);
@@ -63862,7 +64023,6 @@ t_vertex *v;
   t_set_list *p;
   t_vertex_set c;
   t_set_list *g_c_old, *g_c_new;
-  long SET[NULL_VERTEX / 32 + 2];
 
   if (mixed_data)
     note_mixed(stdout, " DropFactor", 11L);
@@ -64119,7 +64279,6 @@ long *a;
   t_v_arr_of_v_sets adj_set;
   t_vertex u;
   t_vertex_set g, b;
-  long SET[NULL_VERTEX / 32 + 2];
 
   /* if mixed_data then
        note_mixed(output, ' TestDecomposableA..', 20); */
@@ -64416,7 +64575,6 @@ procedure set_min_max_log_l_of_mixed_item(var mixed_item : t_mips_element);
   t_model *model;
   /*$ifdef TRACE*/
   pch20 tzt;
-  long SET[NULL_VERTEX / 32 + 2];
 
   /*$endif TRACE*/
   /*$ifdef TRACE*/
@@ -64542,7 +64700,6 @@ struct LOC_test_one_inter_part *LINK;
 {
   t_vertex v;
   t_vertex_set b;
-  long SET[NULL_VERTEX / 32 + 2];
 
   if (v2 == last_vertex) {
     for (v = v1; v <= v2; v++) {
@@ -64594,7 +64751,6 @@ t_test_labels **test_labels_;
 {
   struct LOC_test_one_inter_part Local_Var;
   t_vertex v;
-  long SET[NULL_VERTEX / 32 + 2];
 
   Local_Var.base_model = base_model_;
   Local_Var.write_options = write_options_;
@@ -64714,7 +64870,6 @@ struct LOC_test_one_inter_fast *LINK;
 {
   t_vertex v;
   t_vertex_set b;
-  long SET[NULL_VERTEX / 32 + 2];
 
   if (v2 == last_vertex) {
     for (v = v1; v <= v2; v++) {
@@ -64746,7 +64901,6 @@ t_test_labels **test_labels_;
   struct LOC_test_one_inter_fast Local_Var;
   t_model_list *l_m_l;
   t_vertex v;
-  long SET[NULL_VERTEX / 32 + 2];
 
   Local_Var.current_model = current_model_;
   Local_Var.base_model = base_model_;
@@ -64854,7 +65008,6 @@ t_test_labels **test_labels;
   t_v_arr_of_v_lists adj_list_a, adj_list_b;
   t_long_integer dummy_0;
   t_test_list *p_test;
-  long SET[NULL_VERTEX / 32 + 2];
 
   partitioning = (partitioning || incomplete_table || mixed_data);
   if (!partitioning) {
@@ -65017,7 +65170,6 @@ t_test_labels **test_labels;
   t_v_arr_of_v_lists adj_list_b;
   t_long_integer dummy_0;
   t_test_list *p_test;
-  long SET[NULL_VERTEX / 32 + 2];
 
   partitioning = (partitioning || incomplete_table || mixed_data);
   if (!partitioning || incomplete_table || mixed_data)
@@ -65197,7 +65349,6 @@ t_test_labels **test_labels;
   t_v_arr_of_order order;
   t_v_arr_of_v_sets current_adj_set, base_adj_set;
   t_v_arr_of_v_lists adj_list_a, adj_list_b;
-  long SET[NULL_VERTEX / 32 + 2];
 
   if ((*current_model)->id->model_type == mixed)
     homogeneous = link_current->model->id->UU.U1.homogeneous;
@@ -65426,7 +65577,6 @@ struct LOC_find_shortest_path *LINK;
 {
   t_vertex_set new_path;
   t_vertex_list *p;
-  long SET[NULL_VERTEX / 32 + 2];
 
   if (v == *LINK->b) {
     insert_set_minimal(path, LINK->paths);
@@ -65720,17 +65870,17 @@ t_test_labels **test_labels;
 
 
 Static Void write_not_decomposable(tmp_g_c, from_g_c, v, w, c, model_set,
-  forward_selection, graphical_model, hierarchical_search, short_report,
+  forward_selection, graphical_model, hierarchical_search, no_writing,
   separators, write_options, test_labels)
 t_set_list *tmp_g_c, **from_g_c;
 t_vertex *v, *w;
 long *c, *model_set;
 boolean forward_selection, *graphical_model, *hierarchical_search,
-	*short_report, *separators;
+	*no_writing, *separators;
 t_test_write_options **write_options;
 t_test_labels **test_labels;
 {
-  if (*short_report)
+  if (*no_writing)
     return;
   if (!(*write_options)->write_test)
     write_stepwise_head(v, w, c, hierarchical_search, separators,
@@ -65774,15 +65924,16 @@ t_test_labels **test_labels;
 
 
 Static Void end_stepwise_step(g_c, v, w, c, homogeneous, p, link_sort_list,
-  p_test, hierarchical_search, reversed, sorted_list, short_report,
-  separators, write_options, test_labels, partitioning)
+  p_test, hierarchical_search, reversed, sorted_list, unordered_list,
+  short_report, separators, write_options, test_labels, partitioning)
 t_set_list **g_c;
 t_vertex *v, *w;
 long *c;
 boolean *homogeneous;
 t_sort_list **p, **link_sort_list;
 t_test_list **p_test;
-boolean hierarchical_search, reversed, sorted_list, short_report, *separators;
+boolean hierarchical_search, reversed, sorted_list, unordered_list,
+	short_report, *separators;
 t_test_write_options **write_options;
 t_test_labels **test_labels;
 boolean *partitioning;
@@ -65809,7 +65960,7 @@ boolean *partitioning;
     link_part_list = NULL;
     if (sorted_list) {
       P_setcpy((*p)->vertex_set, c);
-      insert_test_in_sort_list(p, reversed, link_sort_list);
+      insert_test_in_sort_list(p, unordered_list, reversed, link_sort_list);
     } else
       dispose_sort_list(p);
     return;
@@ -66064,14 +66215,14 @@ t_test_labels **test_labels;
 
 Static Void backward_parted(g_c_current, g_c_base, g_c, v, w, c, local_delta,
 			    p_test, offset, ok_to_collaps, graphical_model,
-			    homogeneous, short_report, separators,
+			    homogeneous, no_writing, separators,
 			    hierarchical_search, write_options, test_labels)
 t_set_list **g_c_current, **g_c_base, **g_c;
 t_vertex *v, *w;
 long *c, *local_delta;
 t_test_list **p_test;
 t_long_integer *offset;
-boolean *ok_to_collaps, *graphical_model, *homogeneous, *short_report,
+boolean *ok_to_collaps, *graphical_model, *homogeneous, *no_writing,
 	*separators, *hierarchical_search;
 t_test_write_options **write_options;
 t_test_labels **test_labels;
@@ -66081,7 +66232,6 @@ t_test_labels **test_labels;
   t_long_integer number_of_tests = 0;
   /*$ifdef TRACE*/
   pch20 tzt;
-  long SET[NULL_VERTEX / 32 + 2];
 
   /*$endif TRACE*/
   /*$ifdef TRACE*/
@@ -66142,7 +66292,7 @@ t_test_labels **test_labels;
   }
   if ((!ok || incomplete_table) && decomposable_mode) {
     write_not_decomposable(*g_c, g_c_current, v, w, c, local_delta, false,
-			   graphical_model, hierarchical_search, short_report,
+			   graphical_model, hierarchical_search, no_writing,
 			   separators, write_options, test_labels);
     return;
   }
@@ -66165,12 +66315,12 @@ t_test_labels **test_labels;
 
 
 Static Void backward_non_parted(g_c_current, g_c_base, g_c, v, w, c,
-  local_delta, graphical_model, homogeneous, short_report, separators,
+  local_delta, graphical_model, homogeneous, no_writing, separators,
   hierarchical_search, write_options, test_labels)
 t_set_list **g_c_current, **g_c_base, **g_c;
 t_vertex *v, *w;
 long *c, *local_delta;
-boolean *graphical_model, *homogeneous, *short_report, *separators,
+boolean *graphical_model, *homogeneous, *no_writing, *separators,
 	*hierarchical_search;
 t_test_write_options **write_options;
 t_test_labels **test_labels;
@@ -66197,7 +66347,7 @@ t_test_labels **test_labels;
   else {
     /* Default !!! */
     write_not_decomposable(*g_c, g_c_current, v, w, c, local_delta, false,
-			   graphical_model, hierarchical_search, short_report,
+			   graphical_model, hierarchical_search, no_writing,
 			   separators, write_options, test_labels);
   }
 }  /* backward_non_parted */
@@ -66222,6 +66372,7 @@ t_test_labels **test_labels;
   pch20 tzt;
   t_stepwise_options *WITH;
   FILE *TEMP;
+  boolean TEMP1;
 
   /*$endif TRACE*/
   /*$ifdef TRACE*/
@@ -66240,22 +66391,27 @@ t_test_labels **test_labels;
   flush_file(&diary_file);
   /* if mixed_data then
    note_mixed(output, ' BackwardTryOneEdge@', 19); */
-  if (WITH->partitioning)
+  if (WITH->partitioning) {
+    TEMP1 = (WITH->short_report ||
+	     WITH->export_list && !(*write_options)->write_test);
     backward_parted(g_c_current, g_c_base, &tmp_g_c, &v, &w, c, local_delta,
 		    &p_test, offset, ok_to_collaps, graphical_model,
-		    homogeneous, &WITH->short_report, &WITH->separators,
+		    homogeneous, &TEMP1, &WITH->separators,
 		    &WITH->hierarchical, write_options, test_labels);
-  else
+  } else {
+    TEMP1 = (WITH->short_report ||
+	     WITH->export_list && !(*write_options)->write_test);
     backward_non_parted(g_c_current, g_c_base, &tmp_g_c, &v, &w, c,
-			local_delta, graphical_model, homogeneous,
-			&WITH->short_report, &WITH->separators,
-			&WITH->hierarchical, write_options, test_labels);
+			local_delta, graphical_model, homogeneous, &TEMP1,
+			&WITH->separators, &WITH->hierarchical, write_options,
+			test_labels);
+  }
   /* false, */
   end_stepwise_step(&tmp_g_c, &v, &w, c, homogeneous, link_last_test,
 		    link_sort_list, &p_test, WITH->hierarchical,
-		    WITH->reversed, true, WITH->short_report,
-		    &WITH->separators, write_options, test_labels,
-		    &WITH->partitioning);
+		    WITH->reversed, true, WITH->unordered_list,
+		    WITH->short_report, &WITH->separators, write_options,
+		    test_labels, &WITH->partitioning);
   dispose_set_list(&tmp_g_c);
 }  /* backward_try_one_edge */
 
@@ -66303,10 +66459,11 @@ t_set_list **g_c, **eligible_edges;
 }  /* backward_return_terms */
 
 
-Static Void backward_one_step(g_c_current, g_c_base, local_delta, offset,
-			      graphical_model, homogeneous, stepwise_options,
-			      write_options, test_labels)
+Static Void backward_one_step(g_c_current, g_c_base, link_sort_list,
+  local_delta, offset, graphical_model, homogeneous, stepwise_options,
+  write_options, test_labels)
 t_set_list **g_c_current, **g_c_base;
+t_sort_list **link_sort_list;
 long *local_delta;
 t_long_integer *offset;
 boolean *graphical_model, *homogeneous;
@@ -66317,7 +66474,6 @@ t_test_labels **test_labels;
   boolean ok_to_collaps;
   t_vertex v, w;
   t_sort_list *link_last_test;
-  t_sort_list *link_sort_list = NULL;
   t_vertex_set a, edge;
   t_long_real p_edge = 0.0;
   t_test_list *selected_test;
@@ -66332,6 +66488,7 @@ t_test_labels **test_labels;
   ntr(tzt, 20L, 2015L, 1L, -1L, 1L);
   /*$endif TRACE*/
   WITH = *stepwise_options;
+  *link_sort_list = NULL;
   if (WITH->follow && !WITH->recursive)
     *g_c_base = *g_c_current;
   ok_to_collaps = !WITH->hierarchical;
@@ -66362,7 +66519,7 @@ t_test_labels **test_labels;
       if (P_subset(a, local_delta) & subset_of_an_edge(a, g_c_current) &
 	  (!P_inset(w, fix_edges_adj_set[v - MIN_VERTEX])))
 	backward_try_one_edge(g_c_current, g_c_base, graphical_model,
-			      homogeneous, &ok_to_collaps, &link_sort_list,
+			      homogeneous, &ok_to_collaps, link_sort_list,
 			      &link_last_test, a, local_delta, offset,
 			      stepwise_options, write_options, test_labels);
       w++;
@@ -66370,7 +66527,7 @@ t_test_labels **test_labels;
     v++;
   }
   P_setcpy(edge, empty_set);
-  select_and_update(link_sort_list, &selected_test, &rejected_edges,
+  select_and_update(*link_sort_list, &selected_test, &rejected_edges,
 		    &accepted_edges, edge, &p_edge, WITH->coherent,
 		    WITH->follow, false);
   if ((*write_options)->write_test) {
@@ -66385,9 +66542,6 @@ t_test_labels **test_labels;
   insert_g_c_in_new_model(&rejected_edges, local_delta, &causal_structure,
 			  false, *homogeneous);
   dispose_set_list(&accepted_edges);
-  if (WITH->sorted_list)
-    write_sorted_list(link_sort_list, write_options, test_labels);
-  dispose_sort_list(&link_sort_list);
 }  /* backward_one_step */
 
 
@@ -66727,12 +66881,18 @@ t_test_labels **test_labels;
 
 
 Static Void backward_elimination(link_curr, link_base, stepwise_options,
-				 write_options, test_labels)
+  write_options, test_labels, ifail, arg_pos_int, arg_pos_double, nargs,
+  arg_int, arg_double)
 t_model_list *link_curr, *link_base;
 t_stepwise_options **stepwise_options;
 t_test_write_options **write_options;
 t_test_labels **test_labels;
+t_integer *ifail, arg_pos_int, arg_pos_double;
+long **nargs, **arg_int;
+double **arg_double;
 {
+  /* , sub_code */
+  t_sort_list *link_sort_list;
   boolean graphical_model;
   boolean homogeneous = false;
   t_vertex_set local_delta;
@@ -66785,10 +66945,19 @@ t_test_labels **test_labels;
       backward_many_steps(&g_c_current, g_c_base, local_delta, &offset, false,
 			  &graphical_model, &homogeneous, stepwise_options,
 			  write_options, test_labels);
-    else
-      backward_one_step(&g_c_current, &g_c_base, local_delta, &offset,
-			&graphical_model, &homogeneous, stepwise_options,
-			write_options, test_labels);
+    else {
+      link_sort_list = NULL;
+      backward_one_step(&g_c_current, &g_c_base, &link_sort_list, local_delta,
+			&offset, &graphical_model, &homogeneous,
+			stepwise_options, write_options, test_labels);
+      if ((*stepwise_options)->sorted_list)
+	write_sorted_list(link_sort_list, write_options, test_labels);
+      if ((*stepwise_options)->export_list)
+	put_sorted_list(link_sort_list, false, false, write_options,
+			test_labels, ifail, arg_pos_int, arg_pos_double,
+			nargs, arg_int, arg_double);
+      dispose_sort_list(&link_sort_list);
+    }
     if (interrupt_2) {
       interrupt_1 = false;
       interrupt_2 = false;
@@ -66807,9 +66976,14 @@ t_test_labels **test_labels;
 }  /* backward_elimination */
 
 
-Static Void proc_backward(code)
+Static Void proc_backward(code, ifail, arg_pos_int, arg_pos_double, nargs,
+			  arg_int, arg_double)
 t_long_integer *code;
+t_integer *ifail, arg_pos_int, arg_pos_double;
+long **nargs, **arg_int;
+double **arg_double;
 {
+  /* , sub_code */
   boolean tmp_re_use;
   boolean ok = true;
   t_test_list *p;
@@ -66839,6 +67013,8 @@ t_long_integer *code;
   /* => 2 */
   local_test_labels = new_test_labels_empty();
   local_stepwise_options = copy_stepwise_options();
+  local_stepwise_options->unordered_list = !negative_flag_set(code, 8L);
+  local_stepwise_options->export_list = !negative_flag_set(code, 4L);
   /*$ifdef TRACE*/
   ntr(tzt, 20L, 2021L, 1L, -1L, -3L);
   /*$endif TRACE*/
@@ -66900,7 +67076,9 @@ t_long_integer *code;
     ntr(tzt, 20L, 2021L, 1L, -1L, -6L);
     /*$endif TRACE*/
     backward_elimination(link_model, link_base, &local_stepwise_options,
-			 &local_write_options, &local_test_labels);
+			 &local_write_options, &local_test_labels, ifail,
+			 arg_pos_int, arg_pos_double, nargs, arg_int,
+			 arg_double);
     if (tmp_re_use) {
       dispose_tests();
       link_test_list = p;
@@ -66942,14 +67120,14 @@ t_long_integer *code;
 
 Static Void forward_parted(g_c_current, v, w, c, local_delta, p_test, offset,
 			   decomposable_model, graphical_model, homogeneous,
-			   short_report, separators, hierarchical_search,
+			   no_writing, separators, hierarchical_search,
 			   write_options, test_labels)
 t_set_list **g_c_current;
 t_vertex *v, *w;
 long *c, *local_delta;
 t_test_list **p_test;
 t_long_integer *offset;
-boolean *decomposable_model, *graphical_model, *homogeneous, *short_report,
+boolean *decomposable_model, *graphical_model, *homogeneous, *no_writing,
 	*separators, *hierarchical_search;
 t_test_write_options **write_options;
 t_test_labels **test_labels;
@@ -67059,9 +67237,8 @@ t_test_labels **test_labels;
       }
     } else
       write_not_decomposable(NULL, g_c_current, v, w, c, local_delta, true,
-			     graphical_model, hierarchical_search,
-			     short_report, separators, write_options,
-			     test_labels);
+			     graphical_model, hierarchical_search, no_writing,
+			     separators, write_options, test_labels);
     dispose_set_list(&tmp_g_c);
   }
   /*$ifdef TRACE*/
@@ -67071,12 +67248,12 @@ t_test_labels **test_labels;
 
 
 Static Void forward_non_parted(g_c_current, v, w, c, local_delta,
-  graphical_model, homogeneous, short_report, separators, hierarchical_search,
+  graphical_model, homogeneous, no_writing, separators, hierarchical_search,
   write_options, test_labels)
 t_set_list **g_c_current;
 t_vertex *v, *w;
 long *c, *local_delta;
-boolean *graphical_model, *homogeneous, *short_report, *separators,
+boolean *graphical_model, *homogeneous, *no_writing, *separators,
 	*hierarchical_search;
 t_test_write_options **write_options;
 t_test_labels **test_labels;
@@ -67109,7 +67286,7 @@ t_test_labels **test_labels;
 			    test_labels);
   } else
     write_not_decomposable(tmp_g_c, g_c_current, v, w, c, local_delta, true,
-			   graphical_model, hierarchical_search, short_report,
+			   graphical_model, hierarchical_search, no_writing,
 			   separators, write_options, test_labels);
   dispose_set_list(&tmp_g_c);
 }  /* forward_non_parted */
@@ -67133,6 +67310,7 @@ t_test_labels **test_labels;
   pch20 tzt;
   t_stepwise_options *WITH;
   FILE *TEMP;
+  boolean TEMP1;
 
   /*$endif TRACE*/
   /*$ifdef TRACE*/
@@ -67156,23 +67334,28 @@ t_test_labels **test_labels;
   /*$ifdef TRACE*/
   ntr(tzt, 20L, 2029L, 1L, -1L, 3L);
   /*$endif TRACE*/
-  if (WITH->partitioning)
+  if (WITH->partitioning) {
+    TEMP1 = (WITH->short_report ||
+	     WITH->export_list && !(*write_options)->write_test);
     forward_parted(g_c_current, &v, &w, c, local_delta, &p_test, offset,
-		   decomposable_model, graphical_model, homogeneous,
-		   &WITH->short_report, &WITH->separators,
-		   &WITH->hierarchical, write_options, test_labels);
-  else
+		   decomposable_model, graphical_model, homogeneous, &TEMP1,
+		   &WITH->separators, &WITH->hierarchical, write_options,
+		   test_labels);
+  } else {
+    TEMP1 = (WITH->short_report ||
+	     WITH->export_list && !(*write_options)->write_test);
     forward_non_parted(g_c_current, &v, &w, c, local_delta, graphical_model,
-		       homogeneous, &WITH->short_report, &WITH->separators,
+		       homogeneous, &TEMP1, &WITH->separators,
 		       &WITH->hierarchical, write_options, test_labels);
+  }
   /*$ifdef TRACE*/
   ntr(tzt, 20L, 2029L, 1L, -1L, 4L);   /* true, */
   /*$endif TRACE*/
   end_stepwise_step(g_c_current, &v, &w, c, homogeneous, link_last_test,
 		    link_sort_list, &p_test, WITH->hierarchical,
-		    !WITH->reversed, true, WITH->short_report,
-		    &WITH->separators, write_options, test_labels,
-		    &WITH->partitioning);
+		    !WITH->reversed, true, WITH->unordered_list,
+		    WITH->short_report, &WITH->separators, write_options,
+		    test_labels, &WITH->partitioning);
   /*$ifdef TRACE*/
   ntr(tzt, 20L, 2029L, 1L, -1L, 8L);
   /*$endif TRACE*/
@@ -67205,10 +67388,11 @@ t_set_list **g_c, **eligible_edges;
 }  /* forward_return_terms */
 
 
-Static Void forward_one_step(g_c_current, local_delta, offset,
+Static Void forward_one_step(g_c_current, link_sort_list, local_delta, offset,
 			     graphical_model, homogeneous, stepwise_options,
 			     write_options, test_labels)
 t_set_list **g_c_current;
+t_sort_list **link_sort_list;
 long *local_delta;
 t_long_integer *offset;
 boolean *graphical_model, *homogeneous;
@@ -67219,7 +67403,6 @@ t_test_labels **test_labels;
   boolean decomposable_model;
   t_vertex v, w;
   t_sort_list *link_last_test;
-  t_sort_list *link_sort_list = NULL;
   t_vertex_set a, edge;
   t_long_real p_edge = 0.0;
   t_test_list *selected_test;
@@ -67234,6 +67417,7 @@ t_test_labels **test_labels;
   ntr(tzt, 20L, 2031L, 1L, -1L, 1L);
   /*$endif TRACE*/
   WITH = *stepwise_options;
+  *link_sort_list = NULL;
   if (*graphical_model)
     decomposable_model = g_c_decomposable(g_c_current);
   else
@@ -67247,7 +67431,7 @@ t_test_labels **test_labels;
       if (P_subset(a, local_delta) & (!subset_of_an_edge(a, g_c_current)) &
 	  (!P_inset(w, fix_edges_adj_set[v - MIN_VERTEX])))
 	forward_try_one_edge(g_c_current, &decomposable_model,
-			     graphical_model, homogeneous, &link_sort_list,
+			     graphical_model, homogeneous, link_sort_list,
 			     &link_last_test, a, local_delta, offset,
 			     stepwise_options, write_options, test_labels);
       w++;
@@ -67255,7 +67439,7 @@ t_test_labels **test_labels;
     v++;
   }
   P_setcpy(edge, empty_set);
-  select_and_update(link_sort_list, &selected_test, &rejected_edges,
+  select_and_update(*link_sort_list, &selected_test, &rejected_edges,
 		    &accepted_edges, edge, &p_edge, WITH->coherent, true,
 		    true);
   if ((*write_options)->write_test) {
@@ -67270,9 +67454,6 @@ t_test_labels **test_labels;
   insert_g_c_in_new_model(&accepted_edges, local_delta, &causal_structure,
 			  false, *homogeneous);
   dispose_set_list(&rejected_edges);
-  if (WITH->sorted_list)
-    write_sorted_list(link_sort_list, write_options, test_labels);
-  dispose_sort_list(&link_sort_list);
 }  /* forward_one_step */
 
 
@@ -67478,8 +67659,7 @@ t_test_labels **test_labels;
 
 
 Static Void blockwise_forward(g_c_current, local_delta, offset,
-			      graphical_model, homogeneous, stepwise_options,
-			      write_options, test_labels)
+  graphical_model, homogeneous, stepwise_options, write_options, test_labels)
 t_set_list *g_c_current;
 long *local_delta;
 t_long_integer *offset;
@@ -67554,12 +67734,18 @@ t_test_labels **test_labels;
 
 
 Static Void forward_selection(link_curr, stepwise_options, write_options,
-			      test_labels)
+			      test_labels, ifail, arg_pos_int, arg_pos_double,
+			      nargs, arg_int, arg_double)
 t_model_list **link_curr;
 t_stepwise_options **stepwise_options;
 t_test_write_options **write_options;
 t_test_labels **test_labels;
+t_integer *ifail, arg_pos_int, arg_pos_double;
+long **nargs, **arg_int;
+double **arg_double;
 {
+  /* , sub_code */
+  t_sort_list *link_sort_list;
   boolean graphical_model;
   boolean homogeneous = false;
   t_vertex_set local_delta;
@@ -67597,10 +67783,19 @@ t_test_labels **test_labels;
     forward_many_steps(&g_c_current, local_delta, &offset, false,
 		       &graphical_model, &homogeneous, stepwise_options,
 		       write_options, test_labels);
-  else
-    forward_one_step(&g_c_current, local_delta, &offset, &graphical_model,
-		     &homogeneous, stepwise_options, write_options,
-		     test_labels);
+  else {
+    link_sort_list = NULL;
+    forward_one_step(&g_c_current, &link_sort_list, local_delta, &offset,
+		     &graphical_model, &homogeneous, stepwise_options,
+		     write_options, test_labels);
+    if ((*stepwise_options)->sorted_list)
+      write_sorted_list(link_sort_list, write_options, test_labels);
+    if ((*stepwise_options)->export_list)
+      put_sorted_list(link_sort_list, false, false, write_options,
+		      test_labels, ifail, arg_pos_int, arg_pos_double, nargs,
+		      arg_int, arg_double);
+    dispose_sort_list(&link_sort_list);
+  }
   dispose_g_c_copy_for_mixed_model(&(*link_curr)->model, &g_c_current);
   if (interrupt_2) {
     interrupt_1 = false;
@@ -67609,9 +67804,14 @@ t_test_labels **test_labels;
 }  /* forward_selection */
 
 
-Static Void proc_forward(code)
+Static Void proc_forward(code, ifail, arg_pos_int, arg_pos_double, nargs,
+			 arg_int, arg_double)
 t_long_integer *code;
+t_integer *ifail, arg_pos_int, arg_pos_double;
+long **nargs, **arg_int;
+double **arg_double;
 {
+  /* , sub_code */
   boolean tmp_re_use, ok;
   t_test_list *p;
   t_long_integer offset;
@@ -67637,6 +67837,8 @@ t_long_integer *code;
     /* => 2 */
     local_test_labels = new_test_labels_empty();
     local_stepwise_options = copy_stepwise_options();
+    local_stepwise_options->unordered_list = neg_pos_flag_set(code, 8L);
+    local_stepwise_options->export_list = neg_pos_flag_set(code, 4L);
     ok = true;
     if (ok) {
       link_model = link_current;
@@ -67679,7 +67881,9 @@ t_long_integer *code;
       local_test_labels->short_report = local_stepwise_options->short_report;
       local_test_labels->separators = local_stepwise_options->separators;
       forward_selection(&link_model, &local_stepwise_options,
-			&local_write_options, &local_test_labels);
+			&local_write_options, &local_test_labels, ifail,
+			arg_pos_int, arg_pos_double, nargs, arg_int,
+			arg_double);
       if (tmp_re_use) {
 	dispose_tests();
 	link_test_list = p;
@@ -67716,7 +67920,6 @@ t_vertex_set *adj_set;
 {
   t_vertex v1, v2;
   t_vertex_set a, b;
-  long SET[NULL_VERTEX / 32 + 2];
 
   for (v1 = first_vertex; v1 <= last_vertex; v1++)
     P_setcpy(adj_set[v1 - MIN_VERTEX], empty_set);
@@ -67877,7 +68080,6 @@ t_set_list **g_c;
 {
   t_v_arr_of_v_sets adj_set;
   t_vertex v;
-  long SET[NULL_VERTEX / 32 + 2];
 
   for (v = first_vertex; v <= last_vertex; v++)
     P_setcpy(adj_set[v - MIN_VERTEX], empty_set);
@@ -67919,7 +68121,6 @@ t_set_list **g_c;
 {
   t_v_arr_of_v_sets adj_set;
   t_vertex v;
-  long SET[NULL_VERTEX / 32 + 2];
 
   for (v = first_vertex; v <= last_vertex; v++) {
     if (P_inset(v, g))
@@ -68399,7 +68600,6 @@ t_g_c_list **d_a;
   boolean not_there;
   t_edge_list *el, *edge_list;
   t_v_arr_of_v_sets tmp_model;
-  long SET[NULL_VERTEX / 32 + 2];
 
   p = *s;
   if (link_eh_pack->fix_in) {
@@ -74063,7 +74263,6 @@ boolean init_select;
   t_vertex_name name;
   t_vertex_name_list *q_name_list;
   short TEMP;
-  long SET[NULL_VERTEX / 32 + 2];
 
   dispose_all_models();
   fna = N_START - FIRST_INDEX;
@@ -76417,7 +76616,6 @@ FILE *data_file;
   t_q_cell_index index;
   t_vertex v, w;
   t_q_cell_index FORLIM;
-  long SET[NULL_VERTEX / 32 + 2];
 
   dispose_all_expressions();
   dispose_tests();
@@ -78086,7 +78284,6 @@ long **nargs, **arg_int;
   t_vertex v, w;
   t_model_list *p;
   t_set_list *g_c;
-  long SET[NULL_VERTEX / 32 + 2];
 
   sub_code_to_model(ifail, sub_code, &p);
   get_next_integer(stdin, true, &i, ifail, sub_code, arg_pos_int, nargs,
@@ -78628,21 +78825,11 @@ boolean local;
 #endif /* CoCo_Cygwin */
   if (!ok) {
     write_file_not_found(stdout, parser_name);
-#ifdef CoCo_Cygwin
-#ifdef DEBUG_G
-    /* G */ printf("parser_table 30 \n");
-#endif /* G */
-#endif /* CoCo_Cygwin */
     if (!local) {
       *ifail = 52;   /* No parser table */
       /* halt */
     }
   } else {
-#ifdef CoCo_Cygwin
-#ifdef DEBUG_G
-    /* G */ printf("parser_table 40 \n");
-#endif /* G */
-#endif /* CoCo_Cygwin */
     read_parser_integer(parser_table, 5L, &number_of_productions_i);
     read_parser_integer(parser_table, 5L, &version_a_i);
     read_parser_integer(parser_table, 5L, &version_b_i);
@@ -80401,7 +80588,7 @@ Static Void status_observations()
   write_pch_r(stdout, "Number of variables read", 24L, 40L);
   write_integer_left(stdout, (long)dimension);
   write_line(stdout);
-  write_pch_r(stdout, "Maximal number of factors", 25L, 40L);
+  write_pch_r(stdout, "Maximal number of variables", 28L, 40L);
   write_integer_left(stdout, MAX_DIMENSION - 2L);
   write_line(stdout);
   write_pch_r(stdout, "(Maximal dimension for datastructure ALL", 40L, 40L);
@@ -81339,7 +81526,7 @@ Static Void dump_observations()
   write_pch(output, 'Number of variables read@@@@@@', 24);
   write_integer_left(output, dimension);
   write_end_command(output);
-  write_pch(output, 'Maximal number of factors@@@@@', 25);
+  write_pch(output, 'Maximal number of variables@@@', 28);
   write_integer_left(output, max_dimension - 2);
   write_end_command(output);
   write_pch(output,
@@ -82037,7 +82224,6 @@ FILE *f;
   Char c;
   /*$ifdef TRACE*/
   pch20 tzt;
-  long SET[NULL_VERTEX / 32 + 2];
 
   /*$endif TRACE*/
   /*$ifdef TRACE*/
@@ -87146,7 +87332,6 @@ struct LOC_read_n_interaction_argument *LINK;
 {
   t_vertex v;
   t_vertex_set b;
-  long SET[NULL_VERTEX / 32 + 2];
 
   if (v2 == last_vertex) {
     for (v = v1; v <= v2; v++) {
@@ -88081,7 +88266,7 @@ double **arg_double;
   /* , sub_code */
   t_sort_list *link_sort_list = NULL;
   t_test_list *p = NULL;
-  t_integer dummy;
+  t_integer dummy, off_pos_int, off_pos_double;
   t_test test;
   t_vertex_set a;
   t_set_list *g_c_current, *g_c_base;
@@ -88134,76 +88319,11 @@ double **arg_double;
     }
   }
   if (p != NULL) {
-    if (p->test.ok && *ifail < 1)
-      *ifail = 0;
-    (*arg_int)[0] = p->test.n_count;
-    (*arg_int)[1] = p->test.df;
-    if (p->test.adj < _INFINITY)   /* Check with Xlisp+CoCo !!!! */
-      (*arg_int)[2] = p->test.adj;
-    (*arg_int)[3] = p->test.number_of_tables;
-    if (ok_int_arg(ifail, arg_pos_int, 5L, nargs, arg_int) &&
-	p->test.f_test_df != _INFINITY)
-      (*arg_int)[4] = p->test.f_test_df;
-
-    if (is_invalid_real(p->test.x_deviance))
-      (*arg_double)[0] = my_var_na_double;
-    else if (test_ok(p->test.test_ifail))
-      (*arg_double)[0] = p->test.x_deviance;
-    else
-      (*arg_double)[0] = my_var_na_double;
-    if (p->test.mcep_deviance < 0)
-      (*arg_double)[1] = my_var_na_double;
-    else
-      (*arg_double)[1] = p->test.mcep_deviance;
-    if (is_invalid_real(p->test.x_pearson))
-      (*arg_double)[2] = my_var_na_double;
-    else
-      (*arg_double)[2] = p->test.x_pearson;
-    if (p->test.mcep_pearson < 0)
-      (*arg_double)[3] = my_var_na_double;
-    else
-      (*arg_double)[3] = p->test.mcep_pearson;
-    if (is_invalid_real(p->test.x_power))
-      (*arg_double)[4] = my_var_na_double;
-    else
-      (*arg_double)[4] = p->test.x_power;
-    if (p->test.mcep_power < 0)
-      (*arg_double)[5] = my_var_na_double;
-    else
-      (*arg_double)[5] = p->test.mcep_power;
-    (*arg_double)[6] = p->test.gamma;
-    (*arg_double)[7] = p->test.s;
-    (*arg_double)[8] = p->test.s1;
-    if (p->test.mcep_gamma_1 < 0)
-      (*arg_double)[9] = my_var_na_double;
-    else
-      (*arg_double)[9] = p->test.mcep_gamma_1;
-    if (p->test.mcep_gamma_2 < 0)
-      (*arg_double)[10] = my_var_na_double;
-    else
-      (*arg_double)[10] = p->test.mcep_gamma_2;
-    if (p->test.df < _INFINITY)
-      (*arg_double)[11] = p->test.df;
-    else if (is_invalid_real(p->test.df_real))
-      (*arg_double)[11] = my_var_na_double;
-    else
-      (*arg_double)[11] = p->test.df_real;
-    if (ok_double_arg(ifail, arg_pos_double, 13L, nargs, arg_double)) {
-      if (p->test.x_f_test < 0)
-	(*arg_double)[12] = my_var_na_double;
-      else
-	(*arg_double)[12] = p->test.x_f_test;
-    }
-    if (ok_double_arg(ifail, arg_pos_double, 14L, nargs, arg_double)) {
-      if (p->test.mcep_f_test < 0)
-	(*arg_double)[13] = my_var_na_double;
-      else
-	(*arg_double)[13] = p->test.mcep_f_test;
-    }
-    for (dummy = 6; dummy <= 8; dummy++) {
-      if (is_invalid_real((*arg_double)[dummy]))
-	(*arg_double)[dummy] = my_var_na_double;
-    }
+    off_pos_int = 0;
+    off_pos_double = 0;
+    put_test_values(&p->test, empty_set, 0L, ifail, &off_pos_int,
+		    &off_pos_double, arg_pos_int, arg_pos_double, nargs,
+		    arg_int, arg_double);
   }
   dispose_part_list(&link_part_list);
   dispose_sort_list(&link_sort_list);
@@ -91383,6 +91503,8 @@ boolean *char_input;
 Static Void version_stamp(f)
 FILE *f;
 {
+/* p2c: coco_d_p2c.p, line 82845:
+ * Warning: Too many characters for packed array of char [162] */
   writeln_pch_50_text(f, '#', VERSION, 50L);
   writeln_pch_50_text(f, '#', COMP_MACH, 50L);
   writeln_pch_50_text(f, '#', COMP_TIME, 50L);
@@ -92122,6 +92244,8 @@ Static Void note_coco_started()
   /* write_pch(output,
                 ' Mixed Interaction Models and small CGregressions.', 50);
     write_line(output); */
+/* p2c: coco_d_p2c.p, line 83526:
+ * Warning: Too many characters for packed array of char [162] */
   write_pch(stdout, VERSION, 50L);
   write_line(stdout);
   /* write_pch(output, comp_mach, 50);
@@ -93450,7 +93574,6 @@ long *v_set;
   /*$ifdef TRACE*/
   pch20 tzt;
   t_discrete_vertex FORLIM;
-  long SET[NULL_VERTEX / 32 + 2];
 
   /*$endif TRACE*/
   /*$ifdef TRACE*/
@@ -93977,7 +94100,6 @@ struct LOC_new_count_mixed_models *LINK;
   t_vertex u;
   /*$ifdef TRACE*/
   pch20 tzt;
-  long SET[NULL_VERTEX / 32 + 2];
 
   /*$endif TRACE*/
   Local_Var.LINK = LINK;
@@ -95067,7 +95189,6 @@ t_vertex v;
 struct LOC_find_cliques_1_ *LINK;
 {
   t_vertex_set a, b;
-  long SET[NULL_VERTEX / 32 + 2];
 
   P_setcpy(a, a_);
   if (v != last_vertex)
@@ -95147,7 +95268,6 @@ struct LOC_count_cliques_1 *LINK;
   t_v_arr_of_v_sets adj_set;
   t_set_list *l = NULL;
   boolean decomp;
-  long SET[NULL_VERTEX / 32 + 2];
 
   memcpy(adj_set, adj_set_, sizeof(t_v_arr_of_v_sets));
   if (w < LINK->max_ord)
@@ -95207,7 +95327,6 @@ t_vertex v;
 struct LOC_find_cliques_2_ *LINK;
 {
   t_vertex_set a, b;
-  long SET[NULL_VERTEX / 32 + 2];
 
   P_setcpy(a, a_);
   if (v != last_vertex)
@@ -95288,7 +95407,6 @@ struct LOC_count_cliques_2 *LINK;
   t_v_arr_of_v_sets adj_set;
   t_set_list *l = NULL;
   boolean decomp;
-  long SET[NULL_VERTEX / 32 + 2];
 
   memcpy(adj_set, adj_set_, sizeof(t_v_arr_of_v_sets));
   /*   if ord(w) < max_ord
@@ -95356,7 +95474,6 @@ t_vertex v;
 struct LOC_find_cliques_3_ *LINK;
 {
   t_vertex_set a, b;
-  long SET[NULL_VERTEX / 32 + 2];
 
   P_setcpy(a, a_);
   if (v != last_vertex)
@@ -95437,7 +95554,6 @@ struct LOC_count_cliques_3 *LINK;
   t_v_arr_of_v_sets adj_set;
   t_set_list *l = NULL;
   boolean decomp;
-  long SET[NULL_VERTEX / 32 + 2];
 
   memcpy(adj_set, adj_set_, sizeof(t_v_arr_of_v_sets));
   /*   if ord(w) < max_ord
@@ -97330,11 +97446,13 @@ long **arg_char_int;
     break;
 
   case 200:
-    proc_backward(sub_code);
+    proc_backward(sub_code, ifail, (long)pos_int, (long)pos_double, nargs,
+		  arg_int, arg_double);
     break;
 
   case 201:
-    proc_forward(sub_code);
+    proc_forward(sub_code, ifail, (long)pos_int, (long)pos_double, nargs,
+		 arg_int, arg_double);
     break;
 
   case 202:   /* IS GRAPHICAL */

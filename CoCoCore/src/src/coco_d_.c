@@ -46,10 +46,13 @@
    #ifndef HAS_NOT_VALUES
    #include <values.h>
    #else
+   #endif
+
    #ifndef MAXDOUBLE
    #define MAXDOUBLE 3.4028234e38
-   #define MAXFLOAT  3.4028234e38
    #endif
+   #ifndef MAXFLOAT
+   #define MAXFLOAT  3.4028234e38
    #endif
 
    #include <stdio.h>
@@ -120,7 +123,7 @@ program complete_contingency_tables(input, output);
 #define VERSION_A       140
 #define VERSION_B       1
 
-#define VERSION         " 1.5.3                Thu Oct 28 21:00:00 PDT 2004"
+#define VERSION         " 1.5.4               Wed Aug 10 14:00:00 CEST 2005"
 /* #  ifdef CC-minus     
 #define COMP_TIME       "                                                  "
 #define COMP_MACH       " Compiled with pc, a Sun Pascal compiler for Sun4 "
@@ -1680,25 +1683,32 @@ FILE *f;
 float *x;
 long v, w;
 {
+  long len;
+  Char str[255];
 #ifdef CoCo_Cygwin
   t_long_integer j;
-  Char str[255];
 
   /*
   printf("write_short_text 1 \n");
   printf("\n");
   */
 
-  if (w == 0)
-    sprintf(str, "% .*E", P_max((int)v - 7, 1), *x);
-  else
-    sprintf(str, "%*.*f", (int)v, (int)w, *x);
-  for (j = 0; j < v; j++)
+  if (w == 0) {
+    len = sprintf(str, "% .*e", P_max((int)v - 7, 1), *x);
+    if (len == v + 1)
+      len = sprintf(str, "% .*e", P_max((int)v - 8, 1), *x);
+  } else
+    len = sprintf(str, "%*.*f", (int)v, (int)w, *x);
+  for (j = 0; j < len; j++)
     write_char_text(f, str[j]);
 #else /* CoCo_Cygwin */
-  if (w == 0)
-    fprintf(f, "% .*E", P_max((int)v - 7, 1), *x);
-  else
+  if (w == 0) {
+    len = sprintf(str, "% .*e", P_max((int)v - 7, 1), *x);
+    if (len == v + 1)
+      fprintf(f, "% .*E", P_max((int)v - 8, 1), *x);
+    else
+      fprintf(f, "% .*E", P_max((int)v - 7, 1), *x);
+  } else
     fprintf(f, "%*.*f", (int)v, (int)w, *x);
 #endif /* CoCo_Cygwin */
 }  /* write_short_real_text */
@@ -1709,25 +1719,32 @@ FILE *f;
 double *x;
 long v, w;
 {
+  long len;
+  Char str[255];
 #ifdef CoCo_Cygwin
   t_long_integer j;
-  Char str[255];
 
   /*
   printf("write_real_text 1 \n");
   printf("\n");
   */
 
-  if (w == 0)
-    sprintf(str, "% .*E", P_max((int)v - 7, 1), *x);
-  else
-    sprintf(str, "%*.*f", (int)v, (int)w, *x);
-  for (j = 0; j < v; j++)
+  if (w == 0) {
+    len = sprintf(str, "% .*e", P_max((int)v - 7, 1), *x);
+    if (len == v + 1)
+      len = sprintf(str, "% .*e", P_max((int)v - 8, 1), *x);
+  } else
+    len = sprintf(str, "%*.*f", (int)v, (int)w, *x);
+  for (j = 0; j < len; j++)
     write_char_text(f, str[j]);
 #else /* CoCo_Cygwin */
-  if (w == 0)
-    fprintf(f, "% .*E", P_max((int)v - 7, 1), *x);
-  else
+  if (w == 0) {
+    len = sprintf(str, "% .*e", P_max((int)v - 7, 1), *x);
+    if (len == v + 1)
+      fprintf(f, "% .*E", P_max((int)v - 8, 1), *x);
+    else
+      fprintf(f, "% .*E", P_max((int)v - 7, 1), *x);
+  } else
     fprintf(f, "%*.*f", (int)v, (int)w, *x);
 #endif /* CoCo_Cygwin */
 }  /* write_real_text */
