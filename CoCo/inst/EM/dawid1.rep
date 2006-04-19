@@ -1,0 +1,141 @@
+ <> EM-start -    Time:    0.016s.
+ <> .E-Expt  -  Log L:      0.000000,  Time:    0.017s.  Table: abc2345x.
+ <> .E-step  -  Tmp L: @@@     0.000000,  Time:    0.017s.
+ <> .E-Marg  -   Time:    0.017s.  Table: ax.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.016s.  Table: bx.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: cx.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: 2x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: 3x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.016s.  Table: 4x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: 5x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: x.           From: ax.
+ <> .E-Marg  -   Time:    0.000s.  Table: .            From: x.
+ <> .E-step  -  Log L: -98765.432110,  Time:    0.117s.
+ <> EM-init  -  Log L: -98765.432110,  Time:    0.133s.
+ <> .E-Expt  -  Log L:   -187.379456,  Time:    0.017s.  Table: abc2345x.
+ <> .E-step  -  Tmp L: @@@  -187.379456,  Time:    0.017s.
+ <> .E-Marg  -   Time:    0.016s.  Table: ax.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: bx.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: cx.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: 2x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.016s.  Table: 3x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: 4x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: 5x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: x.           From: ax.
+ <> .E-Marg  -   Time:    0.000s.  Table: .            From: x.
+ <> .E-step  -  Log L:   -187.379456,  Time:    0.117s.
+ <> EM-step  -  Log L:   -187.379456;+ Delta:   0.0000200000, Time:    0.250s.
+ <> .E-Expt  -  Log L:   -187.354259,  Time:    0.016s.  Table: abc2345x.
+ <> .E-step  -  Tmp L: @@@  -187.354259,  Time:    0.016s.
+ <> .E-Marg  -   Time:    0.017s.  Table: ax.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: bx.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: cx.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.016s.  Table: 2x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: 3x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: 4x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.016s.  Table: 5x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: x.           From: ax.
+ <> .E-Marg  -   Time:    0.000s.  Table: .            From: x.
+ <> .E-step  -  Log L:   -187.354259,  Time:    0.116s.
+ <> EM-step  -  Log L:   -187.354259;+ Delta:   0.0251969466, Time:    0.366s.
+ <> .E-Expt  -  Log L:   -187.351190,  Time:    0.017s.  Table: abc2345x.
+ <> .E-step  -  Tmp L: @@@  -187.351190,  Time:    0.017s.
+ <> .E-Marg  -   Time:    0.017s.  Table: ax.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.016s.  Table: bx.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: cx.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: 2x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: 3x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.016s.  Table: 4x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: 5x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: x.           From: ax.
+ <> .E-Marg  -   Time:    0.000s.  Table: .            From: x.
+ <> .E-step  -  Log L:   -187.351190,  Time:    0.117s.
+ <> EM-step  -  Log L:   -187.351190;+ Delta:   0.0030689795, Time:    0.483s.
+ <> .E-Expt  -  Log L:   -187.350700,  Time:    0.017s.  Table: abc2345x.
+ <> .E-step  -  Tmp L: @@@  -187.350700,  Time:    0.017s.
+ <> .E-Marg  -   Time:    0.016s.  Table: ax.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: bx.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: cx.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.016s.  Table: 2x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: 3x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: 4x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: 5x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: x.           From: ax.
+ <> .E-Marg  -   Time:    0.000s.  Table: .            From: x.
+ <> .E-step  -  Log L:   -187.350700,  Time:    0.117s.
+ <> EM-step  -  Log L:   -187.350700;+ Delta:   0.0004900933, Time:    0.600s.
+ <> .E-Expt  -  Log L:   -187.350615,  Time:    0.016s.  Table: abc2345x.
+ <> .E-step  -  Tmp L: @@@  -187.350615,  Time:    0.016s.
+ <> .E-Marg  -   Time:    0.017s.  Table: ax.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: bx.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.016s.  Table: cx.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: 2x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: 3x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: 4x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.016s.  Table: 5x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: x.           From: ax.
+ <> .E-Marg  -   Time:    0.000s.  Table: .            From: x.
+ <> .E-step  -  Log L:   -187.350615,  Time:    0.116s.
+ <> EM-step  -  Log L:   -187.350615;+ Delta:   0.0000851083, Time:    0.716s.
+ <> .E-Expt  -  Log L:   -187.350603,  Time:    0.017s.  Table: abc2345x.
+ <> .E-step  -  Tmp L: @@@  -187.350603,  Time:    0.017s.
+ <> .E-Marg  -   Time:    0.017s.  Table: ax.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.016s.  Table: bx.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: cx.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: 2x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.016s.  Table: 3x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: 4x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: 5x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: x.           From: ax.
+ <> .E-Marg  -   Time:    0.000s.  Table: .            From: x.
+ <> .E-step  -  Log L:   -187.350603,  Time:    0.117s.
+ <> EM-step  -  Log L:   -187.350603;+ Delta:   0.0000123640, Time:    0.833s.
+ <> .E-Expt  -  Log L:   -187.350586,  Time:    0.033s.  Table: abc2345x.
+ <> .E-step  -  Tmp L: @@@  -187.350586,  Time:    0.033s.
+ <> .E-Marg  -   Time:    0.000s.  Table: ax.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: bx.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: cx.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.016s.  Table: 2x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: 3x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: 4x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.016s.  Table: 5x.          From: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: x.           From: ax.
+ <> .E-Marg  -   Time:    0.000s.  Table: .            From: x.
+ <> .E-step  -  Log L:   -187.350586,  Time:    0.133s.
+ <> EM-step  -  Log L:   -187.350586;+ Delta:   0.0000165267, Time:    0.966s.
+ <> .E-Expt  -  Log L:   -187.350590,  Time:    0.017s.  Table: abc2345x.
+ <> .E-step  -  Tmp L: @@@  -187.350590,  Time:    0.017s.
+ <> .E-step  -  Log L:   -187.350590,  Time:    0.017s.
+ <> EM-step  -  Log L:   -187.350590;+ Delta:  -0.0000036691, Time:    0.983s.
+ <> .E-Expt  -  Log L:   -187.350590,  Time:    0.017s.  Table: abc2345x.
+ <> .E-step  -  Tmp L: @@@  -187.350590,  Time:    0.017s.
+ <> .E-step  -  Log L:   -187.350590,  Time:    0.017s.
+ <> EM-step  -  Log L:   -187.350590;+ Delta:  -0.0000036691, Time:    1.000s.
+ <> .E-Expt  -  Log L:   -187.350590,  Time:    0.016s.  Table: abc2345x.
+ <> .E-step  -  Tmp L: @@@  -187.350590,  Time:    0.016s.
+ <> .E-step  -  Log L:   -187.350590,  Time:    0.016s.
+ <> EM-step  -  Log L:   -187.350590;+ Delta:  -0.0000036691, Time:    1.016s.
+ <> .E-Expt  -  Log L:   -187.350590,  Time:    0.017s.  Table: abc2345x.
+ <> .E-step  -  Tmp L: @@@  -187.350590,  Time:    0.017s.
+ <> .E-step  -  Log L:   -187.350590,  Time:    0.017s.
+ <> EM-step  -  Log L:   -187.350590;+ Delta:  -0.0000036691, Time:    1.033s.
+ <> .E-Expt  -  Log L:   -187.350590,  Time:    0.017s.  Table: abc2345x.
+ <> .E-step  -  Tmp L: @@@  -187.350590,  Time:    0.017s.
+ <> .E-step  -  Log L:   -187.350590,  Time:    0.017s.
+ <> EM-step  -  Log L:   -187.350590;+ Delta:  -0.0000036691, Time:    1.050s.
+ <> EM-total -  Log L:   -187.350590,  Time:    1.050s.
+ <> .E-Expt  -  Log L:   -187.350586,  Time:    0.017s.  Table: abc2345x.
+ <> .E-Marg  -   Time:    0.016s.  Table: ax.          From: abc2345x.
+ <> .E-Expt  -  Log L:   -187.350586,  Time:    0.017s.  Table: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: bx.          From: abc2345x.
+ <> .E-Expt  -  Log L:   -187.350586,  Time:    0.016s.  Table: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: cx.          From: abc2345x.
+ <> .E-Expt  -  Log L:   -187.350586,  Time:    0.017s.  Table: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: 2x.          From: abc2345x.
+ <> .E-Expt  -  Log L:   -187.350586,  Time:    0.017s.  Table: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: 3x.          From: abc2345x.
+ <> .E-Expt  -  Log L:   -187.350586,  Time:    0.016s.  Table: abc2345x.
+ <> .E-Marg  -   Time:    0.000s.  Table: 4x.          From: abc2345x.
+ <> .E-Expt  -  Log L:   -187.350586,  Time:    0.000s.  Table: abc2345x.
+ <> .E-Marg  -   Time:    0.017s.  Table: 5x.          From: abc2345x.
+ <> .E-Expt  -  Log L:   -187.350586,  Time:    0.017s.  Table: abc2345x.

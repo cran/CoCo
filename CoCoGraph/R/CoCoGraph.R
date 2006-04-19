@@ -122,7 +122,7 @@ if (!isGeneric("dg") &&
                              "package") == "dynamicGraph") > 0)) {
   warning("Method 'dg' should be defined and exported from dynamicGraph")
   if (is.function("dg"))
-    fun <- position
+    fun <- dg
   else
     fun <- function(object, 
                     # modelObject = NULL,

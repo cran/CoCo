@@ -44,7 +44,7 @@
    #include "p2c/p2clib.c"
 
    #ifndef HAS_NOT_VALUES
-   #include <values.h>
+   #include <limits.h>
    #else
    #endif
 
