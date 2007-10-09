@@ -1,4 +1,14 @@
-# import(CoCoObjects)
+
+import(CoCoObjects)
+
+# Variables missing:
+#   '.api.version' '.char.ok' '.coco.identifications' '.coco.loaded'
+#   '.current.coco' '.current.coco.model' '.ended.coco' '.fewer.warnings'
+#   '.fixed.coco' '.no.ifail' '.platform.dynlib.ext'
+#   'coco.started' 'trace.call.coco'
+# Functions missing:
+#   'enterModel' 'makeBase' 'makeCurrent' 'numberVariates' 'returnModel' 'returnModelNumber'
+
 export(
 
 #       # CoCoObjects:

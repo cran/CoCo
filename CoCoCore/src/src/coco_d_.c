@@ -56,6 +56,7 @@
    #endif
 
    #include <stdio.h>
+   #include <unistd.h>
 
    #ifndef CHAR_MAX
      #define CHAR_MAX        '~'
@@ -3282,7 +3283,7 @@ function resize_q(var q: t_q;
 /*@-"write.c"*/
 /*@+"write.p"*/
 
-Static Void pause(f, page)
+Static Void pause_stdout(f, page)
 FILE *f;
 boolean page;
 {
@@ -3297,13 +3298,13 @@ boolean page;
   write_pch_30_text(f, "Press ``Return'' to continue", 28L);
   write_line_text(f);
   read_stdin_ln();
-}  /* pause */
+}  /* pause_stdout */
 
 
 Static Void page(f)
 FILE *f;
 {
-  pause(f, true);
+  pause_stdout(f, true);
   line_count = 0;
   if (page_length >= MAX_PAGE_LENGTH)
     return;
@@ -3319,7 +3320,7 @@ FILE *f;
   write_line_text(f);
   if (diary)
     write_line_text(diary_file);
-  pause(f, false);
+  pause_stdout(f, false);
   if (line_count + 1 > page_length)
     page(f);
   line_count++;
@@ -38174,6 +38175,8 @@ long **nargs, **arg_int;
   t_model_list *p;
   t_vertex FORLIM, FORLIM1;
 
+  edges = 0;
+  fix = 0;
   sub_code_to_model(ifail, sub_code, &p);
   i = 0;
   get_next_integer(stdin, true, &i, ifail, sub_code, arg_pos_int, nargs,
@@ -41384,6 +41387,9 @@ long *menu_number;
 {
   t_long_integer i1, i2, nr;
 
+  i1 = 0;
+  i2 = MAX_NUMBER_OF_COMMANDS;
+
   switch (*menu_number) {
 
   case 0:
@@ -42377,6 +42383,7 @@ double **arg_double;
   Char sep;
   t_model_list *tmp_link_model;
 
+  x = 0;
   do_write_vector = true;
   if (as_argument) {
     do_write_vector = (*sub_code == 0);
@@ -42846,6 +42853,7 @@ long **arg_int;
   t_vertex_set a;
   t_long_integer x_t, y_t, code, i, x;
 
+  x = 0;
   if (as_argument) {
     probit = false;
     rankit = false;

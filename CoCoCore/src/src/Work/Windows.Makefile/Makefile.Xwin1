@@ -1,0 +1,31 @@
+###############################################################################
+
+## TestGraph.lsp on this succeeded!!!
+## - But no printing (no at all from CoCo) !!!
+
+## XlispStat:
+
+XCFLAGS1 = -DDCOCO -DCoCo_Cygwin -DX_APIX 
+XCFLAGS = ${XCFLAGS1}
+
+wXcoco.o: ./lib/coco/wXcoco.o
+./lib/coco/wXcoco.o: ../src/coco_d_.c ../src/assign.c ../src/apix.c ../src/apix-X.h
+	date
+	if [ -f ../src/coco_d_.c ]; then \
+	  ${CC} ${CFLAGS} ${XCFLAGS} -pedantic \
+	    -c -o ./lib/coco/wXcoco.o ../src/apix.c ${LIBS} ; \
+	fi
+	date
+
+XDLLEXTRALIBS =
+XDLLFLAGS = --export-all-symbols --output-def dllwrap.def
+
+wXcoco.dll: ./lib/coco/wXcoco.dll
+./lib/coco/wXcoco.dll: ./lib/coco/wXcoco.o
+	if [ -f ../src/coco_d_.c ]; then \
+	  dllwrap ${XDLLFLAGS} \
+	    -o ./lib/coco/wXcoco.dll ./lib/coco/wXcoco.o ${XDLLEXTRALIBS} ; \
+	fi
+	date
+
+#### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ####

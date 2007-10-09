@@ -1,0 +1,35 @@
+###############################################################################
+
+## No Printing!!!
+
+
+## XLispStat-R:
+
+XRCFLAGS1 = -DDCOCO -DCoCo_Cygwin -DX_APIX -DR_APIX 
+XRCFLAGS = ${XRCFLAGS1} -O2 -I${WIN_R_ROOT}/src/include/
+
+wX-Rcoco.o: ./lib/coco/wX-Rcoco.o
+./lib/coco/wX-Rcoco.o: ../src/coco_d_.c ../src/assign.c ../src/apix.c ../src/apix-X.h ../src/apix-R.h
+	date
+	if [ -f ../src/coco_d_.c ]; then \
+	  ${CC} ${CFLAGS} ${XRCFLAGS} -pedantic \
+	    -c -o ./lib/coco/wX-Rcoco.o ../src/apix.c ${LIBS} ; \
+	fi
+	date
+
+# After 'make libR.a' in '${WIN_R_ROOT}/src/gnuwin32',
+# see '${WIN_R_ROOT}/readme.packages'.
+
+XRDLLEXTRALIBS = ${CYG_R_ROOT}/src/gnuwin32/libR.a
+XRDLLFLAGS = --mno-cygwin --export-all-symbols --output-def dllwrap.def ## -mwin32
+
+wX-Rcoco.dll: ./lib/coco/wX-Rcoco.dll
+./lib/coco/wX-Rcoco.dll: ./lib/coco/wX-Rcoco.o
+	date
+	if [ -f ../src/coco_d_.c ]; then \
+	  dllwrap ${XRDLLFLAGS} --def libcoco.def \
+	    -o ./lib/coco/wX-Rcoco.dll  ./lib/coco/wX-Rcoco.o ${XRDLLEXTRALIBS} ; \
+	fi
+	date
+
+#### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ####

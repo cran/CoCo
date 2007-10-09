@@ -31,7 +31,7 @@ function (coco.object, key = .return.key(coco.object), level = 10000,
         my.assign(".current.coco", new.object, frame = 0)
         .invalid <- new.object@.invalid
         if (length(.invalid$type) > 0) {
-            Warning("Not able to recover CoCo object!!!")
+            warning("Not able to recover CoCo object!!!")
         }
         .specification <- new.object@.specification
         if (length(.specification$type) > 0) {

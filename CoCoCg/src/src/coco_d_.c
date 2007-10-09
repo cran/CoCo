@@ -56,6 +56,7 @@
    #endif
 
    #include <stdio.h>
+   #include <unistd.h>
 
    #ifndef CHAR_MAX
    #define CHAR_MAX        '~'
@@ -4074,7 +4075,7 @@ t_long_real deviance;
 */
 
 
-Static Void pause(f, page)
+Static Void pause_stdout(f, page)
 FILE *f;
 boolean page;
 {
@@ -4089,13 +4090,13 @@ boolean page;
   write_pch_30_text(f, "Press ``Return'' to continue", 28L);
   write_line_text(f);
   read_stdin_ln();
-}  /* pause */
+}  /* pause_stdout */
 
 
 Static Void page(f)
 FILE *f;
 {
-  pause(f, true);
+  pause_stdout(f, true);
   line_count = 0;
   if (page_length >= MAX_PAGE_LENGTH)
     return;
@@ -4111,7 +4112,7 @@ FILE *f;
   write_line_text(f);
   if (diary)
     write_line_text(diary_file);
-  pause(f, false);
+  pause_stdout(f, false);
   if (line_count + 1 > page_length)
     page(f);
   line_count++;
@@ -19338,7 +19339,7 @@ t_model_list *q;
       /*$endif TRACE*/
       print_model_g_c(&p->model, 0L);
       write_line(stdout);
-      for (i = j; i <= indent; i++)
+      for (i = 1; i <= indent; i++)
 	write_char_stdout(' ');
     }
     p = p->pointer;
@@ -78285,6 +78286,8 @@ long **nargs, **arg_int;
   t_model_list *p;
   t_set_list *g_c;
 
+  edges = 0;
+  fix = 0;
   sub_code_to_model(ifail, sub_code, &p);
   get_next_integer(stdin, true, &i, ifail, sub_code, arg_pos_int, nargs,
 		   arg_int, "", 0L, &edges);
@@ -84495,6 +84498,9 @@ t_integer *menu_number;
 {
   t_integer i1, i2, nr;
 
+  i1 = 0;
+  i2 = MAX_NUMBER_OF_COMMANDS;
+
   switch (*menu_number) {
 
   case 0:
@@ -87052,6 +87058,7 @@ t_integer w;
   boolean Result;
   Char c;
 
+  Result = false;
   seek_non_blank(fil, command_, keyboard, promb, w, &c);
   if (c != 'h' && c != 'H')
     return Result;

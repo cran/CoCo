@@ -1,3 +1,19 @@
+import(methods)
+
+# Variables missing:
+# '.coco.identifications' '.current.coco' '.ended.coco' 
+# '.instances.coco' '.instances.coco.models'
+# Functions missing:
+#  '.enter.double.list' '.is.nil.model' '.my.trace' 
+#  '.names.from.model' '.set.datastructure' '.split.name.set'
+#  'coco.init' 'emOn' 'endCoCo'
+#  'enterDataFrame' 'enterList' 'enterModel' 'enterNames'
+#  'enterQlist' 'enterQtable' 'enterTable' 'enterTwoLists'
+#  'excludeMissing' 'importCoCo' 'is.number'
+#  'make.coco' 'make.cococg' 'make.model'
+#  'my.assign' 'returnModelNumber' 'setOrdinal' 'setUseVariables'
+#  'Warning'
+
 export(# CoCoObjects:
        # ".First.lib.CoCoObjects",
        "currentCoCo",  "makeCurrentCoCo", 
@@ -19,6 +35,7 @@ export(# CoCoObjects:
 
        "makeModel",
        "recover.coco.model")
+
 exportClasses("CoCoIdClass", "CoCoClass", "CoCoModelClass")
 
 # exportClasses("CoCoIdClass", "CoCoClass", "CoCoModelClass", "CoCoTestClass")

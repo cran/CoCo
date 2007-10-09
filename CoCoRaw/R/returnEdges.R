@@ -5,9 +5,9 @@ function (model = "current", edges = "in.model", fix = FALSE, data = NULL,
     old.current <- .before.set.current(model, object = object)
     type <- .return.type(object = object)
     if (type == 2) {
-        model <- .recover.model(model)
-        m <- .encode(c("base", "current", "last"), model, -(1:3), 
-            -2)
+        # model <- .recover.model(model)
+        # m <- .encode(c("base", "current", "last"), model, -(1:3), -2)
+        m <- -2
     }
     else {
         m <- -2

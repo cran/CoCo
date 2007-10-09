@@ -77,7 +77,7 @@ function (action = NULL, modification = NULL, model = FALSE,
         result <- .sub.edit(190, "@", sub.code = 2, omit.test = omit.test, 
             model = model, eliminate = FALSE, make.model = make.model, 
             return.test = return.test, push.pop = push.pop, object = object)
-        if (!(return.model || return.test)) 
+        if (!(return.test)) # or 'return.model' ?
             return(FALSE)
         else return(result)
     }
@@ -88,7 +88,7 @@ function (action = NULL, modification = NULL, model = FALSE,
         result <- .sub.edit(190, "@", sub.code = 3, omit.test = omit.test, 
             model = model, eliminate = FALSE, make.model = make.model, 
             return.test = return.test, push.pop = push.pop, object = object)
-        if (!(return.model || return.test)) 
+        if (!(return.test)) # or 'return.model' ?
             return(FALSE)
         else return(result)
     }

@@ -1,4 +1,0 @@
-chmod: failed to get attributes of `man/.*.Rd': No such file or directory
-chmod: failed to get attributes of `Affald/man/.*.Rd': No such file or directory
-cat: R/.*.R: No such file or directory
-chmod: failed to get attributes of `R/.*.R': No such file or directory

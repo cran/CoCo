@@ -1,4 +1,10 @@
-# import(CoCoCore)
+import(CoCoCore)
+
+# Variables missing:
+#    '.current.coco'
+# Functions missing:
+#    'extractData'
+
 export(# CoCoOldData:
         # ".return.object.model.number", ".return.type", ".set.coco.value", 
         # ".recover.model", ".object.of.thing", 

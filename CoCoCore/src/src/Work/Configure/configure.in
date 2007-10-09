@@ -1,0 +1,10 @@
+# Filname: configure.in
+
+AC_INIT(./)
+AM_INIT_AUTOMAKE( demo-coco, 1.6.3 )
+AM_CONFIG_HEADER(config.h)
+AC_PROG_CC
+AC_LIBOBJ
+AC_STDC_HEADERS
+AC_OUTPUT(Makefile)
+AC_OUTPUT(Makevars)

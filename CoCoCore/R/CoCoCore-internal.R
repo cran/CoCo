@@ -283,7 +283,7 @@ function (lib, pkg)
 ".mips.load" <-
 function (sh.lib.name = NULL) 
 {
-    library.dynam("Mips", pkg, lib)
+    library.dynam("Mips") # 'pkg' and 'lib' ?
 }
 ".my.ascii" <-
 function () 

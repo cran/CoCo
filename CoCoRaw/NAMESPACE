@@ -1,4 +1,10 @@
-# import(CoCoCore)
+import(CoCoCore)
+
+# Variables missing:
+#   '.coco.identifications' '.current.coco' '.ended.coco' '.fewer.warnings' 'coco.started'
+# Functions missing:
+#   'add.dual.to.class' 'enter.list'
+
 export(
 
 #        # CoCoObjects:

@@ -1,3 +1,0 @@
-source("CoCo.R")
-package.skeleton("CoCo", list = ls(all.names = TRUE))
-quit()

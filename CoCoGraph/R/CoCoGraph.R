@@ -441,15 +441,20 @@ setMethod("graphEdges", signature(object = "CoCoModelClass"),
         }
 
         BlockList         <- dg@blockList
+
       # BlockTree         <- dg@blockTree
+
         extraVertices     <- dg@extraList
 
      # if (.IsEmpty(extraVertices)) 
      #    extraVertices   <- .emptyDgList("dg.VertexList")
         extraEdges        <- dg@extraEdgeList
+
      #  if (.IsEmpty(extraEdges)) 
      #    extraEdges      <- .emptyDgList("dg.ExtraEdgeList")
-        visibleVertices   <- dg@visibleVertices
+
+     #  visibleVertices   <- dg@visibleVertices
+
         visibleBlocks     <- dg@visibleBlocks
 
         {
@@ -1041,13 +1046,16 @@ setMethod("modifyModel", signature(object = "CoCoModelClass"),
               action = "add.interactions", 
               modification = name, ...)
         }
+        VisibleVertices <- Arguments$visibleVertices
         if ((Arguments$viewType == "Factor") && .IsEmpty(FactorVertices)) {
             graphComponents <- graphComponents(new.object, 
               viewType = Arguments$viewType, Arguments = Arguments)
+            VisibleVertices <- graphComponents$visibleVertices
             FactorVertices <- graphComponents$factorVertices
             FactorEdges <- graphComponents$factorEdges
         }
         result <- list(object = new.object, 
+            VisibleVertices = VisibleVertices,
             FactorVertices = FactorVertices, 
             FactorEdges = FactorEdges)
         return(result)

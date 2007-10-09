@@ -25,5 +25,5 @@ function (sh.lib.name = NULL)
     my.assign(".instances.coco.models", NULL, frame = 0)
     my.assign(".current.coco", c(.ended.coco, 0), frame = 0)
     my.assign(".coco.loaded", TRUE, frame = 0)
-    .coco.load(sh.lib.name)
+    # .coco.load(sh.lib.name)
 }
