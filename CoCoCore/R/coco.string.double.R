@@ -44,6 +44,8 @@ function (code, argument = FALSE, sub.code = FALSE,
         }
         names(result$arg.long) <- names.long
         names(result$arg.double) <- names.double
+        if (result$arg.long["df"] <= 0)
+          warning(paste("Degrees of freedom:", result$arg.long["df"]))
         type <- "long.and.double"
     }
     else if (make.model) {

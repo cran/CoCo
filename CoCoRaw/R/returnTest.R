@@ -25,6 +25,8 @@ function (model.1 = "current", model.2 = "base", push.pop = FALSE,
         names.double <- names.double[1:12]
     }
     names(result$arg.long) <- names.long
+    if (result$arg.long["df"] <= 0)
+      warning(paste("Degrees of freedom:", result$arg.long["df"]))
     names(result$arg.double) <- names.double
     if (ifelse(.encode.model(model.2) < 0, FALSE, is.gc(model.2))) 
         disposeOfModel("base", object = object)

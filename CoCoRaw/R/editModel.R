@@ -250,5 +250,8 @@ function (action = NULL, modification = NULL, model = FALSE,
             result <- returnModel("last", object = object)
             disposeOfModel("last", object = object)
         }
+    if (return.test) 
+      if (result["df"] <= 0)
+        warning(paste("Degrees of freedom:", result["df"]))
     result
 }

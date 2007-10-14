@@ -1,4 +1,12 @@
 
+ 2007-10-14: warning(paste("Degrees of freedom:", result$arg.long["df"]))
+             inserted in returnTest, editModel and coco.string.double.
+
+ 2007-10-13: Vertices <- localArguments$vertexList
+             if (!any(slotNames(dg) == "vertexList")) in "graphEdges".
+
+ 2007-10-10: "modifyModel": VisibleVertices computed depending of action.
+
  2007-10-09: 'visibleVertices <- dg@visibleVertices' removed in "graphEdges".
 
  2007-10-09: 'pause' renames to 'pause_stdout'.

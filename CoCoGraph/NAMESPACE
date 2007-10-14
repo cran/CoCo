@@ -11,5 +11,5 @@ exportClasses("CoCoTestClass")
 
 exportMethods("setSlots", "initialize", "label", "width", "dg",
               "testEdge", "subModifyModel", "modifyModel",
-              "setGraphComponents", "graphComponents",
+              # "setGraphComponents", "graphComponents",
               "setGraphEdges", "graphEdges")
