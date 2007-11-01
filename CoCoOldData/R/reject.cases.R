@@ -1,5 +1,5 @@
 "reject.cases" <-
-function (set, cell, object = .current.coco) 
+function (set, cell, object = CoCoCore::.currentCoCo()) 
 {
     if ("what" != set) 
         .set.coco.value(object, ".invalid", append = TRUE, list(type = "reject.cases", 

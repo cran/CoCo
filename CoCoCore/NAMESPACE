@@ -23,6 +23,10 @@ export(
 #       "recover.coco.model",
 
        # CoCoCore:
+       ".traceCallCoCo", ".fewerWarnings", ".apiVersion", ".fixedCoCo", ".endedCoCo", 
+           ".noIfail", ".CoCoIdentifications", ".instancesCoCo", ".instancesCoCoModels", 
+           ".currentCoCo", ".currentCoCoModel", ".CoCoStarted", ".CoCoLoaded", 
+           ".platformDynlibExt", ".charOk", 
        "my.assign", 
            "coco.load", "ok.coco.start", "my.not.a.number", 
        ".my.trace", 

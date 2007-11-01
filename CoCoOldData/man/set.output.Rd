@@ -6,7 +6,7 @@
 \description{ Write standard output from CoCo on file. }
 
 \usage{
-set.output(file.name, object = .current.coco)
+set.output(file.name, object = CoCoCore::.currentCoCo())
 }
 
 \arguments{

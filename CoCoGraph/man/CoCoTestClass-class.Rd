@@ -8,7 +8,7 @@
 
 \title{ Class "CoCoTestClass" }
 
-\description{ }
+\description{The class for the test objects of CoCo objects.}
 
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("CoCoTestClass", ...)}.

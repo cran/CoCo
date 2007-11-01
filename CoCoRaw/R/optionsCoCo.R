@@ -3,7 +3,7 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
     data = NULL, object = .object.of.thing(data = data)) 
 {
     ".option.long" <- function(result, names, names.both, names.args, 
-        args, code, m = length(names), object = .current.coco) {
+        args, code, m = length(names), object = CoCoCore::.currentCoCo()) {
         if (length(intersect(names.both, names)) > 0) {
             X <- call.coco.longs(code, "what", m, FALSE, object = object)
             for (i in 1:length(names)) {
@@ -21,7 +21,7 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
         return(result)
     }
     ".option.longs" <- function(result, names, names.both, names.args, 
-        args, code, m = 25, stop.mark = 0, object = .current.coco) {
+        args, code, m = 25, stop.mark = 0, object = CoCoCore::.currentCoCo()) {
         if (length(intersect(names.both, names)) > 0) {
             X <- call.coco.longs(code, "what", m, FALSE, object = object)
             X <- X[1:max((1:length(X))[X != stop.mark])]
@@ -37,7 +37,7 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
         return(result)
     }
     ".option.name" <- function(result, names, names.both, names.args, 
-        args, code, object = .current.coco) {
+        args, code, object = CoCoCore::.currentCoCo()) {
         if (length(intersect(names.both, names)) > 0) {
             X <- call.coco.chars(code, "what", FALSE, object = object)
             if (is.element(names, names.both)) {
@@ -52,7 +52,7 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
         return(result)
     }
     ".option.real" <- function(result, names, names.both, names.args, 
-        args, code, m = length(names), object = .current.coco) {
+        args, code, m = length(names), object = CoCoCore::.currentCoCo()) {
         if (length(intersect(names.both, names)) > 0) {
             X <- call.coco.reals(code, "what", m, FALSE, object = object)
             for (i in 1:length(names)) {
@@ -71,7 +71,7 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
     }
     ".option.long.and.real" <- function(result, long.names, real.names, 
         names.both, names.args, args, code, long.m = length(long.names), 
-        real.m = length(real.names), object = .current.coco,
+        real.m = length(real.names), object = CoCoCore::.currentCoCo(),
         sub.code = 1) {
         if (length(intersect(names.both, long.names)) + length(intersect(names.both, 
             real.names)) > 0) {
@@ -106,7 +106,7 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
     }
     ".option.code.by.long" <- function(result, name, names.both, 
         names.args, args, code, x = c("a", "b", "c"), y = 1:3, 
-        object = .current.coco) {
+        object = CoCoCore::.currentCoCo()) {
         if (length(intersect(names.both, name)) > 0) {
             X <- x[call.coco.longs(code, 1, 1, -1, object = object)]
             if (is.element(name, names.both)) {
@@ -122,7 +122,7 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
         return(result)
     }
     ".option.code" <- function(result, name, names.both, names.args, 
-        args, code, x = c("a", "b", "c"), y = 1:3, object = .current.coco) {
+        args, code, x = c("a", "b", "c"), y = 1:3, object = CoCoCore::.currentCoCo()) {
         if (length(intersect(names.both, name)) > 0) {
             X <- x[call.coco.simple(code, "what", object = object)]
             if (is.element(name, names.both)) {
@@ -137,7 +137,7 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
         return(result)
     }
     ".option.switch" <- function(result, name, names.both, names.args, 
-        args, switch.name = name, object = .current.coco) {
+        args, switch.name = name, object = CoCoCore::.currentCoCo()) {
         if (length(intersect(names.both, name)) > 0) {
             X <- .set.switch(switch.name, "what", object = object)
             if (is.element(name, names.both)) {
@@ -151,7 +151,7 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
         }
         return(result)
     }
-    "options.formats" <- function(..., status = FALSE, object = .current.coco) {
+    "options.formats" <- function(..., status = FALSE, object = CoCoCore::.currentCoCo()) {
         if (status) 
             showOptions("formats", object = object)
         args <- list(...)
@@ -193,7 +193,7 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
             names.args, args, object = object)
         return(result)
     }
-    "options.tests" <- function(..., status = FALSE, object = .current.coco) {
+    "options.tests" <- function(..., status = FALSE, object = CoCoCore::.currentCoCo()) {
         if (status) 
             showOptions("tests", object = object)
         args <- list(...)
@@ -250,7 +250,7 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
             names.args, args, object = object)
         return(result)
     }
-    "options.ips" <- function(..., status = FALSE, object = .current.coco) {
+    "options.ips" <- function(..., status = FALSE, object = CoCoCore::.currentCoCo()) {
         if (status) 
             showOptions("ips", object = object)
         args <- list(...)
@@ -287,7 +287,7 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
             names.args, args, 55, m = 1, object = object)
         return(result)
     }
-    "options.cips" <- function(..., status = FALSE, object = .current.coco) {
+    "options.cips" <- function(..., status = FALSE, object = CoCoCore::.currentCoCo()) {
         if (status) 
             showOptions("ips", object = object)
         args <- list(...)
@@ -318,7 +318,7 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
             sub.code = 33)
         return(result)
     }
-    "options.em" <- function(..., status = FALSE, object = .current.coco) {
+    "options.em" <- function(..., status = FALSE, object = CoCoCore::.currentCoCo()) {
         if (status) 
             showOptions("em", object = object)
         args <- list(...)
@@ -349,7 +349,7 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
                 "mean", "random", "input"), y = 1:6, object = object)
         return(result)
     }
-    "options.mixed" <- function(..., status = FALSE, object = .current.coco) {
+    "options.mixed" <- function(..., status = FALSE, object = CoCoCore::.currentCoCo()) {
         if (status) 
             showOptions("mips", object = object)
         args <- list(...)
@@ -381,7 +381,7 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
             names.both, names.args, args = args, code = 60, object = object)
         return(result)
     }
-    "options.exact" <- function(..., status = FALSE, object = .current.coco) {
+    "options.exact" <- function(..., status = FALSE, object = CoCoCore::.currentCoCo()) {
         if (status) 
             showOptions("exact", object = object)
         args <- list(...)
@@ -428,7 +428,7 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
             names.args, args, 78, m = 1, object = object)
         return(result)
     }
-    "options.other" <- function(..., status = FALSE, object = .current.coco) {
+    "options.other" <- function(..., status = FALSE, object = CoCoCore::.currentCoCo()) {
         if (status) 
             showOptions("other", object = object)
         args <- list(...)
@@ -455,7 +455,7 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
         }
         return(result)
     }
-    "options.files" <- function(..., status = FALSE, object = .current.coco) {
+    "options.files" <- function(..., status = FALSE, object = CoCoCore::.currentCoCo()) {
         if (status) 
             showOptions("files", object = object)
         args <- list(...)
@@ -489,7 +489,7 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
             names.args, args, object = object)
         return(result)
     }
-    "options.datafiles" <- function(..., status = FALSE, object = .current.coco) {
+    "options.datafiles" <- function(..., status = FALSE, object = CoCoCore::.currentCoCo()) {
         if (status) 
             showOptions("data", object = object)
         args <- list(...)

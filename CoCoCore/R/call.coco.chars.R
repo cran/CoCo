@@ -1,6 +1,6 @@
 "call.coco.chars" <-
 function (code, argument = FALSE, sub.code = FALSE, 
-    length = 128, no.warnings = NULL, object = .current.coco) 
+    length = 128, no.warnings = NULL, object = CoCoCore::.currentCoCo()) 
 {
     if (is.vector(argument)) 
         argument <- argument[1]

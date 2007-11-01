@@ -11,16 +11,16 @@
 
 \usage{
 coco.enter.string(code, argument = FALSE, sub.code = FALSE, length = 128,
-                  no.warnings = NULL, object = .current.coco)
+                  no.warnings = NULL, object = CoCoCore::.currentCoCo())
 
 call.coco.chars(code, argument = FALSE, sub.code = FALSE, length = 128,
-                no.warnings = NULL, object = .current.coco)
+                no.warnings = NULL, object = CoCoCore::.currentCoCo())
 
 call.coco.longs(code, argument = FALSE, length = 0, sub.code = FALSE,
-                no.warnings = NULL, object = .current.coco)
+                no.warnings = NULL, object = CoCoCore::.currentCoCo())
 
 call.coco.reals(code, argument = FALSE, length = 0, sub.code = FALSE, 
-                no.warnings = NULL, object = .current.coco)
+                no.warnings = NULL, object = CoCoCore::.currentCoCo())
 }
 
 \arguments{

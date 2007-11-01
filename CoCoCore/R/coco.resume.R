@@ -1,7 +1,7 @@
 "coco.resume" <-
-function (object = .current.coco) 
+function (object = CoCoCore::.currentCoCo()) 
 {
-    if (!(exists("coco.started") && coco.started)) 
+    if (!(exists("coco.started") && CoCoCore::.CoCoStarted())) 
         coco.start()
     else ok.coco(call.coco(-1, NULL, object = object))
 }

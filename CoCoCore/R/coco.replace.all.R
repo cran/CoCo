@@ -1,6 +1,6 @@
 "coco.replace.all" <-
 function (code, string = "", long = NULL, double = NULL, sub.code = FALSE, 
-    object = .current.coco) 
+    object = CoCoCore::.currentCoCo()) 
 {
     if (is.vector(string)) 
         string <- string[1]

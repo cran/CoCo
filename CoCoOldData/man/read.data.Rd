@@ -12,19 +12,19 @@
 \description{ Read data from files or standard input. }
 
 \usage{
-read.data(setslot = TRUE, object = .current.coco)
+read.data(setslot = TRUE, object = CoCoCore::.currentCoCo())
 
-read.specification(setslot = TRUE, object = .current.coco)
+read.specification(setslot = TRUE, object = CoCoCore::.currentCoCo())
 
-read.names(setslot = TRUE, object = .current.coco)
+read.names(setslot = TRUE, object = CoCoCore::.currentCoCo())
 
-read.factors(setslot = TRUE, object = .current.coco)
+read.factors(setslot = TRUE, object = CoCoCore::.currentCoCo())
 
-read.observations(setslot = TRUE, object = .current.coco)
+read.observations(setslot = TRUE, object = CoCoCore::.currentCoCo())
 
-read.list(silent = FALSE, setslot = TRUE, object = .current.coco)
+read.list(silent = FALSE, setslot = TRUE, object = CoCoCore::.currentCoCo())
 
-read.table.coco(silent = FALSE, setslot = TRUE, object = .current.coco)
+read.table.coco(silent = FALSE, setslot = TRUE, object = CoCoCore::.currentCoCo())
 }
 
 \arguments{

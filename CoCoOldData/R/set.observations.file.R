@@ -1,5 +1,5 @@
 "set.observations.file" <-
-function (file.name, object = .current.coco) 
+function (file.name, object = CoCoCore::.currentCoCo()) 
 {
     if ("what" != file.name) 
         .set.coco.value(object, ".invalid", append = TRUE, list(type = "set.observations.file", 

@@ -9,13 +9,13 @@
 \description{ Declare a subset of the cases to be read. }
 
 \usage{
-reject.cases(set, cell, object = .current.coco)
+reject.cases(set, cell, object = CoCoCore::.currentCoCo())
 
-select.cases(set, cell, object = .current.coco)
+select.cases(set, cell, object = CoCoCore::.currentCoCo())
 
-or.reject.cases(set, cell, object = .current.coco)
+or.reject.cases(set, cell, object = CoCoCore::.currentCoCo())
 
-or.select.cases(set, cell, object = .current.coco)
+or.select.cases(set, cell, object = CoCoCore::.currentCoCo())
 }
 
 \arguments{

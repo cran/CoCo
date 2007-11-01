@@ -11,7 +11,7 @@
 	      }
 
 \usage{
-cutpoints(name, cutpoints, object = .current.coco)
+cutpoints(name, cutpoints, object = CoCoCore::.currentCoCo())
 }
 
 \arguments{

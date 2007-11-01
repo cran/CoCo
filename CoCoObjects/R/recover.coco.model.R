@@ -6,7 +6,7 @@ function (coco.model.object, key = .return.key(coco.model.object),
     ".sub.recover.coco.model" <- function(coco.model.object, 
         name = "", key = .return.key(coco.model.object), model = .return.model.of.object(coco.model.object), 
         level = 1, pos = .GlobalEnv, new.id = NULL, new.no = NULL) {
-        .my.trace(".sub.recover.coco.model, start:", level = level, 
+        CoCoCore::.my.trace(".sub.recover.coco.model, start:", level = level, 
             name = name, key = key, model = model, id = .return.reference(coco.model.object))
         coco.object <- NULL
         if (length(new.id) == 0) {
@@ -19,8 +19,8 @@ function (coco.model.object, key = .return.key(coco.model.object),
         result <- .SetSlotValue(coco.model.object, ".reference", 
             new.id)
         if (length(new.no) == 0) {
-            enterModel(model, object = result)
-            new.no <- returnModelNumber("last", object = result)
+            CoCoRaw::enterModel(model, object = result)
+            new.no <- CoCoRaw::returnModelNumber("last", object = result)
         }
         result <- .SetSlotValue(result, ".model.number", new.no)
         model.id.env <- .find.env(key, number = new.no)
@@ -41,24 +41,24 @@ function (coco.model.object, key = .return.key(coco.model.object),
             model.id.env <- env$ID
         }
         result <- .SetSlotValue(result, ".id.env", model.id.env)
-        my.assign(".current.coco.model", result, frame = 0)
-        .my.trace(".sub.recover.coco.model,  stop:", level = level, 
+        CoCoCore::my.assign(".current.coco.model", result, frame = 0)
+        CoCoCore::.my.trace(".sub.recover.coco.model,  stop:", level = level, 
             name = name, key = key, model = .return.model.of.object(result), 
             id = .return.reference(result), number = .return.model.number(result), 
             object = result)
         return(result)
     }
-    .my.trace("recover.coco.model,      start:", level = level, 
+    CoCoCore::.my.trace("recover.coco.model,      start:", level = level, 
         name = "xxx", key = key, model = model, id = .return.reference(coco.model.object))
     result <- NULL
-    if (.return.reference(coco.model.object) == .ended.coco) {
+    if (.return.reference(coco.model.object) == CoCoCore::.endedCoCo()) {
         Objects <- ls(all.names = TRUE, pos = pos)
         for (i in 1:length(Objects)) {
             .object <- get(Objects[i], pos = pos)
             if ((class(.object) == "CoCoModelClass")) 
                 if ((.return.key(.object) == key)) 
                   if ((.return.model.of.object(.object) == model)) {
-                    if (.return.reference(.object) == .ended.coco) {
+                    if (.return.reference(.object) == CoCoCore::.endedCoCo()) {
                       cat("Recovering CoCo-model: '", Objects[i], 
                         "'.\n")
                       assign(Objects[i], .sub.recover.coco.model(.object, 
@@ -77,7 +77,7 @@ function (coco.model.object, key = .return.key(coco.model.object),
         result <- .sub.recover.coco.model(coco.model.object, 
             name = "", key = key, model = model, level = level + 
                 100, pos = pos, new.id = new.id, new.no = new.no)
-    .my.trace("recover.coco.model,       stop:", level = level, 
+    CoCoCore::.my.trace("recover.coco.model,       stop:", level = level, 
         name = "XXX", key = key, model = .return.model.of.object(result), 
         id = .return.reference(result), number = .return.model.number(result), 
         result)

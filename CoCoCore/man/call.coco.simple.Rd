@@ -8,9 +8,9 @@
 	      Call Coco with only code and subcode. }
 
 \usage{
-call.coco.simple(code, sub.code = FALSE, object = .current.coco)
+call.coco.simple(code, sub.code = FALSE, object = CoCoCore::.currentCoCo())
 
-coco.simple.command(code, sub.code = FALSE, object = .current.coco)
+coco.simple.command(code, sub.code = FALSE, object = CoCoCore::.currentCoCo())
 }
 
 \arguments{

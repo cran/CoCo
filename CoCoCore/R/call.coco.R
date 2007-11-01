@@ -1,18 +1,18 @@
 "call.coco" <-
 function (code, sub.code = 0, arg.char = "", arg.long = NULL, 
-    arg.double = NULL, object = .current.coco, char.ok = FALSE, 
+    arg.double = NULL, object = CoCoCore::.currentCoCo(), char.ok = FALSE, 
     type = NULL) 
 {
     ".call.coco" <- function(code, sub.code = 0, arg.char = "", 
         arg.long = NULL, arg.double = NULL, arg.char.int = NULL, 
-        type = NULL, object = .current.coco) {
+        type = NULL, object = CoCoCore::.currentCoCo()) {
         ok <- .coco.command.implemented(code = code, sub.code = sub.code, 
             arg.char = arg.char, arg.long = arg.long, arg.double = arg.double, 
             arg.char.int = NULL, object = object)
         if (ok) 
             id <- .coco.id(object = object, recover = TRUE)
         else id <- FALSE
-        if (!(exists("coco.started") && coco.started)) {
+        if (!(exists("coco.started") && CoCoCore::.CoCoStarted())) {
             warning("CoCo not started!!!")
         }
         if (is.numeric(id)) {
@@ -22,10 +22,10 @@ function (code, sub.code = 0, arg.char = "", arg.long = NULL,
                 type <- .return.type(object = object)
             name <- ifelse((type == 2), "Mips", "CoCo")
             PACKAGE <- ifelse((type == 2), "CoCoCg", "CoCoCore")
-            if (exists("trace.call.coco") && trace.call.coco) {
+            if (exists("trace.call.coco") && CoCoCore::.traceCallCoCo()) {
                 print(paste(".call.coco: ", code, sub.code, arg.long[1]))
             }
-            result <- .C(NAME = name, PACKAGE = PACKAGE, ifail = as.integer(.no.ifail), 
+            result <- .C(NAME = name, PACKAGE = PACKAGE, ifail = as.integer(CoCoCore::.noIfail()), 
                 id = as.integer(id), code = as.integer(code), 
                 sub.code = as.integer(sub.code), n.args = as.integer(n.arg), 
                 arg.char = as.character(arg.char), arg.long = as.integer(arg.long), 
@@ -56,7 +56,7 @@ function (code, sub.code = 0, arg.char = "", arg.long = NULL,
             .my.ascii()[i + 1]
         }
         if (exists(".fewer.warnings")) 
-            fewer.warnings <- .fewer.warnings
+            fewer.warnings <- CoCoCore::.fewerWarnings()
         else fewer.warnings <- 0
         if (any(a == 127)) 
             if (all(a == 127 | a == 0)) {
@@ -78,7 +78,7 @@ function (code, sub.code = 0, arg.char = "", arg.long = NULL,
         else paste(.int.char(a), collapse = "")
     }
     if (exists(".char.ok")) 
-        char.ok <- .char.ok
+        char.ok <- CoCoCore::.charOk()
     if (char.ok) 
         .call.coco(code, sub.code, arg.char = paste(arg.char, 
             ";", collapse = ""), arg.long = arg.long, arg.double = arg.double, 

@@ -8,9 +8,9 @@
               and remove the temporary files of the CoCo object. }
 
 \usage{
-endCoCo(object = .current.coco, silent = FALSE)
+endCoCo(object = CoCoCore::.currentCoCo(), silent = FALSE)
 
-quitCoCo(..., object = .current.coco)
+quitCoCo(..., object = CoCoCore::.currentCoCo())
 }
 
 \arguments{

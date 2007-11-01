@@ -5,7 +5,7 @@ function (sh.lib.name = NULL)
         if (!is.loaded(symbol.C("CoCo"))) {
             if (is.null(sh.lib.name)) 
                 sh.lib.name <- paste(.get.rs.cshlib.name("RSCSHLIB"), 
-                  .platform.dynlib.ext, sep = "")
+                  CoCoCore::.platformDynlibExt(), sep = "")
             Xsh.lib.name <- paste("X", sh.lib.name, sep = "")
             Xfile <- file.path(.get.cocolib.name("COCOLIB"), 
                 Xsh.lib.name)
@@ -23,7 +23,7 @@ function (sh.lib.name = NULL)
     my.assign(".coco.identifications", NULL, frame = 0)
     my.assign(".instances.coco", NULL, frame = 0)
     my.assign(".instances.coco.models", NULL, frame = 0)
-    my.assign(".current.coco", c(.ended.coco, 0), frame = 0)
+    my.assign(".current.coco", c(CoCoCore::.endedCoCo(), 0), frame = 0)
     my.assign(".coco.loaded", TRUE, frame = 0)
     # .coco.load(sh.lib.name)
 }

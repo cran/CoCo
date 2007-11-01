@@ -1,5 +1,5 @@
 "sinkCoCo" <-
-function (file.name = "Diary.tmp", type = "diary", object = .current.coco) 
+function (file.name = "Diary.tmp", type = "diary", object = CoCoCore::.currentCoCo()) 
 {
     if (type == "diary") 
         call.coco.chars(25, file.name, FALSE, object = object)

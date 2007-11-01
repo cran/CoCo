@@ -9,10 +9,10 @@
 
 \usage{
 coco.enter.all(code, string, long, double, 
-               sub.code = FALSE, object = .current.coco)
+               sub.code = FALSE, object = CoCoCore::.currentCoCo())
 
 coco.replace.all(code, string = "", long = NULL, double = NULL, 
-                 sub.code = FALSE, object = .current.coco)
+                 sub.code = FALSE, object = CoCoCore::.currentCoCo())
 }
 
 \arguments{

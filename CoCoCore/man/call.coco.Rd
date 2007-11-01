@@ -10,11 +10,11 @@
 \usage{
 call.coco(code, sub.code = 0, 
           arg.char = "", arg.long = NULL, arg.double = NULL, 
-          object = .current.coco, char.ok = FALSE, type = NULL)
+          object = CoCoCore::.currentCoCo(), char.ok = FALSE, type = NULL)
 
 call.coco.message(code, sub.code = 0, 
                   arg.char = "", arg.long = NULL, arg.double = NULL, 
-                  object = .current.coco)
+                  object = CoCoCore::.currentCoCo())
 
 }
 

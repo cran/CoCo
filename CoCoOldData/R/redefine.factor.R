@@ -1,5 +1,5 @@
 "redefine.factor" <-
-function (name, levels, missing.levels = 0, object = .current.coco) 
+function (name, levels, missing.levels = 0, object = CoCoCore::.currentCoCo()) 
 {
     if ("what" != name) 
         .set.coco.value(object, ".invalid", append = TRUE, list(type = "redefine.factor", 

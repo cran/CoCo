@@ -4,7 +4,7 @@ function (model = FALSE, a = FALSE, b = FALSE, dual = NULL, sub.class = FALSE,
         data = data, ...), ...) 
 {
     ".fit.EH" <- function(dual = "smallest.dual", sub.class = FALSE, 
-        object = .current.coco) {
+        object = CoCoCore::.currentCoCo()) {
         coco.simple.command(225, sum(c(.encode(c("r.dual", "a.dual", 
             "smallest.dual", "largest.dual", "both.duals", "both.dual", 
             "both"), dual, c(1, 2, 3, 4, 5, 5, 5), dual), .encode(c("decomposable", 

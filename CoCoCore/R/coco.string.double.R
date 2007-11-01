@@ -14,7 +14,7 @@ function (code, argument = FALSE, sub.code = FALSE,
     old <- .before.set.both(model.1, model.2, push.pop = push.pop, 
         object = object)
     if (!.is.nil.model(model.1) && .is.nil.model(model.2)) 
-        makeBase(old$current, object = object)
+        CoCoRaw::makeBase(old$current, object = object)
     if (type == "long.true") 
         result <- call.coco(code, sub.code = sub.code, arg.char = argument, 
             arg.long = c(7, 8), object = object)
@@ -23,8 +23,8 @@ function (code, argument = FALSE, sub.code = FALSE,
     if (return.test) {
         if (!(coco.type == 2)) 
             if (eliminate) 
-                makeCurrent(model = "last", object = object)
-            else makeBase(model = "last", object = object)
+                CoCoRaw::makeCurrent(model = "last", object = object)
+            else CoCoRaw::makeBase(model = "last", object = object)
         names.long <- c("number.of.cases", "df", "adj", "number.of.tables", 
             "f.test.df")
         names.double <- c("deviance", "e.deviance", "square", 
@@ -54,7 +54,7 @@ function (code, argument = FALSE, sub.code = FALSE,
         type <- "unconditioned"
     }
     if (!.is.nil.model(old$base)) 
-        makeBase(old$base, object = object)
+        CoCoRaw::makeBase(old$base, object = object)
     .after.set.current(old$current, result, type = type, push.pop = push.pop, 
         model = ifelse(.encode.model(model.1) < 0, FALSE, model.1), 
         object = object)

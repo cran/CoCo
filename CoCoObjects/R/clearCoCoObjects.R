@@ -22,7 +22,7 @@ function (coco.object = NULL, silent = FALSE, pos = .GlobalEnv,
                 if (ok) {
                   result <- c(result, Objects[i])
                   assign(Objects[i], .SetSlotValue(.object, ".reference", 
-                    .ended.coco), pos = pos)
+                    CoCoCore::.endedCoCo()), pos = pos)
                 }
             }
             if ((class(.object) == "DynamicGraph")) {
@@ -35,7 +35,7 @@ function (coco.object = NULL, silent = FALSE, pos = .GlobalEnv,
                   for (m in 1:length(Frame.Models@models)) if ((class(Frame.Models@models) == 
                     "CoCoModelClass")) {
                     mdl <- Frame.Models@models[[m]]@model[[1]]
-                    mdl <- .SetSlotValue(mdl, ".reference", .ended.coco)
+                    mdl <- .SetSlotValue(mdl, ".reference", CoCoCore::.endedCoCo())
                     Frame.Models@models[[m]]@model <- list(mdl)
                   }
                   assign(Objects[i], Frame.Models, pos = pos)

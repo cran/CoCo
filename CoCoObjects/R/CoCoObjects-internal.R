@@ -47,13 +47,13 @@ function (parent = .CoCo.Root, key = "", reference = 0, number = 0,
     w
 }
 ".end.temporary.object" <-
-function (model, data = NULL, object = .current.coco, names = NULL, 
+function (model, data = NULL, object = CoCoCore::.currentCoCo(), names = NULL, 
     discrete = NULL, continuous = NULL) 
 {
     if (is.character(data) || !is.null(names) || !is.null(discrete) || 
         !is.null(continuous)) {
         if (!is.character(data) || (data != "Do.not.end")) 
-            endCoCo(object, silent = TRUE)
+            CoCoRaw::endCoCo(object, silent = TRUE)
     }
 }
 ".find.env" <-
@@ -156,11 +156,11 @@ function (lib, pkg)
 {
 }
 ".new.coco" <-
-function (object = .current.coco, type = 1, uniq.title = FALSE, 
+function (object = CoCoCore::.currentCoCo(), type = 1, uniq.title = FALSE, 
     title = "A CoCo object", parent = .CoCo.Root, env = .CoCo.toplevel(parent)) 
 {
     result <- object
-    if (.is.nil.model(title)) 
+    if (CoCoCore::.is.nil.model(title)) 
         title <- "A CoCo object"
     identification <- .return.reference(object = object)
     if (uniq.title) 
@@ -173,12 +173,12 @@ function (object = .current.coco, type = 1, uniq.title = FALSE,
         .invalid = list(type = NULL), .specification = list(type = NULL), 
         .medio = list(type = NULL), .observations = list(type = NULL), 
         .structure = list(type = NULL), .title = title)
-    my.assign(".instances.coco", c(.instances.coco, result@.reference), 
+    CoCoCore::my.assign(".instances.coco", c(CoCoCore::.instancesCoCo(), result@.reference), 
         frame = 0)
     return(result)
 }
 ".new.coco.model" <-
-function (number, model, object = .current.coco, title = "", 
+function (number, model, object = CoCoCore::.currentCoCo(), title = "", 
     key = .return.key(object = object), identification = .return.reference(object = object), 
     id.env = .return.id.env(object), parent.id.env = if (class(object) == 
         "CoCoModelClass") .but.last(id.env) else id.env, parent = .get.env.CoCoOBJECT(id = parent.id.env), 
@@ -191,18 +191,18 @@ function (number, model, object = .current.coco, title = "",
         .title = title, .model = model, .model.number = number)
     if (ifelse(is.character(title), title != "", title)) 
         result@.title <- title
-    my.assign(".instances.coco.models", c(.instances.coco.models, 
+    CoCoCore::my.assign(".instances.coco.models", c(CoCoCore::.instancesCoCoModels(), 
         result@.reference), frame = 0)
     return(result)
 }
 ".object.of.model" <-
-function (model, data = NULL, object = .current.coco, names = NULL, 
+function (model, data = NULL, object = CoCoCore::.currentCoCo(), names = NULL, 
     levels = NULL, to.factor = NULL, discrete = NULL, continuous = NULL) 
 {
     result <- object
-    .my.trace(".object.of.model,        start:", level = 20000, 
+    CoCoCore::.my.trace(".object.of.model,        start:", level = 20000, 
         name = "ooo", model = object, object = model)
-    if (.is.nil.model(model)) 
+    if (CoCoCore::.is.nil.model(model)) 
         result <- .object.of.thing(data = data, to.factor = to.factor, 
             object = object)
     else if (class(model) == "CoCoModelClass") {
@@ -210,11 +210,11 @@ function (model, data = NULL, object = .current.coco, names = NULL,
         result <- .recover(coco.object, recover = TRUE)
     }
     else if (!is.null(continuous)) {
-        result <- make.cococg(silent = TRUE)
+        result <- CoCoCore::make.cococg(silent = TRUE)
         if (is.null(names)) 
             if (is.character(discrete) & is.character(continuous)) 
                 names <- c(discrete, continuous)
-            else names <- .names.from.model(model)
+            else names <- CoCoRaw::.names.from.model(model)
         if (is.null(levels)) {
             levels <- rep(1, length(names))
             if (is.numeric(continuous)) 
@@ -222,42 +222,42 @@ function (model, data = NULL, object = .current.coco, names = NULL,
             else if (is.character(continuous)) {
                 if (length(continuous) == 1) {
                   if (all(is.na(match(continuous, names)))) 
-                    continuous <- .split.name.set(continuous)
+                    continuous <- CoCoRaw::.split.name.set(continuous)
                 }
                 levels[match(continuous, names)] <- 0
             }
         }
-        enterNames(names = paste(names, sep = "", collapse = ""), 
+        CoCoRaw::enterNames(names = paste(names, sep = "", collapse = ""), 
             levels = levels, object = result)
-        enterTwoLists(discrete = levels[levels == 1], continuous = levels[levels != 
+        CoCoRaw::enterTwoLists(discrete = levels[levels == 1], continuous = levels[levels != 
             1])
-        enterModel("*")
+        CoCoRaw::enterModel("*")
     }
     else if (is.character(data) || !is.null(discrete) || !is.null(names)) {
-        result <- make.coco(silent = TRUE)
+        result <- CoCoCore::make.coco(silent = TRUE)
         if (is.null(names)) 
             if (is.character(discrete)) 
                 names <- c(discrete)
-            else names <- .names.from.model(model)
+            else names <- CoCoRaw::.names.from.model(model)
         if (is.null(levels)) 
             levels <- rep(1, length(names))
-        enterNames(names = paste(names, sep = "", collapse = ""), 
+        CoCoRaw::enterNames(names = paste(names, sep = "", collapse = ""), 
             levels = levels, object = result)
-        enterList(levels, object = result)
-        enterModel("*")
+        CoCoRaw::enterList(levels, object = result)
+        CoCoRaw::enterModel("*")
     }
     else result <- .object.of.thing(data = data, to.factor = to.factor, 
         object = object)
-    .my.trace(".object.of.model,         stop:", level = 20000, 
+    CoCoCore::.my.trace(".object.of.model,         stop:", level = 20000, 
         name = "OOO", key = -1, id = .return.reference(result), 
         number = .return.model.number(result), object = result)
     return(result)
 }
 ".object.of.thing" <-
-function (data = NULL, object = .current.coco, to.factor = NULL) 
+function (data = NULL, object = CoCoCore::.currentCoCo(), to.factor = NULL) 
 {
     result <- object
-    .my.trace(".object.of.thing,        start:", level = 20000, 
+    CoCoCore::.my.trace(".object.of.thing,        start:", level = 20000, 
         name = "ooo", model = object)
     if (is.null(data)) {
         coco.object <- object
@@ -269,24 +269,24 @@ function (data = NULL, object = .current.coco, to.factor = NULL)
         result <- .recover(coco.object, recover = TRUE)
     }
     else if (class(data) == "table") {
-        result <- make.coco()
-        enterNames(names = paste(":", names(dimnames(data)), 
+        result <- CoCoCore::make.coco()
+        CoCoRaw::enterNames(names = paste(":", names(dimnames(data)), 
             sep = "", collapse = ""), levels = dim(data), object = result)
-        enterTable(data, object = result)
-        enterModel("*")
+        CoCoRaw::enterTable(data, object = result)
+        CoCoRaw::enterModel("*")
     }
     else if (class(data) == "array") {
-        result <- make.coco()
-        enterTable(data, object = result)
-        enterModel("*")
+        result <- CoCoCore::make.coco()
+        CoCoRaw::enterTable(data, object = result)
+        CoCoRaw::enterModel("*")
     }
     else if ((class(data) == "data.frame") || (class(data) == 
         "matrix")) {
-        result <- make.cococg()
-        enterDataFrame(data, to.factor = to.factor, object = result)
-        enterModel("*")
+        result <- CoCoCore::make.cococg()
+        CoCoRaw::enterDataFrame(data, to.factor = to.factor, object = result)
+        CoCoRaw::enterModel("*")
     }
-    .my.trace(".object.of.thing,         stop:", level = 20000, 
+    CoCoCore::.my.trace(".object.of.thing,         stop:", level = 20000, 
         name = "OOO", key = -1, id = .return.reference(result), 
         number = .return.model.number(result), object = result)
     return(result)
@@ -306,7 +306,7 @@ function (lib, pkg)
 ".packageName" <-
 "CoCoObjects"
 ".recover" <-
-function (object = .current.coco, recover = FALSE) 
+function (object = CoCoCore::.currentCoCo(), recover = FALSE) 
 {
     key <- .return.key(object = object)
     if ((class(key) == "logical") && (!key)) 
@@ -315,7 +315,7 @@ function (object = .current.coco, recover = FALSE)
         key = key)
     if ((!is.numeric(identification)) && (identification == FALSE)) 
         stop("Invalid memory reference (identification) of CoCo object")
-    if ((identification == .ended.coco) && recover) {
+    if ((identification == CoCoCore::.endedCoCo()) && recover) {
         result <- .recover.coco(object = object)
         if (is.null(result)) 
             message("NULL object in .recover")
@@ -324,9 +324,9 @@ function (object = .current.coco, recover = FALSE)
     else {
         result <- object
     }
-    if (is.null(result) || (identification == .ended.coco)) 
+    if (is.null(result) || (identification == CoCoCore::.endedCoCo())) 
         stop("Recovering ended CoCo object!!!")
-    if (identification == 0 || any(.coco.identifications[, 1] == 
+    if (identification == 0 || any(CoCoCore::.CoCoIdentifications()[, 1] == 
         identification)) 
         return(result)
     else stop("Not a valid CoCoObject")
@@ -334,17 +334,17 @@ function (object = .current.coco, recover = FALSE)
 ".recover.coco" <-
 function (object, key = .return.key(object), level = 10000, pos = .GlobalEnv) 
 {
-    .my.trace(".recover.coco,           start:", level = level, 
+    CoCoCore::.my.trace(".recover.coco,           start:", level = level, 
         name = "aaa", key = key, id = .return.reference(object))
     new.object <- recover.coco.object(object, key = key, level = level, 
         pos = pos)
     if (is.null(new.object)) 
         message("NULL object in .recover.coco")
     if (class(object) == "CoCoModelClass") 
-        if (.return.reference(object) == .ended.coco) 
+        if (.return.reference(object) == CoCoCore::.endedCoCo()) 
             new.object <- recover.coco.model(object, level = level + 
                 10, pos = pos)
-    .my.trace(".recover.coco,            stop:", level = level, 
+    CoCoCore::.my.trace(".recover.coco,            stop:", level = level, 
         name = "AAA", key = key, id = .return.reference(new.object), 
         number = .return.model.number(new.object), new.object)
     return(new.object)
@@ -353,13 +353,13 @@ function (object, key = .return.key(object), level = 10000, pos = .GlobalEnv)
 function (coco.model.object) 
 {
     id <- .return.reference(coco.model.object)
-    .my.trace(".recover.model,          start:", level = 10000, 
+    CoCoCore::.my.trace(".recover.model,          start:", level = 10000, 
         name = "xxx", key = .return.key(coco.model.object), model = .return.model.of.object(coco.model.object), 
         id = id)
     if (class(coco.model.object) == "CoCoModelClass") 
-        if (id == .ended.coco) 
+        if (id == CoCoCore::.endedCoCo()) 
             coco.model.object <- recover.coco.model(coco.model.object)
-    .my.trace(".recover.model,           stop:", level = 90000, 
+    CoCoCore::.my.trace(".recover.model,           stop:", level = 90000, 
         name = "XXX", key = .return.key(coco.model.object), model = .return.model.of.object(coco.model.object), 
         id = .return.reference(coco.model.object), number = .return.model.number(coco.model.object), 
         object = coco.model.object)
@@ -369,7 +369,7 @@ function (coco.model.object)
 function (coco.object) 
 {
     id <- .return.reference(coco.object)
-    if ((id == .ended.coco)) {
+    if ((id == CoCoCore::.endedCoCo())) {
         result <- .recover.coco(coco.object)
         if (is.null(result)) 
             message("NULL object in .recover.reference")
@@ -378,7 +378,7 @@ function (coco.object)
     return(id)
 }
 ".return.id.env" <-
-function (object = .current.coco) 
+function (object = CoCoCore::.currentCoCo()) 
 {
     if (class(object) == "CoCoClass" || class(object) == "CoCoModelClass") 
         is.object <- any(slotNames(object) == ".id.env")
@@ -388,7 +388,7 @@ function (object = .current.coco)
     else return(FALSE)
 }
 ".return.key" <-
-function (object = .current.coco) 
+function (object = CoCoCore::.currentCoCo()) 
 {
     if (class(object) == "CoCoClass" || class(object) == "CoCoModelClass") 
         is.object <- any(slotNames(object) == ".key")
@@ -400,30 +400,30 @@ function (object = .current.coco)
     else return(FALSE)
 }
 ".return.model.number" <-
-function (coco.model = .current.coco) 
+function (coco.model = CoCoCore::.currentCoCo()) 
 {
     if (class(coco.model) == "CoCoModelClass") 
         is.object <- any(slotNames(coco.model) == ".model.number")
     else is.object <- FALSE
     if (is.object) 
         return(coco.model@.model.number)
-    else if (all(is.number(coco.model))) 
+    else if (all(CoCoCore::is.number(coco.model))) 
         return(coco.model[1])
     else return(FALSE)
 }
 ".return.model.of.object" <-
-function (model, object = .current.coco) 
+function (model, object = CoCoCore::.currentCoCo()) 
 {
     if (is.character(model)) 
         return(model)
     if (is(model, "CoCoModelClass")) 
         return(model@.model)
-    else if (is(object, "CoCoModelClass") & (.is.nil.model(model))) 
+    else if (is(object, "CoCoModelClass") & (CoCoCore::.is.nil.model(model))) 
         return(object@.model)
     else return(FALSE)
 }
 ".return.object.model.number" <-
-function (number, recover = TRUE, object = .current.coco) 
+function (number, recover = TRUE, object = CoCoCore::.currentCoCo()) 
 {
     if (class(number) == "CoCoModelClass") 
         y <- number@.model.number
@@ -432,7 +432,7 @@ function (number, recover = TRUE, object = .current.coco)
         x <- object@.model.number
     else x <- y
     id <- .return.reference(object = object)
-    .my.trace(".return.object.model.number    ", level = 30000, 
+    CoCoCore::.my.trace(".return.object.model.number    ", level = 30000, 
         name = "OOO", key = id, model = c("<", x, ",", y, ">"), 
         number = number, object = ";")
     if (is.numeric(number)) 
@@ -442,7 +442,7 @@ function (number, recover = TRUE, object = .current.coco)
             number <- .recover.model(number)
         return(number@.model.number)
     }
-    else if (is(object, "CoCoModelClass") & (.is.nil.model(number))) {
+    else if (is(object, "CoCoModelClass") & (CoCoCore::.is.nil.model(number))) {
         if (recover) 
             object <- .recover.model(object)
         return(object@.model.number)
@@ -450,14 +450,14 @@ function (number, recover = TRUE, object = .current.coco)
     else return(FALSE)
 }
 ".return.reference" <-
-function (object = .current.coco, test.environment = FALSE, key = .return.key(object = object)) 
+function (object = CoCoCore::.currentCoCo(), test.environment = FALSE, key = .return.key(object = object)) 
 {
     identification <- .sub.return.reference(object = object)
-    if ((class(object) == "numeric") && (object[1] == .ended.coco)) { 
+    if ((class(object) == "numeric") && (object[1] == CoCoCore::.endedCoCo())) { 
         message("Ended CoCo object in .return.reference")
         message("Problem: missing argument 'object = ...' in calling function!")
      }
-    if (!is.numeric(object) && !(identification == .ended.coco) && 
+    if (!is.numeric(object) && !(identification == CoCoCore::.endedCoCo()) && 
         test.environment) {
         id.env <- .return.id.env(object = object)
         # message(paste(".return.reference: Identification = ", 
@@ -471,20 +471,20 @@ function (object = .current.coco, test.environment = FALSE, key = .return.key(ob
         # message(paste("Number:", env$env$number, "Key:", env$env$key))
         if (is.null(env) || !(key == env$env$key)) {
             message("Hmmm ... seems the object has to be 'recovered' ... ")
-            identification <- .ended.coco
+            identification <- CoCoCore::.endedCoCo()
         }
     }
     return(identification)
 }
 ".return.type" <-
-function (object = .current.coco) 
+function (object = CoCoCore::.currentCoCo()) 
 {
     if (class(object) == "CoCoClass" || class(object) == "CoCoModelClass") 
         is.object <- any(slotNames(object) == ".type")
     else is.object <- FALSE
     if (is.object) 
         return(object@.type)
-    else if (all(is.number(object))) 
+    else if (all(CoCoCore::is.number(object))) 
         return(object[2])
     else return(FALSE)
 }
@@ -517,7 +517,7 @@ function (object, slotid, value)
     return(object)
 }
 ".sub.return.reference" <-
-function (object = .current.coco) 
+function (object = CoCoCore::.currentCoCo()) 
 {
     if (is.null(object)) 
         message("NULL object in .return.reference")
@@ -526,7 +526,7 @@ function (object = .current.coco)
     else is.object <- FALSE
     if (is.object) 
         return(object@.reference)
-    else if (all(is.number(object))) 
+    else if (all(CoCoCore::is.number(object))) 
         return(object[1])
     else return(FALSE)
 }

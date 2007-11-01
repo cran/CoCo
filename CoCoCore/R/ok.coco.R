@@ -1,9 +1,9 @@
 "ok.coco" <-
 function (result, no.warnings = NULL) 
 {
-    if (result$ifail != .no.ifail) 
+    if (result$ifail != CoCoCore::.noIfail()) 
         cat("\n")
-    if (result[[2]] == .ended.coco) 
+    if (result[[2]] == CoCoCore::.endedCoCo()) 
         warning("This CoCo-object ended")
     if (ifelse(is.logical(no.warnings), !no.warnings,
                !(is.element(result[[2]], no.warnings)))) {
@@ -101,8 +101,8 @@ function (result, no.warnings = NULL)
             warning("No such factor")
         if (result$ifail == 81) 
             warning("No cutpoints for this factor")
-        if (result$ifail != .no.ifail) 
+        if (result$ifail != CoCoCore::.noIfail()) 
             warning("Some Error")
     }
-    return((result$ifail == .no.ifail) && (result[[2]] != .ended.coco))
+    return((result$ifail == CoCoCore::.noIfail()) && (result[[2]] != CoCoCore::.endedCoCo()))
 }

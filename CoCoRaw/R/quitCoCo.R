@@ -1,16 +1,16 @@
 "quitCoCo" <-
-function (..., object = .current.coco) 
+function (..., object = CoCoCore::.currentCoCo()) 
 {
     if (exists(".fewer.warnings")) 
-        fewer.warnings <- .fewer.warnings
+        fewer.warnings <- CoCoCore::.fewerWarnings()
     else fewer.warnings <- 0
-    if ((exists("coco.started") && coco.started)) {
+    if ((exists("coco.started") && CoCoCore::.CoCoStarted())) {
         if (fewer.warnings == 0) 
             warning("CoCo not ended")
-        for (i in 1:nrow(.coco.identifications)) {
-            result <- .coco.identifications[i, ]
+        for (i in 1:nrow(CoCoCore::.CoCoIdentifications())) {
+            result <- CoCoCore::.CoCoIdentifications()[i, ]
             my.assign("coco.started", TRUE, frame = 0)
-            if (result[1] != .ended.coco) 
+            if (result[1] != CoCoCore::.endedCoCo()) 
                 endCoCo(result)
         }
     }

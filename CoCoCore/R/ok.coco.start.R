@@ -1,7 +1,7 @@
 "ok.coco.start" <-
 function (result) 
 {
-    if ((result$ifail == .api.version) | (result$ifail == 
+    if ((result$ifail == CoCoCore::.apiVersion()) | (result$ifail == 
         0)) 
         NULL
     else if ((50 <= result$ifail) & (result$ifail <= 60)) 

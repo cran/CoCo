@@ -1,3 +1,98 @@
+
+# trace.call.coco <- FALSE;
+
+# .fewer.warnings <- 1;
+# .api.version <- 140;
+# .fixed.coco <- 2147483646;
+# .ended.coco <- 2147483647;
+# .no.ifail <- 0;
+# .coco.identifications <- NULL;
+# .instances.coco <- NULL;
+# .instances.coco.models <- NULL;
+# .current.coco <- c(2147483647, 0);
+# .coco.loaded <- FALSE;
+# .coco.started <- FALSE;
+
+# .current.coco.model <- 0;
+# .platform.dynlib.ext <- "dll";
+# .char.ok <- FALSE;
+
+".traceCallCoCo" <- 
+function () 
+{ 
+    return(get("trace.call.coco", envir = .GlobalEnv))
+}
+".fewerWarnings" <- 
+function () 
+{ 
+    return(get(".fewer.warnings", envir = .GlobalEnv))
+}
+".apiVersion" <- 
+function () 
+{ 
+    return(get(".api.version", envir = .GlobalEnv))
+}
+".fixedCoCo" <- 
+function () 
+{ 
+    return(get(".fixed.coco", envir = .GlobalEnv))
+}
+".endedCoCo" <- 
+function () 
+{ 
+    return(get(".ended.coco", envir = .GlobalEnv))
+}
+".noIfail" <- 
+function () 
+{ 
+    return(get(".no.ifail", envir = .GlobalEnv))
+}
+".CoCoIdentifications" <- 
+function () 
+{ 
+    return(get(".coco.identifications", envir = .GlobalEnv))
+}
+".instancesCoCo" <- 
+function () 
+{ 
+    return(get(".instances.coco", envir = .GlobalEnv))
+}
+".instancesCoCoModels" <- 
+function () 
+{ 
+    return(get(".instances.coco.models", envir = .GlobalEnv))
+}
+".currentCoCo" <- 
+function () 
+{ 
+    return(get(".current.coco", envir = .GlobalEnv))
+}
+".currentCoCoModel" <- 
+function () 
+{ 
+    return(get(".current.coco.model", envir = .GlobalEnv))
+}
+".CoCoStarted" <- 
+function () 
+{ 
+    return(get("coco.started", envir = .GlobalEnv))
+}
+".CoCoLoaded" <- 
+function () 
+{ 
+    return(get(".coco.loaded", envir = .GlobalEnv))
+}
+".platformDynlibExt" <- 
+function () 
+{ 
+    return(get(".platform.dynlib.ext", envir = .GlobalEnv))
+}
+".charOk" <- 
+function () 
+{ 
+    return(get(".char.ok", envir = .GlobalEnv))
+}
+
 ".onUnload" <-
 function (lib, pkg) 
 {
@@ -10,7 +105,7 @@ function (lib, pkg)
 }
 ".after.set.current" <-
 function (old.current = FALSE, result, type = "unconditioned", 
-    model = FALSE, push.pop = FALSE, object = .current.coco) 
+    model = FALSE, push.pop = FALSE, object = CoCoCore::.currentCoCo()) 
 {
     ".replace.my.not.a.number" <- function(type) type
     if (is.gc(model)) 
@@ -35,7 +130,7 @@ function (old.current = FALSE, result, type = "unconditioned",
 }
 ".before.set.both" <-
 function (model.1 = "current", model.2 = "base", push.pop = FALSE, 
-    object = .current.coco) 
+    object = CoCoCore::.currentCoCo()) 
 {
     if (.is.nil.model(model.1))
         model.1 <- "current"
@@ -65,7 +160,7 @@ function (model.1 = "current", model.2 = "base", push.pop = FALSE,
         if (type == 2) 
             identical <- (class(model.1) == class(model.2)) &&
                           (model.1 == model.2)
-        makeBase(model.2, both = identical, push = push.pop, 
+        CoCoRaw::makeBase(model.2, both = identical, push = push.pop, 
             object = object)
     }
     else {
@@ -83,7 +178,7 @@ function (model.1 = "current", model.2 = "base", push.pop = FALSE,
     return(list(base = old.base, current = old.current))
 }
 ".before.set.current" <-
-function (model = FALSE, push.pop = FALSE, object = .current.coco) 
+function (model = FALSE, push.pop = FALSE, object = CoCoCore::.currentCoCo()) 
 {
     model <- CoCoObjects::.recover.model(model)
     if (!CoCoCore::.is.nil.model(model) && !.is.current.model(model)) {
@@ -105,7 +200,7 @@ function (model = FALSE, push.pop = FALSE, object = .current.coco)
 }
 ".coco.command.implemented" <-
 function (code, sub.code = 0, arg.char = "", arg.long = NULL, 
-    arg.double = NULL, arg.char.int = NULL, object = .current.coco) 
+    arg.double = NULL, arg.char.int = NULL, object = CoCoCore::.currentCoCo()) 
 {
     if ((-3 == code)) 
         stop("Do not enter CoCo in R+CoCo under Windows.")
@@ -124,16 +219,16 @@ function (code, sub.code = 0, arg.char = "", arg.long = NULL,
     return(TRUE)
 }
 ".coco.id" <-
-function (object = .current.coco, recover = FALSE) 
+function (object = CoCoCore::.currentCoCo(), recover = FALSE) 
 {
     id <- .return.reference(object = object)
     if ((!is.numeric(id)) & (id == FALSE)) 
         stop("Invalid memory reference (identification) of CoCo object")
-    if ((id == .ended.coco) && recover) 
+    if ((id == CoCoCore::.endedCoCo()) && recover) 
         id <- .recover.reference(coco.object = object)
-    if (id == .ended.coco) 
+    if (id == CoCoCore::.endedCoCo()) 
         stop("Ended CoCo object")
-    if (id == 0 || any(.coco.identifications[, 1] == id)) 
+    if (id == 0 || any(CoCoCore::.CoCoIdentifications()[, 1] == id)) 
         return(id)
     else stop("Not a valid CoCoObject")
 }
@@ -166,7 +261,7 @@ function (number, current.default = FALSE)
                      ifelse(.is.nil.model(number), -2, number)))
 }
 ".encode.model.1" <-
-function (number, object = .current.coco) 
+function (number, object = CoCoCore::.currentCoCo()) 
 {
     x <- .return.object.model.number(number, recover = TRUE, 
         object = object)
@@ -184,7 +279,7 @@ function (number, object = .current.coco)
                      )
         if (x < 0) 
             x
-        else returnModelNumber(number, object = object)
+        else CoCoRaw::returnModelNumber(number, object = object)
     }
 }
 ".encode.type.and.options" <-
@@ -359,7 +454,7 @@ function (label, vector = NULL, level = 1, name = "", key = -1,
    # print(paste(label, level, name, key))
 }
 ".object.of.models" <-
-function (model.1, model.2, data = NULL, object = .current.coco,
+function (model.1, model.2, data = NULL, object = CoCoCore::.currentCoCo(),
     names = NULL, levels = NULL, to.factor = NULL, ...)
 {
     if ((class(model.1) == "CoCoModelClass"))
@@ -386,66 +481,66 @@ function (lib, pkg)
 # ".packageName" <-
 # "CoCoCore"
 ".return.factor.type.list" <-
-function (full = FALSE, number.variates = numberVariates(full = full, 
-    object = object), object = .current.coco) 
+function (full = FALSE, number.variates = CoCoRaw::numberVariates(full = full, 
+    object = object), object = CoCoCore::.currentCoCo()) 
 {
     force(number.variates)
     call.coco.longs(145, rep(0, number.variates), number.variates, 
         ifelse(full, 3, 6), object = object)
 }
 ".return.level.list" <-
-function (full = FALSE, number.variates = numberVariates(full = full, 
-    object = object), object = .current.coco) 
+function (full = FALSE, number.variates = CoCoRaw::numberVariates(full = full, 
+    object = object), object = CoCoCore::.currentCoCo()) 
 {
     force(number.variates)
     call.coco.longs(145, rep(0, number.variates), number.variates, 
         ifelse(full, 1, 4), object = object)
 }
 ".return.missing.list" <-
-function (full = FALSE, number.variates = numberVariates(full = full, 
-    object = object), object = .current.coco) 
+function (full = FALSE, number.variates = CoCoRaw::numberVariates(full = full, 
+    object = object), object = CoCoCore::.currentCoCo()) 
 {
     force(number.variates)
     call.coco.longs(145, rep(0, number.variates), number.variates, 
         ifelse(full, 2, 5), object = object)
 }
 ".return.name.list.string" <-
-function (full = FALSE, object = .current.coco) 
+function (full = FALSE, object = CoCoCore::.currentCoCo()) 
 {
     coco.enter.string(144, "what", ifelse(full, 2, 1), object = object)
 }
 ".set.acceptance" <-
-function (alfa = 0.05, object = .current.coco) 
+function (alfa = 0.05, object = CoCoCore::.currentCoCo()) 
 {
     call.coco.reals(69, alfa, 1, FALSE, object = object)
 }
 ".set.components" <-
-function (components.limit = 0.01, object = .current.coco) 
+function (components.limit = 0.01, object = CoCoCore::.currentCoCo()) 
 {
     call.coco.reals(73, components.limit, 1, FALSE, object = object)
 }
 ".set.current.model" <-
 function (model = FALSE, old.current = FALSE, old.base = FALSE, 
-    push.pop = FALSE, object = .current.coco) 
+    push.pop = FALSE, object = CoCoCore::.currentCoCo()) 
 {
     x <- FALSE
     if (is.character(model)) {
         if ((model == "base")) 
-            x <- ifelse(old.base, old.base, returnModelNumber("base", 
+            x <- ifelse(old.base, old.base, CoCoRaw::returnModelNumber("base", 
                 object = object))
         else if ((model == "current")) 
-            x <- ifelse(old.current, old.current, returnModelNumber("current", 
+            x <- ifelse(old.current, old.current, CoCoRaw::returnModelNumber("current", 
                 object = object))
         else if ((model == "last")) 
-            x <- returnModelNumber("last", object = object)
+            x <- CoCoRaw::returnModelNumber("last", object = object)
         else if ((model == "next")) {
 	    warning("Using current model for next")
-            x <- returnModelNumber("current", object = object)
+            x <- CoCoRaw::returnModelNumber("current", object = object)
         } else if ((model == "previous")) {
 	    warning("Using current model for previous")
-            x <- returnModelNumber("current", object = object)
+            x <- CoCoRaw::returnModelNumber("current", object = object)
         } else if (is.gc(model)) 
-            enterModel(model, object = object)
+            CoCoRaw::enterModel(model, object = object)
     }
     else {
         if (!.is.nil.model(model)) 
@@ -453,15 +548,15 @@ function (model = FALSE, old.current = FALSE, old.base = FALSE,
                 object = object)
     }
     if (!.is.nil.model(x)) 
-        makeCurrent(x, push = push.pop, object = object)
+        CoCoRaw::makeCurrent(x, push = push.pop, object = object)
 }
 ".set.rejection" <-
-function (alfa.rejected = 0.025, object = .current.coco) 
+function (alfa.rejected = 0.025, object = CoCoCore::.currentCoCo()) 
 {
     call.coco.reals(87, alfa.rejected, 1, FALSE, object = object)
 }
 ".set.separators" <-
-function (separators.limit = 0.001, object = .current.coco) 
+function (separators.limit = 0.001, object = CoCoCore::.currentCoCo()) 
 {
     call.coco.reals(74, separators.limit, 1, FALSE, object = object)
 }
@@ -498,21 +593,21 @@ function (type)
     }
 }
 ".to.search" <-
-function (action, model = FALSE, a = FALSE, b = FALSE, object = .current.coco) 
+function (action, model = FALSE, a = FALSE, b = FALSE, object = CoCoCore::.currentCoCo()) 
 {
     .visit.model(model, a, b, action = action, object = object)
 }
 ".visit.interval" <-
 function (from, to, action = c("show", "describe", "dispose", 
-    "fit", "accept", "reject"), object = .current.coco) 
+    "fit", "accept", "reject"), object = CoCoCore::.currentCoCo()) 
 {
     result <- NULL
     old.current <- .before.set.current(to, object = object)
-    old.base <- returnModelNumber("base", no.warnings = TRUE, 
+    old.base <- CoCoRaw::returnModelNumber("base", no.warnings = TRUE, 
         object = object)
-    i <- returnModelNumber("current", no.warnings = TRUE, object = object)
+    i <- CoCoRaw::returnModelNumber("current", no.warnings = TRUE, object = object)
     while (from <= i) {
-        ok <- makeCurrent(i, object = object)
+        ok <- CoCoRaw::makeCurrent(i, object = object)
         if (ok) 
             result <- coco.simple.command(.encode.visit(action), 
                 2, object = object)
@@ -523,9 +618,9 @@ function (from, to, action = c("show", "describe", "dispose",
                 cat(" // Base model //\n")
         }
         if (from < i) {
-            ok <- makeCurrent("previous", object = object)
+            ok <- CoCoRaw::makeCurrent("previous", object = object)
             if (ok) 
-                i <- returnModelNumber("current", object = object)
+                i <- CoCoRaw::returnModelNumber("current", object = object)
             else j <- j - 1
         }
         else i <- i - 1
@@ -535,22 +630,22 @@ function (from, to, action = c("show", "describe", "dispose",
 }
 ".visit.model" <-
 function (model = FALSE, a = FALSE, b = FALSE, action = c("show", 
-    "describe", "dispose", "fit", "accept", "reject"), object = .current.coco) 
+    "describe", "dispose", "fit", "accept", "reject"), object = CoCoCore::.currentCoCo()) 
 {
-    ".dispose.of.interval" <- function(from, to, object = .current.coco) {
+    ".dispose.of.interval" <- function(from, to, object = CoCoCore::.currentCoCo()) {
         result <- NULL
         old.current <- .before.set.current(to, object = object)
-        i <- returnModelNumber("current", object = object)
+        i <- CoCoRaw::returnModelNumber("current", object = object)
         while (from <= i) {
-            makeCurrent(i, object = object)
+            CoCoRaw::makeCurrent(i, object = object)
             if (from < i) {
-                ok <- makeCurrent("previous", object = object)
+                ok <- CoCoRaw::makeCurrent("previous", object = object)
                 if (ok) 
-                  j <- returnModelNumber("current", object = object)
+                  j <- CoCoRaw::returnModelNumber("current", object = object)
                 else j <- i - 1
             }
             else j <- i - 1
-            ok <- makeCurrent(i, object = object)
+            ok <- CoCoRaw::makeCurrent(i, object = object)
             if (ok) 
                 result <- coco.simple.command(139, 2, object = object)
             i <- j
@@ -580,20 +675,20 @@ function (model = FALSE, a = FALSE, b = FALSE, action = c("show",
 }
 ".visit.models" <-
 function (list, action = c("show", "describe", "dispose", "fit", 
-    "accept", "reject"), object = .current.coco) 
+    "accept", "reject"), object = CoCoCore::.currentCoCo()) 
 {
     result <- NULL
     if (is.character(list) && (length(list) == 1)) 
         .visit.model(list, action = action, object = object)
     else {
-        old.current <- returnModelNumber("current", no.warnings = TRUE, 
+        old.current <- CoCoRaw::returnModelNumber("current", no.warnings = TRUE, 
             object = object)
-        old.base <- returnModelNumber("base", no.warnings = TRUE, 
+        old.base <- CoCoRaw::returnModelNumber("base", no.warnings = TRUE, 
             object = object)
         for (i in list) {
             if (i == "current") 
-                ok <- makeCurrent(old.current, object = object)
-            else ok <- makeCurrent(i, object = object)
+                ok <- CoCoRaw::makeCurrent(old.current, object = object)
+            else ok <- CoCoRaw::makeCurrent(i, object = object)
             if (ok) 
                 result <- coco.simple.command(.encode.visit(action), 
                   2, object = object)

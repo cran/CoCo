@@ -1,6 +1,6 @@
 "call.coco.reals" <-
 function (code, argument = FALSE, length = 0, sub.code = FALSE, 
-    no.warnings = NULL, object = .current.coco) 
+    no.warnings = NULL, object = CoCoCore::.currentCoCo()) 
 {
     if (is.vector(argument)) 
         tst <- argument[1]

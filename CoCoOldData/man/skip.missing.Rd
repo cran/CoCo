@@ -10,7 +10,7 @@
 }
 
 \usage{
-skip.missing(object = .current.coco)
+skip.missing(object = CoCoCore::.currentCoCo())
 }
 
 \arguments{

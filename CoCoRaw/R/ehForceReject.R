@@ -7,7 +7,7 @@ function (model, a = FALSE, b = FALSE, data = NULL, object = .object.of.model(mo
     else if ((model == "models") | is.gc(a)) 
         coco.enter.string(219, a, FALSE, object = object)
     else if ((model == "r.dual") | (model == "a.dual")) 
-        add.dual.to.class(model, "rejected", a, object = object)
+        ehForceAddDualToClass(model, "rejected", a, object = object)
     else if ((model == "base") | (model == "current") | (model == 
         "last") | (model == "all") | (model == "interval") | 
         (model == "list") | is.number(model) | is.vector(model)) 

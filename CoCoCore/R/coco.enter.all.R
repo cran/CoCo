@@ -1,8 +1,8 @@
 "coco.enter.all" <-
-function (code, string, long, double, sub.code = FALSE, object = .current.coco) 
+function (code, string, long, double, sub.code = FALSE, object = CoCoCore::.currentCoCo()) 
 {
     "coco.set.all.options" <- function(code, string, long, double, 
-        sub.code = FALSE, object = .current.coco) {
+        sub.code = FALSE, object = CoCoCore::.currentCoCo()) {
         if (is.vector(string)) 
             string <- string[1]
         if (is.na(string)) string <- ""

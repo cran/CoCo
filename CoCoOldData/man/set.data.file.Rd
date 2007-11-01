@@ -8,11 +8,11 @@
 \description{ Assign data files. }
 
 \usage{
-set.data.file(file.name, object = .current.coco)
+set.data.file(file.name, object = CoCoCore::.currentCoCo())
 
-set.specification.file(file.name, object = .current.coco)
+set.specification.file(file.name, object = CoCoCore::.currentCoCo())
 
-set.observations.file(file.name, object = .current.coco)
+set.observations.file(file.name, object = CoCoCore::.currentCoCo())
 }
 
 \arguments{

@@ -6,7 +6,7 @@
 \description{ Make a CoCo model object. }
 
 \usage{
-make.model(model = "*", title = "", push.pop = FALSE, object = .current.coco)
+make.model(model = "*", title = "", push.pop = FALSE, object = CoCoCore::.currentCoCo())
 }
 
 \arguments{

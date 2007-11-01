@@ -8,7 +8,7 @@
 }
 
 \usage{
-redefine.factor(name, levels, missing.levels = 0, object = .current.coco)
+redefine.factor(name, levels, missing.levels = 0, object = CoCoCore::.currentCoCo())
 }
 
 \arguments{

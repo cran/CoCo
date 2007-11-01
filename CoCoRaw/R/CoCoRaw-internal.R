@@ -8,16 +8,16 @@ function (data = NULL, object = .object.of.thing(data = data,
 function (code = "all", set = "", data = NULL, 
     object = .object.of.thing(data = data, ...), ...) 
 {
-    ".dispose.of.tests" <- function(object = .current.coco) {
+    ".dispose.of.tests" <- function(object = CoCoCore::.currentCoCo()) {
         coco.simple.command(171, FALSE, object = object)
     }
-    ".dispose.of.tables" <- function(object = .current.coco) {
+    ".dispose.of.tables" <- function(object = CoCoCore::.currentCoCo()) {
         coco.simple.command(172, FALSE, object = object)
     }
-    ".dispose.of.probabilities" <- function(object = .current.coco) {
+    ".dispose.of.probabilities" <- function(object = CoCoCore::.currentCoCo()) {
         coco.simple.command(174, FALSE, object = object)
     }
-    ".dispose.of.all.q.tables" <- function(object = .current.coco) {
+    ".dispose.of.all.q.tables" <- function(object = CoCoCore::.currentCoCo()) {
         coco.simple.command(175, FALSE, object = object)
     }
     if ((code == "all") | (code == "tests")) 
@@ -68,7 +68,7 @@ function (list, accumulated = FALSE, ncol = FALSE, select.case.fun = FALSE,
         silent = silent))
     double.list <- .split.data(list)
     if (FALSE) 
-        enter.list(list, accumulated, ncol, select.case.fun, 
+        CoCoRaw::enterList(list, accumulated, ncol, select.case.fun, 
             columns, silent, object)
     else {
         x <- length(.return.level.list(full = TRUE, object = object)) + 
@@ -308,7 +308,7 @@ function (code = "all", setslot = TRUE, data = NULL, object = .object.of.thing(d
         1:4), 1), object = object)]
 }
 ".set.ic" <-
-function (code = "aic", kappa = 2, object = .current.coco) 
+function (code = "aic", kappa = 2, object = CoCoCore::.currentCoCo()) 
 {
     if (is.number(code)) 
         call.coco.reals(72, code, 1, FALSE, object = object)
@@ -320,7 +320,7 @@ function (code = "aic", kappa = 2, object = .current.coco)
         "bic", "off", "on"), code, c(-1, 1, 2, 3, 5), 1), object = object)
 }
 ".set.switch" <-
-function (number, hit = "flop", object = .current.coco) 
+function (number, hit = "flop", object = CoCoCore::.currentCoCo()) 
 {
     ".on.off" <- function(hit = "flop") {
         if (is.character(hit)) {

@@ -1,5 +1,5 @@
 "skip.missing" <-
-function (object = .current.coco) 
+function (object = CoCoCore::.currentCoCo()) 
 {
     .set.coco.value(object, ".invalid", append = TRUE, list(type = "skip.missing", 
         when = "medio"))

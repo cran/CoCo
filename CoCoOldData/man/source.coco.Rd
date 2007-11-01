@@ -6,7 +6,7 @@
 \description{ Read coco commands. }
 
 \usage{
-source.coco(file.name, object = .current.coco)
+source.coco(file.name, object = CoCoCore::.currentCoCo())
 }
 
 \arguments{

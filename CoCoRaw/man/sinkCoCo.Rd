@@ -6,7 +6,7 @@
 \description{ Diverts CoCo output to a file. }
 
 \usage{
-sinkCoCo(file.name = "Diary.tmp", type = "diary", object = .current.coco)
+sinkCoCo(file.name = "Diary.tmp", type = "diary", object = CoCoCore::.currentCoCo())
 }
 
 \arguments{

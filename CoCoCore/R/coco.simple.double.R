@@ -8,10 +8,10 @@ function (code, sub.code = FALSE,
     model.2 <- .recover.model(model.2)
     old <- .before.set.both(model.1, model.2, object = object)
     if (!.is.nil.model(model.1) && .is.nil.model(model.2)) 
-        makeBase(old$current, object = object)
+        CoCoRaw::makeBase(old$current, object = object)
     result <- coco.simple.command(code, sub.code, object = object)
     if (!.is.nil.model(old$base)) 
-        makeBase(old$base, object = object)
+        CoCoRaw::makeBase(old$base, object = object)
     .after.set.current(old$current, result, type = type, 
                        model = ifelse(.encode.model(model.1) < 0, 
                                       FALSE, model.1), object = object)

@@ -1,5 +1,5 @@
 "cutpoints" <-
-function (name, cutpoints, object = .current.coco) 
+function (name, cutpoints, object = CoCoCore::.currentCoCo()) 
 {
     if ("what" != name) 
         .set.coco.value(object, ".invalid", append = TRUE, list(type = "cutpoints", 

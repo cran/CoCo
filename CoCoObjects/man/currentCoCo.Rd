@@ -8,7 +8,7 @@
 	      default CoCo object for the CoCo functions. }
 
 \usage{
-currentCoCo(object = .current.coco)
+currentCoCo(object = CoCoCore::.currentCoCo())
 
 makeCurrentCoCo(object.number)
 }

@@ -7,9 +7,9 @@
 \description{ Read Q table. }
 
 \usage{
-read.q.table(set, setslot = TRUE, object = .current.coco)
+read.q.table(set, setslot = TRUE, object = CoCoCore::.currentCoCo())
 
-read.q.list(set, setslot = TRUE, object = .current.coco)
+read.q.list(set, setslot = TRUE, object = CoCoCore::.currentCoCo())
 }
 
 \arguments{

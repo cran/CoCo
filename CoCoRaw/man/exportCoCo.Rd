@@ -41,7 +41,7 @@ importCoCo(file.name, setslot = TRUE, data = NULL,
 	       }
   \item{object}{ The CoCo object with the data and models to use.
 		 If neither \code{object} or \code{data} is given,
-		 then the object \code{.current.coco} of
+		 then the object \code{CoCoCore::.currentCoCo()} of
 		 \code{.GlobalEnv} is used as default object,
 		 see \code{\link[CoCoObjects]{makeCurrentCoCo}}.
 		 }

@@ -1,5 +1,5 @@
 "currentCoCo" <-
-function (object = .current.coco) 
+function (object = CoCoCore::.currentCoCo()) 
 {
-    my.assign(".current.coco", object, frame = 0)
+    CoCoCore::my.assign(".current.coco", object, frame = 0)
 }

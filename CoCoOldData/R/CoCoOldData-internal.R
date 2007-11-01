@@ -12,7 +12,7 @@ function (lib, pkg)
     require(CoCoCore)
 }
 #  ".new.coco" <-
-#  function (object = .current.coco, type = 1, uniq.title = FALSE, 
+#  function (object = CoCoCore::.currentCoCo(), type = 1, uniq.title = FALSE, 
 #      title = "A CoCo object") 
 #  {
 #      result <- object
@@ -21,13 +21,13 @@ function (lib, pkg)
 #      return(result)
 #  }
 #  ".new.coco.model" <-
-#  function (number, model, object = .current.coco, title = "") 
+#  function (number, model, object = CoCoCore::.currentCoCo(), title = "") 
 #  {
 #      result <- number
 #      return(result)
 #  }
 #  ".object.of.model" <-
-#  function (model, data.thing = NULL, object = .current.coco, names = NULL, 
+#  function (model, data.thing = NULL, object = CoCoCore::.currentCoCo(), names = NULL, 
 #      levels = NULL, to.factor = NULL) 
 #  {
 #      result <- object
@@ -60,7 +60,7 @@ function (lib, pkg)
 #      return(result)
 #  }
 #  ".object.of.thing" <-
-#  function (data.thing = NULL, object = .current.coco, to.factor = NULL) 
+#  function (data.thing = NULL, object = CoCoCore::.currentCoCo(), to.factor = NULL) 
 #  {
 #      result <- object
 #      .my.trace(".object.of.thing,        start:", level = 20000, 
@@ -111,45 +111,45 @@ function (lib, pkg)
 #      return(id)
 #  }
 #  ".return.key" <-
-#  function (object = .current.coco) 
+#  function (object = CoCoCore::.currentCoCo()) 
 #  {
 #      if (all(is.character(object))) 
 #          return(object[1])
 #      else return(FALSE)
 #  }
 #  ".return.model.number" <-
-#  function (coco.model = .current.coco) 
+#  function (coco.model = CoCoCore::.currentCoCo()) 
 #  {
 #      if (all(is.number(coco.model))) 
 #          return(coco.model[1])
 #      else return(FALSE)
 #  }
 #  ".return.model.of.object" <-
-#  function (model, object = .current.coco) 
+#  function (model, object = CoCoCore::.currentCoCo()) 
 #  {
 #      return(FALSE)
 #  }
 #  ".return.object.model.number" <-
-#  function (number, recover = TRUE, object = .current.coco) 
+#  function (number, recover = TRUE, object = CoCoCore::.currentCoCo()) 
 #  {
 #      return(FALSE)
 #  }
 #  ".return.reference" <-
-#  function (object = .current.coco) 
+#  function (object = CoCoCore::.currentCoCo()) 
 #  {
 #      if (all(is.number(object))) 
 #          return(object[1])
 #      else return(FALSE)
 #  }
 #  ".return.type" <-
-#  function (object = .current.coco) 
+#  function (object = CoCoCore::.currentCoCo()) 
 #  {
 #      if (all(is.number(object))) 
 #          return(object[2])
 #      else return(FALSE)
 #  }
 ".set.asymptotic" <-
-function (limit = 0.25, object = .current.coco) 
+function (limit = 0.25, object = CoCoCore::.currentCoCo()) 
 {
     call.coco.reals(76, limit, 1, FALSE, object = object)
 }
@@ -160,29 +160,29 @@ function (argument, slotid, value, pos = .GlobalEnv, append = FALSE)
     return(result)
 }
 ".set.em.epsilon" <-
-function (epsilon = 0.001, object = .current.coco) 
+function (epsilon = 0.001, object = CoCoCore::.currentCoCo()) 
 {
     call.coco.reals(58, epsilon, 1, FALSE, object = object)
 }
 ".set.em.initial" <-
-function (code = "what", object = .current.coco) 
+function (code = "what", object = CoCoCore::.currentCoCo()) 
 {
     x <- c("uniform", "first", "last", "mean", "random", "input")
     x[call.coco.longs(57, .encode(x, code, c(1, 2, 3, 4, 5, 6), 
         1), 1, ifelse(code == "what", -1, FALSE), object = object)]
 }
 ".set.em.max.iterations" <-
-function (max = 100, object = .current.coco) 
+function (max = 100, object = CoCoCore::.currentCoCo()) 
 {
     call.coco.longs(59, max, 1, FALSE, object = object)
 }
 ".set.exact.epsilon" <-
-function (epsilon = 1e-07, object = .current.coco) 
+function (epsilon = 1e-07, object = CoCoCore::.currentCoCo()) 
 {
     call.coco.reals(84, epsilon, 1, FALSE, object = object)
 }
 ".set.exact.test" <-
-function (hit = "flop", object = .current.coco) 
+function (hit = "flop", object = CoCoCore::.currentCoCo()) 
 {
     x <- c("off", "flop", "on", "all", "deviance")
     y <- call.coco.simple(75, .encode(c("what", x), hit, c(-1, 
@@ -190,58 +190,58 @@ function (hit = "flop", object = .current.coco)
     x[y]
 }
 ".set.ips.epsilon" <-
-function (epsilon = 1e-07, object = .current.coco) 
+function (epsilon = 1e-07, object = CoCoCore::.currentCoCo()) 
 {
     call.coco.reals(55, epsilon, 1, FALSE, object = object)
 }
 ".set.ips.max.iterations" <-
-function (max = 100, object = .current.coco) 
+function (max = 100, object = CoCoCore::.currentCoCo()) 
 {
     call.coco.longs(56, max, 1, FALSE, object = object)
 }
 ".set.ips.stop.criterion" <-
-function (code = "what", object = .current.coco) 
+function (code = "what", object = CoCoCore::.currentCoCo()) 
 {
     c("cell", "sum")[call.coco.simple(53, .encode(c("what", "cell", 
         "sum"), code, c(-1, 1, 2), 1), object = object)]
 }
 ".set.list.of.number.of.tables" <-
-function (list.of.numbers = "what", object = .current.coco) 
+function (list.of.numbers = "what", object = CoCoCore::.currentCoCo()) 
 {
     result <- call.coco.longs(85, list.of.numbers, 25, FALSE, 
         object = object)
     return(result[1:max((1:length(result))[result != 0])])
 }
 ".set.number.of.tables" <-
-function (number = 1000, object = .current.coco) 
+function (number = 1000, object = CoCoCore::.currentCoCo()) 
 {
     if ((number == "variating")) 
         call.coco.longs(80, 0, 1, 1, object = object)
     else call.coco.longs(80, number, 1, FALSE, object = object)
 }
 ".set.page.formats" <-
-function (args = "what", object = .current.coco) 
+function (args = "what", object = CoCoCore::.currentCoCo()) 
 {
     call.coco.longs(48, args, 2, FALSE, object = object)
 }
 ".set.paging.length" <-
-function (length = "what", object = .current.coco) 
+function (length = "what", object = CoCoCore::.currentCoCo()) 
 {
     call.coco.longs(63, length, 1, FALSE, object = object)
 }
 ".set.power.lambda" <-
-function (lambda = 0.666667, object = .current.coco) 
+function (lambda = 0.666667, object = CoCoCore::.currentCoCo()) 
 {
     call.coco.reals(71, ifelse(lambda == "Null", 1, lambda), 
         1, FALSE, object = object)
 }
 ".set.print.formats" <-
-function (args = "what", object = .current.coco) 
+function (args = "what", object = CoCoCore::.currentCoCo()) 
 {
     call.coco.longs(45, args, 2, FALSE, object = object)
 }
 ".set.seed.coco" <-
-function (seed = "random", object = .current.coco) 
+function (seed = "random", object = CoCoCore::.currentCoCo()) 
 {
     if ((seed == "random")) 
         call.coco.longs(78, 0, 1, 2, object = object)
@@ -253,12 +253,12 @@ function (object, slotid, value)
     return(object)
 }
 ".set.table.formats" <-
-function (args = "what", object = .current.coco) 
+function (args = "what", object = CoCoCore::.currentCoCo()) 
 {
     call.coco.longs(46, args, 4, FALSE, object = object)
 }
 ".set.test" <-
-function (code = "what", object = .current.coco) 
+function (code = "what", object = CoCoCore::.currentCoCo()) 
 {
     x <- c("deviance", "pearson", "power")
     x[call.coco.simple(70, .encode(c("what", "lr", "deviance", 
@@ -266,7 +266,7 @@ function (code = "what", object = .current.coco)
         3), 1), object = object)]
 }
 ".set.test.formats" <-
-function (args = "what", object = .current.coco) 
+function (args = "what", object = CoCoCore::.currentCoCo()) 
 {
     call.coco.longs(47, args, 4, FALSE, object = object)
 }
