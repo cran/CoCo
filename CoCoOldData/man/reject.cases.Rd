@@ -1,6 +1,6 @@
 \name{reject.cases}
-\alias{reject.cases}
-\alias{select.cases}
+\alias{coco.reject.cases}
+\alias{coco.select.cases}
 \alias{or.reject.cases}
 \alias{or.select.cases}
 
@@ -9,9 +9,9 @@
 \description{ Declare a subset of the cases to be read. }
 
 \usage{
-reject.cases(set, cell, object = CoCoCore::.currentCoCo())
+coco.reject.cases(set, cell, object = CoCoCore::.currentCoCo())
 
-select.cases(set, cell, object = CoCoCore::.currentCoCo())
+coco.select.cases(set, cell, object = CoCoCore::.currentCoCo())
 
 or.reject.cases(set, cell, object = CoCoCore::.currentCoCo())
 

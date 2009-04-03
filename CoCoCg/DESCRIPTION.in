@@ -1,5 +1,5 @@
 Package: CoCoCg
 Namespace: CoCoCg
-Title: API to CoCoCg
-Description: Interface to CoCoCg from R and Splus.
-Depends: R (>= 2.0.0), CoCo, methods
+Title: Graphical modelling by CG regressions
+Description: Interface to CoCoCg (CoCo with both discrete and continuous data) from R.
+Depends: methods

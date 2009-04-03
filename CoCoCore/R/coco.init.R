@@ -5,11 +5,9 @@ function (n = 131072, p = 65536, q = 1024, r = 65536, s = 65536,
     location = c(700, 550), manager = TRUE, sh.lib.name = NULL) 
 {
     "ok.coco.start" <- function(resultat) {
-        if ((resultat$ifail == CoCoCore::.apiVersion()) | (resultat$ifail == 
-            0)) 
+        if ((resultat$ifail == CoCoCore::.apiVersion()) | (resultat$ifail == 0)) 
             NULL
-        else if ((50 <= resultat$ifail) & (resultat$ifail <= 
-            60)) 
+        else if ((50 <= resultat$ifail) & (resultat$ifail <= 60)) 
             ok.coco(resultat)
         else warning("Old version of CoCo object file")
     }
@@ -30,18 +28,21 @@ function (n = 131072, p = 65536, q = 1024, r = 65536, s = 65536,
       sub.dir <- "library/CoCo/lib/coco"
     Arg.char <- .get.lib.and.tmp(sub.dir)
     ci <- CoCoCore::.CoCoIdentifications()
-    n.type <- length(ci[(ci[, 
-        1] != CoCoCore::.endedCoCo()) & (ci[, 2] == type), 
-        1])
+    n.type <- length(ci[(ci[, 1] != CoCoCore::.endedCoCo()) & (ci[, 2] == type), 1])
     if (n.type == 0) 
         sub.code <- NULL
     else sub.code <- n.type
-    if (silent)
-        sub.code <- 1
-    resultat <- call.coco(code = ifelse(init, -2, -3), sub.code = sub.code, 
-        arg.char = Arg.char, arg.long = c(n, p, q, r, s, ss, 
-            t), arg.double = c(my.not.a.number()), type = type, 
-        object = 0)
+    if (silent) {
+        # sub.code <- 1
+        capture.output(
+            resultat <- call.coco(code = ifelse(init, -2, -3), sub.code = sub.code, 
+                arg.char = Arg.char, arg.long = c(n, p, q, r, s, ss, t), 
+                    arg.double = c(my.not.a.number()), type = type, object = 0)
+        )
+    } else
+        resultat <- call.coco(code = ifelse(init, -2, -3), sub.code = sub.code, 
+            arg.char = Arg.char, arg.long = c(n, p, q, r, s, ss, t), 
+                arg.double = c(my.not.a.number()), type = type, object = 0)
     cat("\n")
     # my.assign(".char.ok", TRUE, frame = 0)
     my.assign(".current.coco", c(resultat$id, type), frame = 0)

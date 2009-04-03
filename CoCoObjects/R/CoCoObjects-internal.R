@@ -1,3 +1,40 @@
+".packageName" <- "CoCoObjects"
+
+
+".First.lib.CoCoObjects" <-
+function (lib, pkg) 
+{
+    # require(methods)
+}
+
+".First.lib" <-
+function (lib, pkg) 
+{
+}
+
+".onAttach" <-
+function (lib, pkg) 
+{
+    # message("'.onAttach' / CoCoObjects")
+    message(paste("Please use 'library(CoCo)' and/or 'library(CoCoCg)'",
+                  "before using any CoCo-objects."))
+}
+
+".onLoad" <-
+function (lib, pkg) 
+{
+    # .clear.coco.objects()
+    # message("'.onLoad' of CoCoObjects")
+}
+
+".onUnload" <-
+function (lib, pkg) 
+{
+    .clear.coco.objects()
+    # message("'.onUnLoad' of CoCoObjects")
+}
+
+
 ".but.last" <-
 function (x, n = nchar(x), sep = ".") 
 {
@@ -82,15 +119,6 @@ function (key, number = NULL, X = ls(.CoCo.Root$env, all.names = all.names),
     }
     return(result)
 }
-".First.lib" <-
-function (lib, pkg) 
-{
-}
-".First.lib.CoCoObjects" <-
-function (lib, pkg) 
-{
-    # require(methods)
-}
 ".get.env.CoCoModelOBJECT" <-
 function (id = CoCoModelOBJECT@.id.env, CoCoModelOBJECT = NULL, 
     env = .get.env.CoCoOBJECT(id = id.fm, env = .CoCo.Root$env)$env, 
@@ -98,14 +126,15 @@ function (id = CoCoModelOBJECT@.id.env, CoCoModelOBJECT = NULL,
     CoCoOBJECT = NULL, message = FALSE) 
 {
     if (is.null(env)) {
-        message("Not found CoCoModelOBJECT")
+        message("(Empty 'environment' in .get.env.CoCoModelOBJECT.)")
+        # message("See 'help(clearCoCoObjects)'.")
         NULL
     }
     else if (is.element(id, ls(env, all.names = TRUE))) {
         get(id, env)
     }
     else {
-        message("Invalid CoCoModelOBJECT")
+        message("Invalid 'environment' in .get.env.CoCoModelOBJECT")
         NULL
     }
 }
@@ -114,8 +143,10 @@ function (id = CoCoOBJECT@.id.env, CoCoOBJECT = NULL, env = .CoCo.Root$env,
     message = FALSE) 
 {
     if (is.null(env)) {
-        if (message) 
-            message("Not found CoCoOBJECT")
+        if (message) {
+            message("(environment' in .get.env.CoCoOBJECT.)")
+            # message("See 'help(clearCoCoObjects)'.")
+        }
         NULL
     }
     else if (is.element(id, ls(env, all.names = TRUE))) {
@@ -123,7 +154,7 @@ function (id = CoCoOBJECT@.id.env, CoCoOBJECT = NULL, env = .CoCo.Root$env,
     }
     else {
         if (message) 
-            message("Invalid CoCoOBJECT")
+            message("Invalid 'environment' in .get.env.CoCoOBJECT")
         NULL
     }
 }
@@ -135,8 +166,10 @@ function (id = CoCoVIEWS@.id.env, CoCoVIEWS = NULL, env = .get.env.CoCoModelOBJE
     CoCoOBJECT = NULL) 
 {
     if (is.null(env)) {
-        if (message) 
-            message("Not found CoCoVIEWS")
+        if (message) {
+            message("(Empty 'environment' in .get.env.CoCoVIEWS.)")
+            # message("See 'help(clearCoCoObjects)'.")
+        }
         NULL
     }
     else if (is.element(id, ls(env, all.names = TRUE))) {
@@ -144,7 +177,7 @@ function (id = CoCoVIEWS@.id.env, CoCoVIEWS = NULL, env = .get.env.CoCoModelOBJE
     }
     else {
         if (message) 
-            message("Invalid CoCoVIEWS")
+            message("Invalid 'environment' in .get.env.CoCoVIEWS")
         NULL
     }
 }
@@ -291,20 +324,6 @@ function (data = NULL, object = CoCoCore::.currentCoCo(), to.factor = NULL)
         number = .return.model.number(result), object = result)
     return(result)
 }
-".onAttach" <-
-function (lib, pkg) 
-{
-}
-".onLoad" <-
-function (lib, pkg) 
-{
-}
-".onUnload" <-
-function (lib, pkg) 
-{
-}
-".packageName" <-
-"CoCoObjects"
 ".recover" <-
 function (object = CoCoCore::.currentCoCo(), recover = FALSE) 
 {
@@ -471,6 +490,15 @@ function (object = CoCoCore::.currentCoCo(), test.environment = FALSE, key = .re
         # message(paste("Number:", env$env$number, "Key:", env$env$key))
         if (is.null(env) || !(key == env$env$key)) {
             message("Hmmm ... seems the object has to be 'recovered' ... ")
+            if (!any(search() == "package:CoCoCg") && 
+                !any(search() == "package:CoCo")) {
+               # require(CoCo)
+               # require(CoCoCg)
+               message(paste(
+                         "Please use 'library(CoCo)' and/or 'library(CoCoCg)'",
+                         "before using any CoCo-objects."))
+               message("See 'help(clearCoCoObjects)'.")
+            }
             identification <- CoCoCore::.endedCoCo()
         }
     }

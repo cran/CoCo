@@ -1,3 +1,12 @@
+"set.ic.kappa" <-
+function (kappa = 2, object = CoCoCore::.currentCoCo()) 
+{
+    if (kappa == "what")
+      call.coco.reals(72, "what", 1, FALSE, object = object)
+    else
+      call.coco.reals(72, kappa, 1, sub.code = 4, object = object)
+}
+
 "optionsCoCo" <-
 function (..., section = "all", status = FALSE, force.files = FALSE, 
     data = NULL, object = .object.of.thing(data = data)) 
@@ -52,7 +61,8 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
         return(result)
     }
     ".option.real" <- function(result, names, names.both, names.args, 
-        args, code, m = length(names), object = CoCoCore::.currentCoCo()) {
+        args, code, m = length(names), sub.code = FALSE, 
+        object = CoCoCore::.currentCoCo()) {
         if (length(intersect(names.both, names)) > 0) {
             X <- call.coco.reals(code, "what", m, FALSE, object = object)
             for (i in 1:length(names)) {
@@ -65,7 +75,8 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
                     names[i]]]]
             }
             if (length(intersect(names.args, names)) > 0) 
-                call.coco.reals(code, X, m, FALSE, object = object)
+                call.coco.reals(code, X, m, sub.code = sub.code,
+                                object = object)
         }
         return(result)
     }
@@ -151,6 +162,31 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
         }
         return(result)
     }
+    ".option.switch.bic" <- function(result, name, names.both, names.args, 
+        args, switch.name = name, object = CoCoCore::.currentCoCo()) {
+        if (length(intersect(names.both, name)) > 0) {
+            X <- .set.switch(switch.name, "what", object = object)
+            if (is.element(name, names.both)) {
+                result <- append(result, list(X))
+                names(result)[length(result)] <- name
+            }
+            if (is.element(name, names.args)) 
+                X <- args[[(1:(length(args)))[names.args == name]]]
+            if (length(intersect(names.args, name)) > 0) {
+                # .set.switch(switch.name, X, object = object)
+                if (X) {
+                  set.ic.kappa(log(returnTable(set = ".", object = object)), 
+                    object = object)
+                  # .set.switch(switch.name, hit = "on", object = object)
+                } else {
+                  set.ic.kappa(2, object = object)
+                  # .set.switch(switch.name, hit = "off", object = object)
+                }
+                .set.switch(switch.name, hit = X, object = object)
+            }
+        }
+        return(result)
+    }
     "options.formats" <- function(..., status = FALSE, object = CoCoCore::.currentCoCo()) {
         if (status) 
             showOptions("formats", object = object)
@@ -229,10 +265,10 @@ function (..., section = "all", status = FALSE, force.files = FALSE,
             names.args, args, 71, m = 1, object = object)
         result <- .option.switch(result, names.switch[3], names.both, 
             names.args, args, object = object)
-        result <- .option.switch(result, names.switch[4], names.both, 
-            names.args, args, object = object)
+        result <- .option.switch.bic(result, names.switch[4], names.both, 
+            names.args, args, object = object) # bic
         result <- .option.real(result, names.rest[2], names.both, 
-            names.args, args, 72, m = 1, object = object)
+            names.args, args, 72, m = 1, sub.code = 4, object = object)
         result <- .option.switch(result, names.switch[5], names.both, 
             names.args, args, object = object)
         result <- .option.code(result, names.code[2], names.both, 

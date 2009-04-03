@@ -1,6 +1,6 @@
 Package: CoCoObjects
 Namespace: CoCoObjects
-Title: Objects for CoCo
-Description: Objects for the interface from R and Splus to CoCo.
-Depends: R (>= 2.0.0), methods
+Title: Objects for the interface to CoCo from R
+Description: Object classes for CoCo-sessions and models in sessions.
+Depends: methods
 LazyLoad: False

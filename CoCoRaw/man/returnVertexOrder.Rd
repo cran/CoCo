@@ -56,7 +56,7 @@ returnVertexOrder(model = FALSE, invers.order = FALSE, default.order = TRUE,
 
 % \details{ }
 
-\value{ }
+% \value{ }
 
 \references{Badsberg, J.H.: A guide to CoCo, JSS, 2001
             ( http://www.jstatsoft.org/v06/i04/ )
@@ -69,7 +69,7 @@ returnVertexOrder(model = FALSE, invers.order = FALSE, default.order = TRUE,
 \seealso{ ~~objects to See Also as \code{\link{coco.init}}, ~~~ }
 
 \examples{
-library(CoCoCg);
+library(CoCo);
 
 # Without "data" does not require ending the CoCo object:
 
@@ -248,6 +248,7 @@ endCoCo(CoCoObject);
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 
 library(CoCoCg);
+
 data(Rats);
 CoCoObject <- makeCoCoCg();
 enterDataFrame(Rats, object = CoCoObject);

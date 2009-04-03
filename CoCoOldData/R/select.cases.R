@@ -1,4 +1,4 @@
-"select.cases" <-
+"coco.select.cases" <-
 function (set, cell, object = CoCoCore::.currentCoCo()) 
 {
     if ("what" != set) 

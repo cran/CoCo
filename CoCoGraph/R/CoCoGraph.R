@@ -1,21 +1,52 @@
 .packageName <- "CoCoGraph"
 
 
+require(CoCoCore)
 require(CoCoObjects)
+require(CoCoRaw)
 
 require(tcltk)
 require(dynamicGraph)
 
 
+# ".First.lib.CoCoDynamicGraph" <-
+# function (lib, pkg) 
+# {
+
+  # See below, content has to be exported from 'dynamicGraph'!
+
+# } # ".First.lib.CoCoDynamicGraph" 
+
 ".First.lib" <-
 function (lib, pkg) 
 {
-    if (!any(search() == "package:CoCoCg")) 
-        require(CoCo)
+    # if (!any(search() == "package:CoCoCg")) 
+    #     require(CoCo)
     # require(tcltk)
     # require(dynamicGraph)
     # .First.lib.CoCoDynamicGraph(lib, pkg)
 }
+
+".onAttach" <-
+function (lib, pkg) 
+{
+    # if (!any(search() == "package:CoCoCg")) 
+    #     require(CoCo)
+    # require(tcltk)
+    # require(dynamicGraph)
+}
+
+".onLoad" <-
+function (lib, pkg) 
+{
+    # if (!any(search() == "package:CoCoCg")) 
+    #     require(CoCo)
+    # require(tcltk)
+    # require(dynamicGraph)
+    # .First.lib.CoCoDynamicGraph(lib, pkg)
+}
+
+
 ".IsEmpty" <-
 function (x) 
 {
@@ -23,23 +54,6 @@ function (x)
         is.null(x[[1]])) 
         return(TRUE)
     else return(FALSE)
-}
-".onAttach" <-
-function (lib, pkg) 
-{
-    if (!any(search() == "package:CoCoCg")) 
-        require(CoCo)
-    # require(tcltk)
-    # require(dynamicGraph)
-}
-".onLoad" <-
-function (lib, pkg) 
-{
-    if (!any(search() == "package:CoCoCg")) 
-        require(CoCo)
-    # require(tcltk)
-    # require(dynamicGraph)
-    # .First.lib.CoCoDynamicGraph(lib, pkg)
 }
 
 # "newCoCoTestObject" <-
@@ -191,8 +205,17 @@ setMethod("recoverModel", signature(object = "CoCoModelClass"),
         if (is.null(env) || !(object@.key          == env$env$key)
                    || !(object@.model.number == env$env$number)) {
             message(
-     "Hmmm ... seems the model object has to be 'recovered' ... ")
-	    object@.reference <- .ended.coco
+     "Hmmmm ... seems the model object has to be 'recovered' ... ")
+            if (!any(search() == "package:CoCoCg") && 
+                !any(search() == "package:CoCo")) {
+               # require(CoCo)
+               # require(CoCoCg)
+               message(paste(
+                         "Please use 'library(CoCo)' and/or 'library(CoCoCg)'",
+                         "before using any CoCo-objects."))
+               message("See 'help(clearCoCoObjects)'.")
+            }
+	    object@.reference <- .endedCoCo()
             object <- .recover.model(object)
         }
         return(object)
@@ -677,39 +700,48 @@ CoCoLabelAllEdges <- function(object, slave = FALSE,  ...) {
   localArguments <-      dots$Arguments
   dg             <-      localArguments$dg
 
-  getNodeName <- function(index, type)
-    if (type == "Vertex")
-      name(localArguments$frameModel@vertices[[index]])
-    else if (type == "Factor")
-      name(localArguments$dg@factorVertexList[[abs(index)]])
-    else if (type == "Extra")
-      name(localArguments$dg@extraList[[abs(index)]])
-    else if (type == "Block")
-      label(localArguments$dg@blockList[[abs(index)]])
+  getNodeName <- function(index, type) {
+    if (index > 0) {
+      if (type == "Vertex")
+        name(localArguments$frameModel@vertices[[index]])
+      else if (type == "Factor")
+        name(localArguments$dg@factorVertexList[[abs(index)]])
+      else if (type == "Extra")
+        name(localArguments$dg@extraList[[abs(index)]])
+      else if (type == "Block")
+        label(localArguments$dg@blockList[[abs(index)]])
+      else
+        NULL
+    }
     else
       NULL
+  }
 
   visitEdges <- function(edges) {
     for (i in seq(along = edges)) {
       vertices <- nodeIndicesOfEdge(edges[[i]])
       types    <- nodeTypesOfEdge(edges[[i]])
 
-      name.f <- getNodeName(vertices[1], types[1])
-      name.t <- getNodeName(vertices[2], types[2])
+      if (max(vertices) > 0) {
 
-      R <- testEdge(object, action = "remove",
-                    name.1 = name.f, name.2 = name.t,
-                    from = vertices[1], to = vertices[2],
-                    from.type = types[1], to.type = types[2],
-                    edge.index = i, force = force, 
-                    Arguments = localArguments)
+        name.f <- getNodeName(vertices[1], types[1])
+        name.t <- getNodeName(vertices[2], types[2])
 
-      if (!is.null(R)) {
-        if (TRUE || (hasMethod("label", class(R))))
-          label(edges[[i]]) <- label(R)
-        if (TRUE || (hasMethod("width", class(R))))
-          width(edges[[i]]) <- width(R)
+        R <- testEdge(object, action = "remove",
+                      name.1 = name.f, name.2 = name.t,
+                      from = vertices[1], to = vertices[2],
+                      from.type = types[1], to.type = types[2],
+                      edge.index = i, force = force, 
+                      Arguments = localArguments)
+  
+        if (!is.null(R)) {
+          if (TRUE || (hasMethod("label", class(R))))
+            label(edges[[i]]) <- label(R)
+          if (TRUE || (hasMethod("width", class(R))))
+            width(edges[[i]]) <- width(R)
+        }
       }
+
     }
     return(edges)
   }
@@ -850,15 +882,16 @@ setMethod("dg", signature(object = "CoCoModelClass"),
                            # modelObjectName = NULL, 
                            # control = dg.control(...),
                            ...) {
-      if (TRUE) {
-        dots <- list(...)
+      args <- list(...)
+      if (any(names(args) == "alternativeCode")) {
+        args <- list(...)
         if (any(names(args) == "dynamicGraph")) {
             doAdd <- TRUE
             message("use 'addModel', 'addView', ...")
         }
         object <- recoverModel(object, "dg")
-        control <- dots$control
-        localArguments <- dots$Arguments
+        control <- args$control
+        localArguments <- args$Arguments
         if (is.null(control) && !is.null(localArguments))
           control <- localArguments$control
         if (is.null(control))
@@ -910,7 +943,7 @@ setMethod("dg", signature(object = "CoCoModelClass"),
                 DynamicGraph(names = VariableDescription$names, 
                   visibleVertices = visibleVertices, types = types, 
                   from = Edges[, 1], to = Edges[, 2],
-                  object = object, UserMenus = CoCoMenu, ...)
+                  object = object, UserMenus = CoCoMenu(), ...)
               else DynamicGraph(names = VariableDescription$names, 
                 visibleVertices = visibleVertices, types = types, 
                 from = Edges[, 1], to = Edges[, 2], 
@@ -984,6 +1017,12 @@ setMethod("testEdge", signature(object = "CoCoModelClass"),
         f <- function(type) if (is.null(type)) 
             ""
         else paste("(", type, ")")
+        if ((length(name.1) < 1) || (is.null(name.1)) ||
+            (length(name.2) < 1) || (is.null(name.2))) {
+            message <- paste("'Empty' edge(s) in 'testEdge'")
+            message(message)
+            warning(message)
+        }
         if (!.IsEmpty(args$Arguments$blockList) ||
             (!is.null(args$Arguments$oriented) && 
             !is.na(args$Arguments$oriented) &&
@@ -1005,13 +1044,17 @@ setMethod("testEdge", signature(object = "CoCoModelClass"),
               object = object)
         }
         else {
+            # print(paste("testEdge: ", name.1, name.2, sep = ""))
             test <- subModifyModel(objectModel,
               action = "drop.edges", make.model = FALSE,
               return.test = TRUE, push.pop = TRUE, 
               modification = paste(name.1, name.2, sep = ""), 
               ...)
         }
-        return(new("CoCoTestClass", test = test))
+        if (is.null(test))
+          return(NULL)
+        else
+          return(new("CoCoTestClass", test = test))
     })
 
 # Not in 'dynamicGraph':
@@ -1035,13 +1078,20 @@ setMethod("subModifyModel", signature(object = "CoCoModelClass"),
         dispose = FALSE, ...) {
         args <- list(...)
         object <- recoverModel(object, "subModifyModel")
-        result <- CoCoRaw::editModel(action = action,
-            modification = modification, 
-            model = object@.model.number, result.form = result.form, 
-            omit.test = TRUE, edges = section.2.edges,
-            make.model = make.model, 
-            return.test = return.test, push.pop = push.pop, 
-            dispose = dispose, object = object)
+        # print(paste("subModifyModel: ", modification, sep = ""))
+        if ((length(modification) < 1) || (is.null(modification))) {
+            message <- paste("No modification in 'subModifyModel'")
+            message(message)
+            warning(message)
+            result <- NULL
+        } else
+          result <- CoCoRaw::editModel(action = action,
+              modification = modification, 
+              model = object@.model.number, result.form = result.form, 
+              omit.test = TRUE, edges = section.2.edges,
+              make.model = make.model, 
+              return.test = return.test, push.pop = push.pop, 
+              dispose = dispose, object = object)
         return(result)
     })
 

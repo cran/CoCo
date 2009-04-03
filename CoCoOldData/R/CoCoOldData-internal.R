@@ -1,3 +1,17 @@
+".packageName" <- "CoCoOldData"
+
+
+".First.lib" <-
+function (lib, pkg) 
+{
+    require(CoCoCore)
+}
+
+#  ".onLoad" <-
+#  function (lib, pkg) 
+#  {
+#  }
+
 
 #  ".clear.coco.objects" <-
 #  function (coco.object = NULL, pos = .GlobalEnv) 
@@ -6,11 +20,6 @@
 #      if (length(result) > 0) 
 #          cat("Warning, ended CoCo-objects:", result, "\n")
 #  }
-".First.lib" <-
-function (lib, pkg) 
-{
-    require(CoCoCore)
-}
 #  ".new.coco" <-
 #  function (object = CoCoCore::.currentCoCo(), type = 1, uniq.title = FALSE, 
 #      title = "A CoCo object") 
@@ -94,10 +103,6 @@ function (lib, pkg)
 #          name = "OOO", key = -1, id = .return.reference(result), 
 #          number = .return.model.number(result), object = result)
 #      return(result)
-#  }
-#  ".onLoad" <-
-#  function (lib, pkg) 
-#  {
 #  }
 #  ".recover.model" <-
 #  function (coco.model.object) 

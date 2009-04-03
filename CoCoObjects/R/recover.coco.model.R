@@ -25,7 +25,7 @@ function (coco.model.object, key = .return.key(coco.model.object),
         result <- .SetSlotValue(result, ".model.number", new.no)
         model.id.env <- .find.env(key, number = new.no)
         if (!is.null(model.id.env)) 
-            message("Environment exists already in .sub.recover.coco.model!")
+            message("Environment already exists in .sub.recover.coco.model!")
         else {
             key.new <- .return.key(object = result)
             if (!(key == key.new)) 

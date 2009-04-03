@@ -1,4 +1,10 @@
 
+ 2009-03-23: CoCoGraph, Depends: methods.
+
+ 2009-03-23: 'capture.output' in init.coco to avoid 'silent'.
+
+ 2009-03-23: .option.switch.bic and set.ic.kappa for 'bic' in optionsCoCo.
+
  2007-10-14: warning(paste("Degrees of freedom:", result$arg.long["df"]))
              inserted in returnTest, editModel and coco.string.double.
 

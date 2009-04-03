@@ -1,5 +1,4 @@
 Package: CoCoOldData
 Namespace: CoCoOldData
-Title: Interface to old data files for CoCo
-Description: Interface functions for old data files for CoCo.
-Depends: R (>= 2.0.0)
+Title: Interface to data files of CoCo in 'old format'
+Description: Interface functions for data files of CoCo.

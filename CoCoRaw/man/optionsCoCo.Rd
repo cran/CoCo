@@ -35,13 +35,13 @@ optionsCoCo(..., section = "all", status = FALSE, force.files = FALSE,
   \item{object}{ See \code{\link{exportCoCo}}. }
 }
 
-\details{ }
+% \details{ }
 
 \value{A list with the following items: 
 
   \item{width                        }{int 127}
   \item{height                       }{int 65}
-  \item{... }
+  \item{... }{... }
   \item{warnings                     }{logi TRUE}
 
 }

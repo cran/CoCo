@@ -1,3 +1,25 @@
+".packageName" <- "CoCoRaw"
+
+
+".First.lib" <-
+function (lib, pkg) 
+{
+    require(CoCoCore)
+}
+
+".onAttach" <-
+function (lib, pkg) 
+{
+    require(CoCoCore)
+}
+
+".onLoad" <-
+function (lib, pkg) 
+{
+    require(CoCoCore)
+}
+
+
 ".base" <-
 function (data = NULL, object = .object.of.thing(data = data, 
     ...), ...) 
@@ -102,11 +124,6 @@ function (order = 1, set = "*", model = FALSE, data = NULL, object = .object.of.
     .after.set.current(old.current, result, type = "unconditioned", 
         model = FALSE, object = object)
 }
-".First.lib" <-
-function (lib, pkg) 
-{
-    require(CoCoCore)
-}
 ".fix.edges" <-
 function (edges = "", and.fix.edges = FALSE, data = NULL, object = .object.of.thing(data = data, 
     ...), ...) 
@@ -149,16 +166,6 @@ function (data = NULL, object = .object.of.thing(data = data,
     ...), ...) 
 {
     coco.simple.command(199, 1, object = object)
-}
-".onAttach" <-
-function (lib, pkg) 
-{
-    require(CoCoCore)
-}
-".onLoad" <-
-function (lib, pkg) 
-{
-    require(CoCoCore)
 }
 ".plotCoCo" <-
 function (x = "observed", y = "expected", set = "*", X.model = FALSE, 

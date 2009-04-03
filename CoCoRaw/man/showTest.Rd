@@ -1,10 +1,10 @@
 \name{showTest}
 \alias{showTest}
-\title{ Show the Pearson $\chi^2$, the power divergence, etc. }
+\title{ Show the Pearson Chi-square, the power divergence, etc. }
 
 \description{
  Print on standard output for discrete data
- the Pearson $\chi^2$, the power divergence, and the deviance,
+ the Pearson \eqn{\chi^2}{X^2}, the power divergence, and the deviance,
  and for tests of two ordinal variable conditional independent
  given discrete also the Goodman and Kruskal's Gamma coefficient,
  and for mixed data the deviance and the F-test statistic, all with p-values.
@@ -59,12 +59,11 @@ showTest(model.1 = "current", model.2 = "base", exact.test = NULL,
 
 \author{Jens Henrik Badsberg}
 
-\note{ % Something is wrong inversion 1.6.1 for \code{\link{showTest}},
-       % \code{\link{returnTest}}, and \code{\link{backward}}:
-       % Homogene models are produced in backward,
-       % but tests are preformed as the models are inhomogene?
-
-       }
+% \note{ % Something is wrong inversion 1.6.1 for \code{\link{showTest}},
+         % \code{\link{returnTest}}, and \code{\link{backward}}:
+         % Homogene models are produced in backward,
+         % but tests are preformed as the models are inhomogene?
+%        }
 
 \seealso{\code{\link{enterModel}}, \code{\link[CoCoObjects]{makeModel}},
          \code{\link{showModel}}, \code{\link{makeCurrent}},

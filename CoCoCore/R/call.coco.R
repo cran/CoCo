@@ -25,11 +25,15 @@ function (code, sub.code = 0, arg.char = "", arg.long = NULL,
             if (exists("trace.call.coco") && CoCoCore::.traceCallCoCo()) {
                 print(paste(".call.coco: ", code, sub.code, arg.long[1]))
             }
-            result <- .C(NAME = name, PACKAGE = PACKAGE, ifail = as.integer(CoCoCore::.noIfail()), 
+            result <- .C(NAME = name, PACKAGE = PACKAGE, 
+                ifail = as.integer(CoCoCore::.noIfail()), 
                 id = as.integer(id), code = as.integer(code), 
-                sub.code = as.integer(sub.code), n.args = as.integer(n.arg), 
-                arg.char = as.character(arg.char), arg.long = as.integer(arg.long), 
-                arg.double = as.double(arg.double), arg.charint = as.integer(arg.char.int), 
+                sub.code = as.integer(sub.code), 
+                n.args = as.integer(n.arg), 
+                arg.char = as.character(arg.char), 
+                arg.long = as.integer(arg.long), 
+                arg.double = as.double(arg.double), 
+                arg.charint = as.integer(arg.char.int), 
                 NAOK = TRUE, specialsok = FALSE, COPY = c(FALSE, 
                   FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 
                   FALSE), CLASSES = c("integer", "integer", "integer", 
@@ -46,14 +50,14 @@ function (code, sub.code = 0, arg.char = "", arg.long = NULL,
             if (is.character(a)) 
                 .char.int(substring(a, 1:nchar(a), 1:nchar(a)))
             else {
-                warning("Invalif argument")
+                warning("Invalid argument")
                 NULL
             }
         else NULL
     }
     ".int.to.string" <- function(a) {
         ".int.char" <- function(i) {
-            .my.ascii()[i + 1]
+            .my.ascii()[i[i != 0] + 1]
         }
         if (exists(".fewer.warnings")) 
             fewer.warnings <- CoCoCore::.fewerWarnings()

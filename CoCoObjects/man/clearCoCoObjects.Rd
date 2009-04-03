@@ -3,7 +3,13 @@
 
 \title{ Clear CoCo object }
 
-\description{ Clear CoCo objects. }
+\description{ Clear CoCo objects. 
+
+When resuming a R-session with CoCo-objects,
+please use 'library(CoCo)' and/or 'library(CoCoCg)' be using CoCo-objects.
+(Currently 'require(CoCo)' and/or 'require(CoCoCg)' when loading
+CoCoObject and/or CoCoGraph does not agree with 'R CMD check CoCo'.)
+}
 
 \usage{
 clearCoCoObjects(coco.object = NULL, silent = FALSE, pos = .GlobalEnv, 

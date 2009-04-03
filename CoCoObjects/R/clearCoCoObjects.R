@@ -48,6 +48,13 @@ function (coco.object = NULL, silent = FALSE, pos = .GlobalEnv,
         if ((length(graphLattice) > 0)) 
             message("Warning, ended DynamicGraph-objects: ", 
                 paste(graphLattice, collapse = ", "), ".")
+        if (!any(search() == "package:CoCoCg") && 
+            !any(search() == "package:CoCo")) {
+             # message(paste(
+             #           "Please use 'library(CoCo)' and/or 'library(CoCoCg)'",
+             #           "before using any CoCo-objects."))
+             # message("See 'help(clearCoCoObjects)'.")
+        }
     }
     if ((length(graphLattice) > 0) &&
         (as.numeric(version$minor) < 9) && FALSE && !silent) {

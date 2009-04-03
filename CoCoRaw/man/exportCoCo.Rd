@@ -97,6 +97,8 @@ endCoCo(object = CoCoObject);
 
 # Import the first example:
 
+library(CoCo);
+
 Anorexia <- makeCoCo();
 importCoCo("Anorexia.xpt", object = Anorexia);
 showOptions("specification");

@@ -2,12 +2,18 @@
 \docType{class}
 \alias{CoCoIdClass-class}
 
-\title{Class "CoCoIdClass"}
+\title{CoCoIdClass Class}
 
 \description{
-  The functions for the CoCo objects are found in the package "CoCoRaw". 
-  Datasets are found in the package "CoCo" and "CoCoCg".
- }
+The functions for the CoCo objects are found mainly
+in the package \link[CoCoRaw]{CoCoRaw-package}.
+A few function for CoCo objects are found in
+\link[CoCoObjects]{CoCoObjects-package} and 
+\link[CoCoGraph]{CoCoGraph-package}. 
+
+Datasets are found in the packages \link[CoCo]{CoCo-package} and
+\link[CoCoCg]{CoCoCg-package}.
+}
 
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("CoCoIdClass", ...)}.

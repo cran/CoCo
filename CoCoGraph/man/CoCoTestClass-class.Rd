@@ -6,9 +6,9 @@
 \alias{setSlots,CoCoTestClass-method}
 \alias{initialize,CoCoTestClass-method}
 
-\title{ Class "CoCoTestClass" }
+\title{CoCoTestClass Class}
 
-\description{The class for the test objects of CoCo objects.}
+\description{The class for the objects with test results of CoCo.}
 
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("CoCoTestClass", ...)}.

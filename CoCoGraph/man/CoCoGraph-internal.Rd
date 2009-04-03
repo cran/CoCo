@@ -53,7 +53,7 @@
 \details{These are not to be called by the user.
          The functions for CoCo are found in the
 	 package "CoCoRaw" (and "CoCoObjects"). 
-         Datasets are found in the package "CoCo" and "CoCoCg". }
+         Datasets are found in the package "CoCo" and "CoCoCg".
 }
 
 \note{

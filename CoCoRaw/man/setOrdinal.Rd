@@ -20,7 +20,7 @@ setOrdinal(set = "*", setslot = TRUE, data = NULL,
 	 from the \code{data} argument. See \code{\link{propertyModel}}. ) }
 }
 
-\details{ }
+% \details{ }
 
 \value{ A character sting with the ordinal variables \code{set}.  }
 
