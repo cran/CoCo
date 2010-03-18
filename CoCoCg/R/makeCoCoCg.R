@@ -1,5 +1,0 @@
-"makeCoCoCg" <-
-function (...) 
-{
-    make.cococg(...)
-}

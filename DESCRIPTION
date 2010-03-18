@@ -1,22 +1,19 @@
-Bundle: CoCo
-Contains: CoCoObjects CoCoCore CoCoRaw CoCoOldData CoCoGraph CoCo CoCoCg
-Version: 0.1.7.5
-Date: 03.04.2009
+Package: CoCo
+Namespace: CoCo
+Title: Graphical modelling by log-linear models (an interface from R to
+        CoCo)
+Description: Interface to CoCo from R: Graphical modelling on
+        contingency tables by log-linear models
+Version: 0.1.7.6
+Date: 18.03.2010
 Author: Jens Henrik Badsberg <coco@badsberg.eu>
 Maintainer: Jens Henrik Badsberg <coco@badsberg.eu>
-Depends: R (>= 2.0.0), dynamicGraph (>= 0.2.0), MASS, methods
-BundleDescription: Interface to CoCo from R - Graphical modelling by
-        CoCo. The package CoCo handles discrete data by log-linear
-        models and contingency tables. CoCoCg is for both discrete and
-        continuous data by CG-regressions. CoCoCore and CoCoRaw contain
-        respectively the one entry point interface function to CoCo end
-        the interface functions for the commands of CoCo. CoCoObjects
-        and CoCoGraph are base and extension with objects and graphs.
+Depends: R (>= 2.10.0), methods
 License: file LICENSE
 Copyright: Copyright (C) by Jens Henrik Badsberg, 1991-2009, non-profit
-        use and redistribution permitted (Artistic License 2.0)
-Address: Andreas Bjorns Gade 21, 2. tv, 1428 Kobenhavn K, Denmark
+        use and redistribution permitted
+Address: Andreas Bjorns Gade 21, 2. tv., 1428 Kobenhavn K, Denmark
 URL: http://www.badsberg.eu
-Packaged: Fri Apr 3 23:41:15 2009; CoCo
+Packaged: 2010-03-18 20:43:25 UTC; Jens Henrik Badsberg
 Repository: CRAN
-Date/Publication: 2009-04-03 21:43:00
+Date/Publication: 2010-03-19 07:31:03

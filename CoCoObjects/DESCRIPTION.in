@@ -1,6 +1,0 @@
-Package: CoCoObjects
-Namespace: CoCoObjects
-Title: Objects for the interface to CoCo from R
-Description: Object classes for CoCo-sessions and models in sessions.
-Depends: methods
-LazyLoad: False

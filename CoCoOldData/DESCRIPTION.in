@@ -1,4 +1,0 @@
-Package: CoCoOldData
-Namespace: CoCoOldData
-Title: Interface to data files of CoCo in 'old format'
-Description: Interface functions for data files of CoCo.

@@ -1,6 +1,0 @@
-Package: CoCoGraph
-Namespace: CoCoGraph
-Title: Graphs for the CoCo objects
-Description: Interface between dynamicGraph and CoCo (objects)
-Depends: dynamicGraph (>= 0.2.0), MASS, methods
-LazyLoad: False

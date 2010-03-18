@@ -1,6 +1,0 @@
-Package: CoCoCore
-Namespace: CoCoCore
-Title: Lower level API to CoCo (should not be called directly by users)
-Description: The shared library of CoCo, with the interface function
-	"call.coco" for calling CoCo, and some lower level extensions
-	of this one entry point interface function.

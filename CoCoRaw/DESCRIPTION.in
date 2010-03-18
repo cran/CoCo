@@ -1,6 +1,0 @@
-Package: CoCoRaw
-Namespace: CoCoRaw
-Title: The user interface to CoCo from R
-Description: Interface to CoCo from R. 
-	The package contains about one function for each CoCo-command.
-	The functions in this package are implemented without objects.

@@ -1,5 +1,0 @@
-Package: CoCoCg
-Namespace: CoCoCg
-Title: Graphical modelling by CG regressions
-Description: Interface to CoCoCg (CoCo with both discrete and continuous data) from R.
-Depends: methods

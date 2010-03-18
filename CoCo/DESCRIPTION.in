@@ -1,5 +1,0 @@
-Package: CoCo
-Namespace: CoCo
-Title: Graphical modelling on contingency tables
-Description: Interface to CoCo from R.
-Depends: methods, dynamicGraph
